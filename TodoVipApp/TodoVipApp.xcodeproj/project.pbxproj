@@ -9,25 +9,63 @@
 /* Begin PBXBuildFile section */
 		8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654277F29CDA5CE006E23A0 /* AppDelegate.swift */; };
 		8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654278129CDA5CE006E23A0 /* SceneDelegate.swift */; };
-		8654278429CDA5CE006E23A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654278329CDA5CE006E23A0 /* ViewController.swift */; };
 		8654278729CDA5CE006E23A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8654278529CDA5CE006E23A0 /* Main.storyboard */; };
 		8654278929CDA5CE006E23A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8654278829CDA5CE006E23A0 /* Assets.xcassets */; };
 		8654278C29CDA5CE006E23A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8654278A29CDA5CE006E23A0 /* LaunchScreen.storyboard */; };
+		8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279529CDA6FA006E23A0 /* MainPresenter.swift */; };
+		8654279C29CDA6FA006E23A0 /* MainWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279629CDA6FA006E23A0 /* MainWorker.swift */; };
+		8654279D29CDA6FA006E23A0 /* MainRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279729CDA6FA006E23A0 /* MainRouter.swift */; };
+		8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279829CDA6FA006E23A0 /* MainModels.swift */; };
+		8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279929CDA6FA006E23A0 /* MainViewController.swift */; };
+		865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279A29CDA6FA006E23A0 /* MainInteractor.swift */; };
+		865427A329CDA72B006E23A0 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 865427A229CDA72B006E23A0 /* Fakery */; };
+		865427A629CDA7EC006E23A0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865427A529CDA7EC006E23A0 /* Post.swift */; };
+		865F559229D07A7F00908B3E /* MyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 865F559129D07A7F00908B3E /* MyTableViewCell.xib */; };
+		865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F559529D07CFE00908B3E /* MyTableViewCell.swift */; };
+		865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B529D09B2800908B3E /* TodoRequestManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		865F559F29D08C9900908B3E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8654277429CDA5CE006E23A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8654277B29CDA5CE006E23A0;
+			remoteInfo = TodoVipApp;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8654277C29CDA5CE006E23A0 /* TodoVipApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoVipApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8654277F29CDA5CE006E23A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8654278129CDA5CE006E23A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8654278329CDA5CE006E23A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8654278629CDA5CE006E23A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8654278829CDA5CE006E23A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8654278B29CDA5CE006E23A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8654278D29CDA5CE006E23A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8654279529CDA6FA006E23A0 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
+		8654279629CDA6FA006E23A0 /* MainWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWorker.swift; sourceTree = "<group>"; };
+		8654279729CDA6FA006E23A0 /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
+		8654279829CDA6FA006E23A0 /* MainModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModels.swift; sourceTree = "<group>"; };
+		8654279929CDA6FA006E23A0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		8654279A29CDA6FA006E23A0 /* MainInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractor.swift; sourceTree = "<group>"; };
+		865427A529CDA7EC006E23A0 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		865F559129D07A7F00908B3E /* MyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTableViewCell.xib; sourceTree = "<group>"; };
+		865F559529D07CFE00908B3E /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
+		865F559B29D08C9900908B3E /* TodoVipAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		865F55B529D09B2800908B3E /* TodoRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRequestManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		8654277929CDA5CE006E23A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				865427A329CDA72B006E23A0 /* Fakery in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		865F559829D08C9900908B3E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				8654277E29CDA5CE006E23A0 /* TodoVipApp */,
+				865F559C29D08C9900908B3E /* TodoVipAppTests */,
 				8654277D29CDA5CE006E23A0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				8654277C29CDA5CE006E23A0 /* TodoVipApp.app */,
+				865F559B29D08C9900908B3E /* TodoVipAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,13 +98,61 @@
 			children = (
 				8654277F29CDA5CE006E23A0 /* AppDelegate.swift */,
 				8654278129CDA5CE006E23A0 /* SceneDelegate.swift */,
-				8654278329CDA5CE006E23A0 /* ViewController.swift */,
-				8654278529CDA5CE006E23A0 /* Main.storyboard */,
+				865427A429CDA7DE006E23A0 /* Model */,
+				8654279329CDA6C1006E23A0 /* Scene */,
 				8654278829CDA5CE006E23A0 /* Assets.xcassets */,
+				865F55B429D09AE900908B3E /* Infrastructure */,
 				8654278A29CDA5CE006E23A0 /* LaunchScreen.storyboard */,
 				8654278D29CDA5CE006E23A0 /* Info.plist */,
 			);
 			path = TodoVipApp;
+			sourceTree = "<group>";
+		};
+		8654279329CDA6C1006E23A0 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				8654279429CDA6D3006E23A0 /* Main */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		8654279429CDA6D3006E23A0 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				8654278529CDA5CE006E23A0 /* Main.storyboard */,
+				865F559529D07CFE00908B3E /* MyTableViewCell.swift */,
+				865F559129D07A7F00908B3E /* MyTableViewCell.xib */,
+				8654279529CDA6FA006E23A0 /* MainPresenter.swift */,
+				8654279629CDA6FA006E23A0 /* MainWorker.swift */,
+				8654279729CDA6FA006E23A0 /* MainRouter.swift */,
+				8654279829CDA6FA006E23A0 /* MainModels.swift */,
+				8654279929CDA6FA006E23A0 /* MainViewController.swift */,
+				8654279A29CDA6FA006E23A0 /* MainInteractor.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		865427A429CDA7DE006E23A0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				865427A529CDA7EC006E23A0 /* Post.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		865F559C29D08C9900908B3E /* TodoVipAppTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TodoVipAppTests;
+			sourceTree = "<group>";
+		};
+		865F55B429D09AE900908B3E /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				865F55B529D09B2800908B3E /* TodoRequestManager.swift */,
+			);
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,9 +171,30 @@
 			dependencies = (
 			);
 			name = TodoVipApp;
+			packageProductDependencies = (
+				865427A229CDA72B006E23A0 /* Fakery */,
+			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
 			productType = "com.apple.product-type.application";
+		};
+		865F559A29D08C9900908B3E /* TodoVipAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 865F55A129D08C9900908B3E /* Build configuration list for PBXNativeTarget "TodoVipAppTests" */;
+			buildPhases = (
+				865F559729D08C9900908B3E /* Sources */,
+				865F559829D08C9900908B3E /* Frameworks */,
+				865F559929D08C9900908B3E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				865F55A029D08C9900908B3E /* PBXTargetDependency */,
+			);
+			name = TodoVipAppTests;
+			productName = TodoVipAppTests;
+			productReference = 865F559B29D08C9900908B3E /* TodoVipAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -100,6 +209,10 @@
 					8654277B29CDA5CE006E23A0 = {
 						CreatedOnToolsVersion = 14.2;
 					};
+					865F559A29D08C9900908B3E = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 8654277B29CDA5CE006E23A0;
+					};
 				};
 			};
 			buildConfigurationList = 8654277729CDA5CE006E23A0 /* Build configuration list for PBXProject "TodoVipApp" */;
@@ -111,11 +224,15 @@
 				Base,
 			);
 			mainGroup = 8654277329CDA5CE006E23A0;
+			packageReferences = (
+				865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */,
+			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8654277B29CDA5CE006E23A0 /* TodoVipApp */,
+				865F559A29D08C9900908B3E /* TodoVipAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -126,8 +243,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				8654278C29CDA5CE006E23A0 /* LaunchScreen.storyboard in Resources */,
+				865F559229D07A7F00908B3E /* MyTableViewCell.xib in Resources */,
 				8654278929CDA5CE006E23A0 /* Assets.xcassets in Resources */,
 				8654278729CDA5CE006E23A0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		865F559929D08C9900908B3E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,13 +263,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8654278429CDA5CE006E23A0 /* ViewController.swift in Sources */,
 				8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */,
+				865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */,
+				865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */,
 				8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */,
+				8654279C29CDA6FA006E23A0 /* MainWorker.swift in Sources */,
+				8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */,
+				865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */,
+				8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */,
+				8654279D29CDA6FA006E23A0 /* MainRouter.swift in Sources */,
+				8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */,
+				865427A629CDA7EC006E23A0 /* Post.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		865F559729D08C9900908B3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		865F55A029D08C9900908B3E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8654277B29CDA5CE006E23A0 /* TodoVipApp */;
+			targetProxy = 865F559F29D08C9900908B3E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8654278529CDA5CE006E23A0 /* Main.storyboard */ = {
@@ -336,6 +484,42 @@
 			};
 			name = Release;
 		};
+		865F55A229D08C9900908B3E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YB5KQCLMY6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = joohan.TodoVipAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoVipApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoVipApp";
+			};
+			name = Debug;
+		};
+		865F55A329D08C9900908B3E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YB5KQCLMY6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = joohan.TodoVipAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoVipApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoVipApp";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -357,7 +541,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		865F55A129D08C9900908B3E /* Build configuration list for PBXNativeTarget "TodoVipAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				865F55A229D08C9900908B3E /* Debug */,
+				865F55A329D08C9900908B3E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vadymmarkov/Fakery";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		865427A229CDA72B006E23A0 /* Fakery */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */;
+			productName = Fakery;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8654277429CDA5CE006E23A0 /* Project object */;
 }
