@@ -24,6 +24,10 @@
 		865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F559529D07CFE00908B3E /* MyTableViewCell.swift */; };
 		865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B529D09B2800908B3E /* TodoRequestManager.swift */; };
 		865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B829D0A23000908B3E /* HTTPMethod.swift */; };
+		865F55BC29D0A35000908B3E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 865F55BB29D0A35000908B3E /* RxCocoa */; };
+		865F55BE29D0A35000908B3E /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 865F55BD29D0A35000908B3E /* RxRelay */; };
+		865F55C029D0A35000908B3E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 865F55BF29D0A35000908B3E /* RxSwift */; };
+		865F55C629D0A3B600908B3E /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55C529D0A3B600908B3E /* ApiManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +60,7 @@
 		865F559B29D08C9900908B3E /* TodoVipAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		865F55B529D09B2800908B3E /* TodoRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRequestManager.swift; sourceTree = "<group>"; };
 		865F55B829D0A23000908B3E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		865F55C529D0A3B600908B3E /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				865F55BE29D0A35000908B3E /* RxRelay in Frameworks */,
+				865F55BC29D0A35000908B3E /* RxCocoa in Frameworks */,
+				865F55C029D0A35000908B3E /* RxSwift in Frameworks */,
 				865427A329CDA72B006E23A0 /* Fakery in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +111,7 @@
 				865427A429CDA7DE006E23A0 /* Model */,
 				8654279329CDA6C1006E23A0 /* Scene */,
 				8654278829CDA5CE006E23A0 /* Assets.xcassets */,
+				865F55C129D0A38F00908B3E /* Data */,
 				865F55B429D09AE900908B3E /* Infrastructure */,
 				8654278A29CDA5CE006E23A0 /* LaunchScreen.storyboard */,
 				8654278D29CDA5CE006E23A0 /* Info.plist */,
@@ -158,6 +167,38 @@
 			path = Infrastructure;
 			sourceTree = "<group>";
 		};
+		865F55C129D0A38F00908B3E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				865F55C429D0A3A700908B3E /* Network */,
+				865F55C329D0A3A200908B3E /* Storages */,
+				865F55C229D0A39C00908B3E /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		865F55C229D0A39C00908B3E /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		865F55C329D0A3A200908B3E /* Storages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Storages;
+			sourceTree = "<group>";
+		};
+		865F55C429D0A3A700908B3E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				865F55C529D0A3B600908B3E /* ApiManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -176,6 +217,9 @@
 			name = TodoVipApp;
 			packageProductDependencies = (
 				865427A229CDA72B006E23A0 /* Fakery */,
+				865F55BB29D0A35000908B3E /* RxCocoa */,
+				865F55BD29D0A35000908B3E /* RxRelay */,
+				865F55BF29D0A35000908B3E /* RxSwift */,
 			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
@@ -229,6 +273,7 @@
 			mainGroup = 8654277329CDA5CE006E23A0;
 			packageReferences = (
 				865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */,
+				865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
@@ -274,6 +319,7 @@
 				8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */,
 				865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */,
 				8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */,
+				865F55C629D0A3B600908B3E /* ApiManager.swift in Sources */,
 				865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */,
 				8654279D29CDA6FA006E23A0 /* MainRouter.swift in Sources */,
 				8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */,
@@ -565,6 +611,14 @@
 				kind = branch;
 			};
 		};
+		865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -572,6 +626,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */;
 			productName = Fakery;
+		};
+		865F55BB29D0A35000908B3E /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		865F55BD29D0A35000908B3E /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		865F55BF29D0A35000908B3E /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
