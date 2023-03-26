@@ -23,6 +23,7 @@
 		865F559229D07A7F00908B3E /* MyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 865F559129D07A7F00908B3E /* MyTableViewCell.xib */; };
 		865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F559529D07CFE00908B3E /* MyTableViewCell.swift */; };
 		865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B529D09B2800908B3E /* TodoRequestManager.swift */; };
+		865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B829D0A23000908B3E /* HTTPMethod.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		865F559529D07CFE00908B3E /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 		865F559B29D08C9900908B3E /* TodoVipAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		865F55B529D09B2800908B3E /* TodoRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRequestManager.swift; sourceTree = "<group>"; };
+		865F55B829D0A23000908B3E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				865F55B529D09B2800908B3E /* TodoRequestManager.swift */,
+				865F55B829D0A23000908B3E /* HTTPMethod.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */,
 				865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */,
 				8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */,
+				865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */,
 				8654279D29CDA6FA006E23A0 /* MainRouter.swift in Sources */,
 				8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */,
 				865427A629CDA7EC006E23A0 /* Post.swift in Sources */,
