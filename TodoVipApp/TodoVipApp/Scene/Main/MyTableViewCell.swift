@@ -22,11 +22,10 @@ class MyTableViewCell: UITableViewCell {
     
     // Configure the view for the selected state
   }
-
   
-  func configureCell(post: PostList.FetchList.ViewModel.DisplayedPost)
+  func configureCell(todo: FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo)
   {
-    self.contentLabel.text = post.title
-    self.dateLabel.text = post.content
+    self.contentLabel.text = todo.title
+    self.dateLabel.text = "\(todo.id)"
   }
 }

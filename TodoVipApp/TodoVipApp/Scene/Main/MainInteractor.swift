@@ -14,7 +14,7 @@ import UIKit
 
 protocol MainBusinessLogic
 {
-  func fetchList(request: PostList.FetchList.Request)
+  func fetchTodoList(request: FetchTodoList.FetchTodoList.Request) async throws
 }
 
 protocol MainDataStore
@@ -24,6 +24,8 @@ protocol MainDataStore
 
 class MainInteractor: MainBusinessLogic, MainDataStore
 {
+ 
+  
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
   //var name: String = ""
@@ -32,15 +34,12 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   
   
   // 뷰에서 인터렉터한테 시키는 메서드
-  func fetchList(request: PostList.FetchList.Request)
-  {
-    worker = MainWorker()
-    
-    //요청값을 넘겨주어야 한다.
-    guard let postList = worker?.fethList(count: request.count) else { return }
   
-    let response = PostList.FetchList.Response(posts: postList)
+  func fetchTodoList(request: FetchTodoList.FetchTodoList.Request) async throws {
+    worker = MainWorker()
+    guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
     
-    presenter?.presentPostList(response: response) //프리젠터로 값을 넘겨준다
+    let response = FetchTodoList.FetchTodoList.Response(todoList: todoList)
+    presenter?.presentTodoList(response: response)
   }
 }

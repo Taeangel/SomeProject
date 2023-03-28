@@ -14,11 +14,12 @@ import UIKit
 
 protocol MainDisplayLogic: AnyObject
 {
-  func displayPostList(viewModel: PostList.FetchList.ViewModel)
+  func displayTodoList(viewModel: FetchTodoList.FetchTodoList.ViewModel)
 }
 
 class MainViewController: UIViewController, MainDisplayLogic
 {
+  
   var interactor: MainBusinessLogic?
   var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
   
@@ -26,10 +27,10 @@ class MainViewController: UIViewController, MainDisplayLogic
   @IBOutlet weak var myTableView: UITableView!
   
   // MARK: - Properties
-  typealias DisplayedPost = PostList.FetchList.ViewModel.DisplayedPost
+  typealias Displayedtodo = FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo
   
-  var postList: [DisplayedPost] = []
-   
+  var postList: [Displayedtodo] = []
+  
   // MARK: Object lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
   {
@@ -77,31 +78,28 @@ class MainViewController: UIViewController, MainDisplayLogic
   override func viewDidLoad()
   {
     super.viewDidLoad()
-
     configureTableView()
     
-    fetchPostList()
+    Task {
+      try await fetchTodoList()
+    }
   }
-  
   // MARK: Do something
   
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  
   //뷰에서 인터렉터한테 시키는 곳
-  func fetchPostList()
+  func fetchTodoList() async throws
   {
-    let request = PostList.FetchList.Request(count: 10)
-    interactor?.fetchList(request: request)
+    let request = FetchTodoList.FetchTodoList.Request(page: 1, perPage: 10)
+    try await interactor?.fetchTodoList(request: request)
   }
   
   //프리젠터에서 뷰로 화면에 그리는 것
-  func displayPostList(viewModel: PostList.FetchList.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
+  func displayTodoList(viewModel: FetchTodoList.FetchTodoList.ViewModel) {
     
-    self.postList = viewModel.displayedPosts
-    self.myTableView.reloadData()
+    self.postList = viewModel.displayedTodoList
+    DispatchQueue.main.async {
+      self.myTableView.reloadData()
+    }
   }
 }
 
@@ -133,7 +131,7 @@ extension MainViewController: UITableViewDataSource
     }
     
     let cellData = postList[indexPath.row]
-    cell.configureCell(post: cellData)
+    cell.configureCell(todo: cellData)
     
     return cell
   }

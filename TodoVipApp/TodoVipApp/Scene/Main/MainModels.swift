@@ -12,39 +12,39 @@
 
 import UIKit
 
-enum PostList
+enum FetchTodoList
 {
   // MARK: Use cases
   
-  enum FetchList
+  enum FetchTodoList
   {
     struct Request // 뷰가 인터렉터한테 요청하는 데이터
     {
-      var count: Int
+      var page: Int
+      var perPage: Int
     }
     struct Response //워커에서 들어온 데이터 - 날것의 데이터
     {
-      var posts: [Post]
+      var todoList: [TodoEntity] = []
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
-      struct DisplayedPost // 날것이 가공된 데이터
-      {
-        var id: UUID
-        var idInfo: String
-        var title: String
-        var content: String
+      struct DisplayedTodo {
+        let id: Int
+        let title: String
+        let isDone: Bool
+        let createdAt, updatedAt: String
         
-        init(post: Post) {
-          self.id = post.id
-          self.idInfo = "아이디입니다\(post.id)"
-          self.title = post.title
-          self.content = post.content
-          
+        init(todoEntity: TodoEntity) {
+          self.id = todoEntity.id ?? 0
+          self.title = todoEntity.title ?? ""
+          self.isDone = todoEntity.isDone ?? false
+          self.createdAt = todoEntity.createdAt ?? ""
+          self.updatedAt = todoEntity.updatedAt ?? ""
         }
       }
       
-      var displayedPosts: [DisplayedPost]
+      var displayedTodoList: [DisplayedTodo]
     }
   }
 }

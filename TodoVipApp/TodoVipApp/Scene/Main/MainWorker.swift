@@ -13,17 +13,40 @@
 import UIKit
 import Fakery
 
-class MainWorker
+class MainWorker: MainWorkerUsecase
 {
-  func fethList(count: Int) -> [Post]//엔티티
-  {
-    let faker = Faker(locale: "ko")
-    
-    var postList: [Post] = []
-    for _ in 0..<count {
-      postList.append(Post(title: faker.company.name(), content: faker.lorem.paragraphs(amount: 10)))
+  
+  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity] {
+    guard let todoListDTO = try await fetchUsecase.fetchTodoList(page: page, perPage: perPage).data else {
+      return []
     }
     
-    return postList
+    return todoListDTO.map { TodoEntity.init(datunm: $0) }
   }
 }
+
+protocol ApiManagerProtocol {}
+
+protocol MainWorkerUsecase: ApiManagerProtocol {}
+
+extension MainWorkerUsecase {
+  var fetchStorage: FetchStorage {
+    return FetchStorage(todoApiManager: apiManager)
+  }
+  
+  var fetchRepository: FetchRepository {
+    return FetchRepository(fetchStorageable: fetchStorage)
+  }
+  
+  var fetchUsecase: FetchUsecase {
+    return FetchUsecase(fetchRepository: fetchRepository)
+  }
+}
+
+extension ApiManagerProtocol {
+  var apiManager: TodoApiManager {
+    return TodoApiManager(session: URLSession.shared)
+  }
+}
+
+

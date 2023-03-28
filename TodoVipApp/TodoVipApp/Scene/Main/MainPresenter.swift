@@ -13,25 +13,28 @@
 import UIKit
 
 protocol MainPresentationLogic
+
 {
-  func presentPostList(response: PostList.FetchList.Response)
+  func presentTodoList(response: FetchTodoList.FetchTodoList.Response)
 }
 
 class MainPresenter: MainPresentationLogic
 {
+ 
+  
   weak var viewController: MainDisplayLogic?
   
   // MARK: Do something
   
   //인터렉터한테 받은 날것의 데이터를 받음
-  func presentPostList(response: PostList.FetchList.Response)
-  {
+  
+  func presentTodoList(response: FetchTodoList.FetchTodoList.Response) {
+    typealias DisplayedTodoList = FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo
     
-    typealias DisplayedPostList = PostList.FetchList.ViewModel.DisplayedPost
+    let displayedTodoList = response.todoList.map { DisplayedTodoList(todoEntity: $0) }
     
-    let displayedPostList = response.posts.map { DisplayedPostList(post: $0) }
-    
-    let viewModel = PostList.FetchList.ViewModel(displayedPosts: displayedPostList)
-    viewController?.displayPostList(viewModel: viewModel)  
+    let viewModel = FetchTodoList.FetchTodoList.ViewModel(displayedTodoList: displayedTodoList)
+        
+    viewController?.displayTodoList(viewModel: viewModel)
   }
 }
