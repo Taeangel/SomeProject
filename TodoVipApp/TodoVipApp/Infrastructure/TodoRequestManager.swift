@@ -8,7 +8,7 @@
 import Foundation
 
 enum TodoRequestManager {
-  case getTodos(page: Int, orderBy: String, perPage: Int)
+  case getTodos(page: Int, orderBy: String = "desc", perPage: Int)
   
   private var baseURL: String {
     return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
@@ -25,7 +25,7 @@ enum TodoRequestManager {
   private var method: HTTPMethod {
     switch self {
     case .getTodos:
-      return .post
+      return .get
     }
   }
   
