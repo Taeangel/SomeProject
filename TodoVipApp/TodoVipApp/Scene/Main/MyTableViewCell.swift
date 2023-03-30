@@ -26,6 +26,6 @@ class MyTableViewCell: UITableViewCell {
   func configureCell(todo: FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo)
   {
     self.contentLabel.text = todo.title
-    self.dateLabel.text = "\(todo.id)"
+    self.dateLabel.text = "\(todo.createdTime) \( todo.createdDate )"
   }
 }

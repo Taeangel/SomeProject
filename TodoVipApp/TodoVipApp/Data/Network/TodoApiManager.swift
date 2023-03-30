@@ -32,7 +32,6 @@ extension URLSession: Requestable {
   func request(_ request: TodoRequestManager) async throws -> Data {
     
     let (data, response) = try await URLSession.shared.data(for: request.urlRequest)
-    print(response)
     guard let response =  response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
      
       throw NetworkError.unknown

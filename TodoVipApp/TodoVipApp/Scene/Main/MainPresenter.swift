@@ -20,7 +20,6 @@ protocol MainPresentationLogic
 
 class MainPresenter: MainPresentationLogic
 {
- 
   
   weak var viewController: MainDisplayLogic?
   
@@ -31,7 +30,30 @@ class MainPresenter: MainPresentationLogic
   func presentTodoList(response: FetchTodoList.FetchTodoList.Response) {
     typealias DisplayedTodoList = FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo
     
-    let displayedTodoList = response.todoList.map { DisplayedTodoList(todoEntity: $0) }
+    let displayedTodoList = response.todoList.map { todoEntity -> DisplayedTodoList in
+
+      guard let findDateT = todoEntity.createdAt?.firstIndex(of: "T"),
+            let findDateDot = todoEntity.createdAt?.firstIndex(of: ".") else {
+        return DisplayedTodoList(id: 0, title: "", isDone: false, createdTime: "", createdDate: "")
+      }
+      
+      guard var createdDate = todoEntity.createdAt?[...findDateT],
+            var createdTime = todoEntity.createdAt?[findDateT...findDateDot] else {
+        return DisplayedTodoList(id: 0, title: "", isDone: false, createdTime: "", createdDate: "")
+            }
+
+      createdDate.removeLast()
+      createdTime.removeFirst()
+      
+    return  DisplayedTodoList(
+        id: todoEntity.id ?? 1,
+        title: todoEntity.title ?? "",
+        isDone: todoEntity.isDone ?? false,
+        createdTime: "\(createdTime.prefix(5))",
+        createdDate: "\(createdDate)"
+      )
+    
+    }
     
     let viewModel = FetchTodoList.FetchTodoList.ViewModel(displayedTodoList: displayedTodoList)
         

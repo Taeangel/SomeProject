@@ -80,17 +80,18 @@ class MainViewController: UIViewController, MainDisplayLogic
     super.viewDidLoad()
     configureTableView()
     
-    Task {
-      try await fetchTodoList()
-    }
+    fetchTodoList()
+
   }
   // MARK: Do something
   
   //뷰에서 인터렉터한테 시키는 곳
-  func fetchTodoList() async throws
+  func fetchTodoList()
   {
     let request = FetchTodoList.FetchTodoList.Request(page: 1, perPage: 10)
-    try await interactor?.fetchTodoList(request: request)
+    Task {
+      try await interactor?.fetchTodoList(request: request)
+    }
   }
   
   //프리젠터에서 뷰로 화면에 그리는 것

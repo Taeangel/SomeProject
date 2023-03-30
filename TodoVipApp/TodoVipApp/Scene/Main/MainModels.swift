@@ -33,15 +33,8 @@ enum FetchTodoList
         let id: Int
         let title: String
         let isDone: Bool
-        let createdAt, updatedAt: String
-        
-        init(todoEntity: TodoEntity) {
-          self.id = todoEntity.id ?? 0
-          self.title = todoEntity.title ?? ""
-          self.isDone = todoEntity.isDone ?? false
-          self.createdAt = todoEntity.createdAt ?? ""
-          self.updatedAt = todoEntity.updatedAt ?? ""
-        }
+        let createdTime: String
+        let createdDate: String
       }
       
       var displayedTodoList: [DisplayedTodo]
