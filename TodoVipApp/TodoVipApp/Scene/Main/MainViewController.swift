@@ -29,7 +29,11 @@ class MainViewController: UIViewController, MainDisplayLogic
   // MARK: - Properties
   typealias Displayedtodo = FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo
   
-  var postList: [Displayedtodo] = []
+  var sections: [String] = []
+  var sectionsNumber: [String] = []
+  var todoList: [Displayedtodo] = []
+  var todoListSection: [String] = []
+  var sectionInfo: [Int] = []
   
   // MARK: Object lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -81,7 +85,7 @@ class MainViewController: UIViewController, MainDisplayLogic
     configureTableView()
     
     fetchTodoList()
-
+    
   }
   // MARK: Do something
   
@@ -97,7 +101,23 @@ class MainViewController: UIViewController, MainDisplayLogic
   //프리젠터에서 뷰로 화면에 그리는 것
   func displayTodoList(viewModel: FetchTodoList.FetchTodoList.ViewModel) {
     
-    self.postList = viewModel.displayedTodoList
+    self.todoList = viewModel.displayedTodoList
+    
+    sections = todoList
+      .map { $0.createdDate }
+      .removeDuplicates()
+    
+    sectionsNumber = todoList
+      .map { $0.createdDate }
+    
+    sectionInfo = sections.map { standard in
+      sectionsNumber.filter { target in
+        standard == target
+      }.count
+    }
+    
+    
+    
     DispatchQueue.main.async {
       self.myTableView.reloadData()
     }
@@ -122,8 +142,17 @@ extension MainViewController: UITableViewDelegate
 
 extension MainViewController: UITableViewDataSource
 {
+  
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return sections[section]
+  }
+  
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return sections.count
+  }
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return postList.count
+    return sectionsNumber.filter { $0 == sections[section] }.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,9 +160,36 @@ extension MainViewController: UITableViewDataSource
       return UITableViewCell()
     }
     
-    let cellData = postList[indexPath.row]
-    cell.configureCell(todo: cellData)
+    if indexPath.section == 0 {
+      let cellData = todoList[indexPath.section + indexPath.row]
+      cell.configureCell(todo: cellData)
+      
+      return cell
+    } else {
+      var startIndex = 0
+      
+      for i in 0...indexPath.section-1 {
     
-    return cell
+        startIndex += sectionInfo[i]
+ 
+      }
+      
+      let cellData = todoList[startIndex + indexPath.row]
+
+      cell.configureCell(todo: cellData)
+      
+      return cell
+    }
+    
+    
   }
+  
+  
 }
+//이중배열?
+//0  1
+//1  2
+//2  2
+//3  1
+//4  1
+//5  3

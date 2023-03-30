@@ -35,6 +35,7 @@
 		865F55FA29D31F0F00908B3E /* FetchRepositorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F929D31F0F00908B3E /* FetchRepositorable.swift */; };
 		865F55FE29D31FCC00908B3E /* TodoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55FD29D31FCC00908B3E /* TodoEntity.swift */; };
 		865F560029D320CB00908B3E /* FetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55FF29D320CB00908B3E /* FetchUseCase.swift */; };
+		865F560329D5E04100908B3E /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560229D5E04100908B3E /* Array.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		865F55F929D31F0F00908B3E /* FetchRepositorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRepositorable.swift; sourceTree = "<group>"; };
 		865F55FD29D31FCC00908B3E /* TodoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEntity.swift; sourceTree = "<group>"; };
 		865F55FF29D320CB00908B3E /* FetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUseCase.swift; sourceTree = "<group>"; };
+		865F560229D5E04100908B3E /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 			children = (
 				8654277F29CDA5CE006E23A0 /* AppDelegate.swift */,
 				8654278129CDA5CE006E23A0 /* SceneDelegate.swift */,
+				865F560129D5E02700908B3E /* Extension */,
 				865427A429CDA7DE006E23A0 /* Model */,
 				8654279329CDA6C1006E23A0 /* Scene */,
 				8654278829CDA5CE006E23A0 /* Assets.xcassets */,
@@ -260,6 +263,14 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		865F560129D5E02700908B3E /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				865F560229D5E04100908B3E /* Array.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -381,6 +392,7 @@
 				865F55F629D31A0600908B3E /* TodoListDTO.swift in Sources */,
 				8654279C29CDA6FA006E23A0 /* MainWorker.swift in Sources */,
 				865F55FA29D31F0F00908B3E /* FetchRepositorable.swift in Sources */,
+				865F560329D5E04100908B3E /* Array.swift in Sources */,
 				865F55F329D3192E00908B3E /* TodoStorage.swift in Sources */,
 				865F55FE29D31FCC00908B3E /* TodoEntity.swift in Sources */,
 				8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */,

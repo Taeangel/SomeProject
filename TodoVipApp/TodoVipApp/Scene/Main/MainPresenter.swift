@@ -52,7 +52,6 @@ class MainPresenter: MainPresentationLogic
         createdTime: "\(createdTime.prefix(5))",
         createdDate: "\(createdDate)"
       )
-    
     }
     
     let viewModel = FetchTodoList.FetchTodoList.ViewModel(displayedTodoList: displayedTodoList)

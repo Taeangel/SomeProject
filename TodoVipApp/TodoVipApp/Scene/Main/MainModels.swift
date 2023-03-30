@@ -29,7 +29,7 @@ enum FetchTodoList
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
-      struct DisplayedTodo {
+      struct DisplayedTodo: Hashable {
         let id: Int
         let title: String
         let isDone: Bool
