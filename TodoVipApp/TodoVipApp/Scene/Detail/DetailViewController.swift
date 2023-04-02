@@ -36,6 +36,12 @@ class DetailViewController: UIViewController, DetailDisplayLogic
     setup()
   }
   
+  // MARK: - outlets
+  
+  @IBOutlet weak var doWorkTextField: UITextField!
+  @IBOutlet weak var finishSwitch: UISwitch!
+  
+  
   // MARK: Setup
   
   private func setup()
@@ -50,6 +56,12 @@ class DetailViewController: UIViewController, DetailDisplayLogic
     presenter.viewController = viewController
     router.viewController = viewController
     router.dataStore = interactor
+  }
+  
+  private func setupLable() {
+    
+
+
   }
   
   // MARK: Routing
@@ -70,6 +82,7 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   {
     super.viewDidLoad()
     doSomething()
+    setupLable()
     
   }
   
