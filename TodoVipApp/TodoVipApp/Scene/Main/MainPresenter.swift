@@ -31,7 +31,7 @@ class MainPresenter: MainPresentationLogic
     typealias DisplayedTodoList = FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo
     
     let displayedTodoList = response.todoList.map { todoEntity -> DisplayedTodoList in
-
+      
       guard let findDateT = todoEntity.createdAt?.firstIndex(of: "T"),
             let findDateDot = todoEntity.createdAt?.firstIndex(of: ".") else {
         return DisplayedTodoList(id: 0, title: "", isDone: false, createdTime: "", createdDate: "")
@@ -40,12 +40,12 @@ class MainPresenter: MainPresentationLogic
       guard var createdDate = todoEntity.createdAt?[...findDateT],
             var createdTime = todoEntity.createdAt?[findDateT...findDateDot] else {
         return DisplayedTodoList(id: 0, title: "", isDone: false, createdTime: "", createdDate: "")
-            }
-
+      }
+      
       createdDate.removeLast()
       createdTime.removeFirst()
       
-    return  DisplayedTodoList(
+      return  DisplayedTodoList(
         id: todoEntity.id ?? 1,
         title: todoEntity.title ?? "",
         isDone: todoEntity.isDone ?? false,
@@ -55,7 +55,7 @@ class MainPresenter: MainPresentationLogic
     }
     
     let viewModel = FetchTodoList.FetchTodoList.ViewModel(displayedTodoList: displayedTodoList)
-        
+    
     viewController?.displayTodoList(viewModel: viewModel)
   }
 }

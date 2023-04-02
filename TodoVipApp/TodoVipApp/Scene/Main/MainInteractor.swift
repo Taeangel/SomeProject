@@ -19,16 +19,17 @@ protocol MainBusinessLogic
 
 protocol MainDataStore
 {
-  //var name: String { get set }
+  var todoList: [TodoEntity] { get set }
+  var sectionInfo: [Int] { get set }
 }
 
 class MainInteractor: MainBusinessLogic, MainDataStore
 {
  
-  
+  var sectionInfo: [Int] = []
+  var todoList: [TodoEntity] = []
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
-  //var name: String = ""
   
   // MARK: Do something
   
@@ -40,6 +41,21 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
     
     let response = FetchTodoList.FetchTodoList.Response(todoList: todoList)
+    
+    let sections = todoList
+      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+      .removeDuplicates()
+
+    let sectionsNumber = todoList
+      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+    
+    self.sectionInfo = sections.map { standard in
+      sectionsNumber.filter { target in
+        standard == target
+      }.count
+    }
+    
+    self.todoList = todoList
     presenter?.presentTodoList(response: response)
   }
 }

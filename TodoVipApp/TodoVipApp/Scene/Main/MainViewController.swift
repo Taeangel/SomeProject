@@ -32,7 +32,6 @@ class MainViewController: UIViewController, MainDisplayLogic
   var sections: [String] = []
   var sectionsNumber: [String] = []
   var todoList: [Displayedtodo] = []
-  var todoListSection: [String] = []
   var sectionInfo: [Int] = []
   
   // MARK: Object lifecycle
@@ -69,6 +68,8 @@ class MainViewController: UIViewController, MainDisplayLogic
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
+
+    
     if let scene = segue.identifier {
       let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
       if let router = router, router.responds(to: selector) {
@@ -83,9 +84,7 @@ class MainViewController: UIViewController, MainDisplayLogic
   {
     super.viewDidLoad()
     configureTableView()
-    
     fetchTodoList()
-    
   }
   // MARK: Do something
   
@@ -116,8 +115,6 @@ class MainViewController: UIViewController, MainDisplayLogic
       }.count
     }
     
-    
-    
     DispatchQueue.main.async {
       self.myTableView.reloadData()
     }
@@ -143,6 +140,11 @@ extension MainViewController: UITableViewDelegate
 extension MainViewController: UITableViewDataSource
 {
   
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//    print(indexPath.row)
+    router?.routeToDetail()
+  }
+  
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return sections[section]
   }
@@ -161,35 +163,18 @@ extension MainViewController: UITableViewDataSource
     }
     
     if indexPath.section == 0 {
-      let cellData = todoList[indexPath.section + indexPath.row]
-      cell.configureCell(todo: cellData)
       
+      cell.configureCell(todo: todoList[indexPath.row])
       return cell
     } else {
       var startIndex = 0
       
-      for i in 0...indexPath.section-1 {
-    
+      for i in 0...indexPath.section - 1 {
         startIndex += sectionInfo[i]
- 
       }
       
-      let cellData = todoList[startIndex + indexPath.row]
-
-      cell.configureCell(todo: cellData)
-      
+      cell.configureCell(todo: todoList[startIndex + indexPath.row])
       return cell
     }
-    
-    
   }
-  
-  
 }
-//이중배열?
-//0  1
-//1  2
-//2  2
-//3  1
-//4  1
-//5  3

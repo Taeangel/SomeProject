@@ -12,9 +12,10 @@
 
 import UIKit
 
-@objc protocol MainRoutingLogic
+protocol MainRoutingLogic: AnyObject
 {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  
+  func routeToDetail()
 }
 
 protocol MainDataPassing
@@ -29,32 +30,41 @@ class MainRouter: NSObject, MainRoutingLogic, MainDataPassing
   
   // MARK: Routing
   
-//  func routeToSomewhere(segue: UIStoryboardSegue?)
-//  {
-//    if let segue = segue {
-//      let destinationVC = segue.destination as! SomewhereViewController
-//      var destinationDS = destinationVC.router!.dataStore!
-//      passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-//    } else {
-//      let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//      let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-//      var destinationDS = destinationVC.router!.dataStore!
-//      passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-//      navigateToSomewhere(source: viewController!, destination: destinationVC)
-//    }
-//  }
+  func routeToDetail()
+  {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let destinationVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+    var destinationDS = destinationVC.router!.dataStore!
+    passDataToDatail(source: dataStore!, destination: &destinationDS)
+    navigateToSomewhere(source: viewController!, destination: destinationVC)
+  }
+  
+  //   MARK: Navigation
+  
+  func navigateToSomewhere(source: MainViewController, destination: DetailViewController)
+  {
+    source.show(destination, sender: nil)
+  }
+  
+  //   MARK: Passing data
+  
+  func passDataToDatail(source: MainDataStore, destination: inout DetailDataStore)
+  {
 
-  // MARK: Navigation
-  
-  //func navigateToSomewhere(source: MainViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
-  
-  // MARK: Passing data
-  
-  //func passDataToSomewhere(source: MainDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+    guard let indexPathsForSelectedRows = viewController?.myTableView.indexPathsForSelectedRows else  { return }
+    
+    let sectionAndRow = indexPathsForSelectedRows.flatMap { $0 }
+    guard let section = sectionAndRow.first, let row = sectionAndRow.last else { return }
+    
+    if section == 0 {
+      destination.todo = source.todoList[row]
+    } else {
+      var startIndex = 0
+      
+      for i in 0...section - 1 {
+        startIndex += source.sectionInfo[i]
+      }
+      destination.todo = source.todoList[startIndex + row]
+    }
+  }
 }
