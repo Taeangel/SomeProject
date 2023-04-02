@@ -14,7 +14,7 @@ import UIKit
 
 protocol DetailDisplayLogic: AnyObject
 {
-  func displaySomething(viewModel: Detail.Something.ViewModel)
+  func displaySomething(viewModel: Detail.Todo.ViewModel)
 }
 
 class DetailViewController: UIViewController, DetailDisplayLogic
@@ -60,7 +60,7 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   
   private func setupLable() {
     
-
+    print(finishSwitch.isOn = false)
 
   }
   
@@ -92,11 +92,11 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   
   func doSomething()
   {
-    let request = Detail.Something.Request()
+    let request = Detail.Todo.Request()
     interactor?.doSomething(request: request)
   }
   
-  func displaySomething(viewModel: Detail.Something.ViewModel)
+  func displaySomething(viewModel: Detail.Todo.ViewModel)
   {
     //nameTextField.text = viewModel.name
   }

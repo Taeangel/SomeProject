@@ -16,16 +16,26 @@ enum Detail
 {
   // MARK: Use cases
   
-  enum Something
+  enum Todo
   {
     struct Request
     {
+      var id : Int
+      var todo: String
+      var done: Bool
     }
     struct Response
     {
     }
     struct ViewModel
     {
+      struct DisplayedTodo: Hashable {
+        let id: Int
+        let title: String
+        let isDone: Bool
+      }
+      
+      var displayedTodoList: [DisplayedTodo]
     }
   }
 }

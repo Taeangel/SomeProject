@@ -14,7 +14,7 @@ import UIKit
 
 protocol DetailPresentationLogic
 {
-  func presentSomething(response: Detail.Something.Response)
+  func presentSomething(response: Detail.Todo.Response)
 }
 
 class DetailPresenter: DetailPresentationLogic
@@ -23,9 +23,9 @@ class DetailPresenter: DetailPresentationLogic
   
   // MARK: Do something
   
-  func presentSomething(response: Detail.Something.Response)
+  func presentSomething(response: Detail.Todo.Response)
   {
-    let viewModel = Detail.Something.ViewModel()
+    let viewModel = Detail.Todo.ViewModel()
     viewController?.displaySomething(viewModel: viewModel)
   }
 }
