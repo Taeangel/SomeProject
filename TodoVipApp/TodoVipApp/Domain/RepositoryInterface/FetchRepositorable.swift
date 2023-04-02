@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol FetchRepositoriable {
+protocol TodoRepositoriable {
   func fetchtodoList(page: Int, perPage: Int) async throws -> TodoListDTO
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws
 }

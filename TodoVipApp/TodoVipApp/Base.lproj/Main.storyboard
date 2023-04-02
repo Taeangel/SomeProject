@@ -102,6 +102,9 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="modifyButtonDidTap:" destination="D1c-Aa-S1l" eventType="touchUpInside" id="wnz-Sg-3IM"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NQe-dQ-0lY"/>

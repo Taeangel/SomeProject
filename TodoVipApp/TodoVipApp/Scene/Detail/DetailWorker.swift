@@ -12,9 +12,10 @@
 
 import UIKit
 
-class DetailWorker
+class DetailWorker: TodoWorkerUsecase
 {
-  func doSomeWork()
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws
   {
+    try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
   }
 }

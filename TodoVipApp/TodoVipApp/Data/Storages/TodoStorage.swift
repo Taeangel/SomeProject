@@ -7,11 +7,12 @@
 
 import Foundation
 
-protocol FetchStorageable: AnyObject {
+protocol TodoStorageable: AnyObject {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws
 }
 
-final class FetchStorage {
+final class TodoStorage {
   private let todoApiManager: TodoApiManager
   
   init(todoApiManager: TodoApiManager) {
@@ -19,7 +20,7 @@ final class FetchStorage {
   }
 }
 
-extension FetchStorage: FetchStorageable {
+extension TodoStorage: TodoStorageable {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO {
     let data = try await todoApiManager.requestData(.getTodos(page: page, perPage: perPage))
     
@@ -28,5 +29,14 @@ extension FetchStorage: FetchStorageable {
     } catch {
       throw  NetworkError.decoding
     }
+  }
+  
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws {
+    do {
+      let _ = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
+    } catch {
+      throw NetworkError.unknown
+    }
+    
   }
 }

@@ -14,8 +14,8 @@ import UIKit
 
 protocol DetailBusinessLogic
 {
-  func doSomething(request: Detail.Todo.Request)
-  func presentData()
+  func presentTodo(request: Detail.PresentTodo.Request)
+  func modifyTodo(request: Detail.ModifyTodo.Request) async throws
 }
 
 protocol DetailDataStore
@@ -25,14 +25,11 @@ protocol DetailDataStore
 
 class DetailInteractor: DetailBusinessLogic, DetailDataStore
 {
-  func presentData() {
-    
-  }
   
   var todo: TodoEntity
   var presenter: DetailPresentationLogic?
   var worker: DetailWorker?
-
+  
   init() {
     let datum = Datum(id: nil, title: nil, isDone: nil, createdAt: nil, updatedAt: nil)
     self.todo = TodoEntity(datunm: datum)
@@ -40,13 +37,14 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
   
   // MARK: Do something
   
-  func doSomething(request: Detail.Todo.Request)
+  func presentTodo(request: Detail.PresentTodo.Request)
   {
-    worker = DetailWorker()
-    worker?.doSomeWork()
-    
-    let response = Detail.Todo.Response(todo: todo)
-    
+    let response = Detail.PresentTodo.Response(todo: todo)
     presenter?.presentTodo(response: response)
+  }
+  
+  func modifyTodo(request: Detail.ModifyTodo.Request) async throws {
+    worker = DetailWorker()
+    try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
   }
 }

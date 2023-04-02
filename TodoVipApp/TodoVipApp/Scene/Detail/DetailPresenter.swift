@@ -14,7 +14,7 @@ import UIKit
 
 protocol DetailPresentationLogic
 {
-  func presentTodo(response: Detail.Todo.Response)
+  func presentTodo(response: Detail.PresentTodo.Response)
 }
 
 class DetailPresenter: DetailPresentationLogic
@@ -23,9 +23,9 @@ class DetailPresenter: DetailPresentationLogic
   
   // MARK: Do something
   
-  func presentTodo(response: Detail.Todo.Response)
+  func presentTodo(response: Detail.PresentTodo.Response)
   {
-    typealias todo = Detail.Todo.ViewModel.DisplayedTodo
+    typealias todo = Detail.PresentTodo.ViewModel.DisplayedTodo
      
    let displayTodo = todo(
     id: response.todo.id ?? 0,
@@ -34,7 +34,7 @@ class DetailPresenter: DetailPresentationLogic
    )
     
     
-    let viewModel = Detail.Todo.ViewModel(displayedTodo: displayTodo )
+    let viewModel = Detail.PresentTodo.ViewModel(displayedTodo: displayTodo )
     viewController?.displaySomething(viewModel: viewModel)
   }
 }

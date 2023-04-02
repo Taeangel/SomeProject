@@ -14,7 +14,7 @@ import UIKit
 
 protocol DetailDisplayLogic: AnyObject
 {
-  func displaySomething(viewModel: Detail.Todo.ViewModel)
+  func displaySomething(viewModel: Detail.PresentTodo.ViewModel)
 }
 
 class DetailViewController: UIViewController, DetailDisplayLogic
@@ -22,6 +22,11 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   var interactor: DetailBusinessLogic?
   var router: (NSObjectProtocol & DetailRoutingLogic & DetailDataPassing)?
 
+  
+  
+  // MARK: - properties
+  var id: Int = 0
+  
   // MARK: Object lifecycle
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -69,7 +74,7 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    doSomething()
+    presentTodo()
   }
   
   // MARK: Do something
@@ -77,15 +82,30 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   @IBOutlet weak var doWorkTextField: UITextField!
   @IBOutlet weak var finishSwitch: UISwitch!
   
-  func doSomething()
+  func presentTodo()
   {
-    let request = Detail.Todo.Request()
-    interactor?.doSomething(request: request)
+    let request = Detail.PresentTodo.Request()
+    interactor?.presentTodo(request: request)
   }
   
-  func displaySomething(viewModel: Detail.Todo.ViewModel)
+  @IBAction func modifyButtonDidTap(_ sender: Any) {
+    let request = Detail.ModifyTodo.Request(
+      id: self.id,
+      title: doWorkTextField.text ?? "",
+      isDone: finishSwitch.isOn)
+    
+    Task {
+      try await interactor?.modifyTodo(request: request)
+    }
+    
+  }
+  
+  func displaySomething(viewModel: Detail.PresentTodo.ViewModel)
   {
     self.doWorkTextField.text = viewModel.displayedTodo.title
     self.finishSwitch.isOn = viewModel.displayedTodo.isDone
+    self.id = viewModel.displayedTodo.id
   }
+  
+  
 }

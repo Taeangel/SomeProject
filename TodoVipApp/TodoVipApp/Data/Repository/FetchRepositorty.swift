@@ -7,16 +7,21 @@
 
 import Foundation
 
-final class FetchRepository {
-  private let fetchStorageable: FetchStorageable
+final class TodoRepository {
+  private let todoStorageable: TodoStorageable
   
-  init(fetchStorageable: FetchStorageable) {
-    self.fetchStorageable = fetchStorageable
+  init(todoStorageable: TodoStorageable) {
+    self.todoStorageable = todoStorageable
   }
 }
 
-extension FetchRepository: FetchRepositoriable {
+extension TodoRepository: TodoRepositoriable {
   func fetchtodoList(page: Int, perPage: Int) async throws -> TodoListDTO {
-    try await fetchStorageable.fetchTodoList(page: page, perPage: perPage)
+    try await todoStorageable.fetchTodoList(page: page, perPage: perPage)
   }
+  
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws {
+    try await todoStorageable.modifyTodo(id: id, title: title, isDone: isDone)
+  }
+  
 }

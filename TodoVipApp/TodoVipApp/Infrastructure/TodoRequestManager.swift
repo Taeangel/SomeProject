@@ -9,9 +9,16 @@ import Foundation
 
 enum TodoRequestManager {
   case getTodos(page: Int, orderBy: String = "desc", perPage: Int)
+  case modify(id: Int, title: String, isDone: Bool)
+  
   
   private var baseURL: String {
-    return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
+    switch self {
+    case .getTodos:
+      return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
+    case let .modify(id, _, _):
+      return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
+    }
   }
   
   private var endPoint: String {
@@ -19,6 +26,8 @@ enum TodoRequestManager {
     switch self {
     case .getTodos:
       return "todos?"
+    case let .modify(id, _, _) :
+      return "todos/\(id)"
     }
   }
   
@@ -26,6 +35,8 @@ enum TodoRequestManager {
     switch self {
     case .getTodos:
       return .get
+    case .modify:
+      return .put
     }
   }
   
@@ -37,6 +48,8 @@ enum TodoRequestManager {
       params["order_by"] = orderBy
       params["per_page"] = perPage
       return params
+    case .modify:
+      return nil
     }
   }
   
@@ -44,6 +57,8 @@ enum TodoRequestManager {
     switch self {
     case .getTodos:
       return ["Content-Type": "application/json"]
+    case .modify:
+      return ["Content-Type": "application/x-www-form-urlencoded"]
     }
   }
   
@@ -51,6 +66,8 @@ enum TodoRequestManager {
     switch self {
     case .getTodos:
       return nil
+    case let .modify(_ , title, isDone):
+      return encodeParameters(parameters: ["title": title, "is_done": "\(isDone)"])
     }
   }
   
@@ -78,5 +95,21 @@ enum TodoRequestManager {
     
     return request
   }
+  
+  func percentEscapeString(_ string: String) -> String {
+    var characterSet = CharacterSet.alphanumerics
+    characterSet.insert(charactersIn: "-._* ")
+    
+    return string
+      .addingPercentEncoding(withAllowedCharacters: characterSet)!
+      .replacingOccurrences(of: " ", with: "+")
+      .replacingOccurrences(of: " ", with: "+", options: [], range: nil)
+  }
+  
+  func encodeParameters(parameters: [String: String]) -> Data? {
+    let parameterArray: [String] = parameters.map { (key, value) -> String in
+      return "\(key)=\(self.percentEscapeString(value))"
+    }
+     return parameterArray.joined(separator: "&").data(using: String.Encoding.utf8)
+  }
 }
-

@@ -13,11 +13,11 @@
 import UIKit
 import Fakery
 
-class MainWorker: MainWorkerUsecase
+class MainWorker: TodoWorkerUsecase
 {
   
   func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity] {
-    guard let todoListDTO = try await fetchUsecase.fetchTodoList(page: page, perPage: perPage).data else {
+    guard let todoListDTO = try await todoUsecase.fetchTodoList(page: page, perPage: perPage).data else {
       return []
     }
     
@@ -27,19 +27,19 @@ class MainWorker: MainWorkerUsecase
 
 protocol ApiManagerProtocol {}
 
-protocol MainWorkerUsecase: ApiManagerProtocol {}
+protocol TodoWorkerUsecase: ApiManagerProtocol {}
 
-extension MainWorkerUsecase {
-  var fetchStorage: FetchStorage {
-    return FetchStorage(todoApiManager: apiManager)
+extension TodoWorkerUsecase {
+  var todoStorage: TodoStorage {
+    return TodoStorage(todoApiManager: apiManager)
   }
   
-  var fetchRepository: FetchRepository {
-    return FetchRepository(fetchStorageable: fetchStorage)
+  var todoRepository: TodoRepository {
+    return TodoRepository(todoStorageable: todoStorage)
   }
   
-  var fetchUsecase: FetchUsecase {
-    return FetchUsecase(fetchRepository: fetchRepository)
+  var todoUsecase: TodoUsecase {
+    return TodoUsecase(todoRepository: todoRepository)
   }
 }
 

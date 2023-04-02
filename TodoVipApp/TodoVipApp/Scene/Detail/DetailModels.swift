@@ -16,7 +16,24 @@ enum Detail
 {
   // MARK: Use cases
   
-  enum Todo
+  enum ModifyTodo
+  {
+    struct Request
+    {
+      var id: Int
+      var title: String
+      var isDone: Bool
+    }
+    struct Response
+    {
+    }
+    struct ViewModel
+    {
+    }
+  }
+  
+  
+  enum PresentTodo
   {
     struct Request
     {
