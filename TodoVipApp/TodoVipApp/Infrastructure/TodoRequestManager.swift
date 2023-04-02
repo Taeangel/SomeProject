@@ -11,6 +11,7 @@ enum TodoRequestManager {
   case getTodos(page: Int, orderBy: String = "desc", perPage: Int)
   case modify(id: Int, title: String, isDone: Bool)
   case delete(id: Int)
+  case postTodo(title: String, isDone: Bool)
   
   var todoBaseURL: String {
    return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
@@ -24,6 +25,8 @@ enum TodoRequestManager {
       return todoBaseURL
     case .delete:
       return todoBaseURL
+    case .postTodo:
+      return todoBaseURL
     }
   }
   
@@ -35,7 +38,9 @@ enum TodoRequestManager {
     case let .modify(id, _, _):
       return "todos/\(id)"
     case let .delete(id):
-      return "toods/\(id)"
+      return "todos/\(id)"
+    case .postTodo:
+      return "todos"
     }
   }
   
@@ -47,6 +52,8 @@ enum TodoRequestManager {
       return .put
     case .delete:
       return .delete
+    case .postTodo:
+      return .post
     }
   }
   
@@ -62,6 +69,8 @@ enum TodoRequestManager {
       return nil
     case .delete:
       return nil
+    case .postTodo:
+      return nil
     }
   }
   
@@ -73,6 +82,8 @@ enum TodoRequestManager {
       return ["Content-Type": "application/x-www-form-urlencoded"]
     case .delete:
       return ["Accept": "application/json"]
+    case .postTodo:
+      return ["Accept": "application/json", "Content-Type": "multipart/form-data"]
     }
   }
   
@@ -83,6 +94,8 @@ enum TodoRequestManager {
     case let .modify(_ , title, isDone):
       return encodeParameters(parameters: ["title": title, "is_done": "\(isDone)"])
     case .delete:
+      return nil
+    case .postTodo:
       return nil
     }
   }

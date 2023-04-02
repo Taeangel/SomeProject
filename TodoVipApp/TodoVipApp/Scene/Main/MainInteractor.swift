@@ -14,7 +14,8 @@ import UIKit
 
 protocol MainBusinessLogic
 {
-  func fetchTodoList(request: FetchTodoList.FetchTodoList.Request) async throws
+  func fetchTodoList(request: MainScene.FetchTodoList.Request) async throws
+  func deleteTodo(request: MainScene.DeleteTodo.Request) async throws
 }
 
 protocol MainDataStore
@@ -33,16 +34,14 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   
   // MARK: Do something
   
-  
   // 뷰에서 인터렉터한테 시키는 메서드
   
-  func fetchTodoList(request: FetchTodoList.FetchTodoList.Request) async throws {
+  func fetchTodoList(request: MainScene.FetchTodoList.Request) async throws {
     worker = MainWorker()
     guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
     
-    
     // 데이터 전달
-    let response = FetchTodoList.FetchTodoList.Response(todoList: todoList)
+    let response = MainScene.FetchTodoList.Response(todoList: todoList)
     presenter?.presentTodoList(response: response)
     
     // 데이터 보관
@@ -60,6 +59,10 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     }
     
     self.todoList = todoList
- 
+  }
+  
+  func deleteTodo(request: MainScene.DeleteTodo.Request) async throws {
+    worker = MainWorker()
+    try await worker?.deleteTodo(id: request.id)
   }
 }

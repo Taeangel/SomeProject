@@ -23,9 +23,20 @@ class MyTableViewCell: UITableViewCell {
     // Configure the view for the selected state
   }
   
-  func configureCell(todo: FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo)
+  func configureCell(todo: MainScene.FetchTodoList.ViewModel.DisplayedTodo)
   {
-    self.contentLabel.text = todo.title
-    self.dateLabel.text = "\(todo.createdDate)"
+    if todo.isDone == false {
+      self.contentLabel.text = todo.title
+      self.dateLabel.text = "\(todo.createdDate)"
+      
+    } else {
+      
+      self.contentLabel.text = todo.title
+      contentLabel.textColor = .gray
+      self.dateLabel.text = "\(todo.createdDate)"
+      dateLabel.textColor = .gray
+
+    }
+    
   }
 }

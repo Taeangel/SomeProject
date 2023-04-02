@@ -14,7 +14,7 @@ import UIKit
 
 protocol DetailRoutingLogic
 {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func dismiss()
 }
 
 protocol DetailDataPassing
@@ -24,32 +24,22 @@ protocol DetailDataPassing
 
 class DetailRouter: NSObject, DetailRoutingLogic, DetailDataPassing
 {
+  
   weak var viewController: DetailViewController?
   var dataStore: DetailDataStore?
   
   // MARK: Routing
-  
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
+    
+  func dismiss() {
+    dismissModal(source: viewController!)
+  }
 
   // MARK: Navigation
   
-  //func navigateToSomewhere(source: DetailViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
+  func dismissModal(source: DetailViewController)
+  {
+    source.dismiss(animated: true)
+  }
   
   // MARK: Passing data
   

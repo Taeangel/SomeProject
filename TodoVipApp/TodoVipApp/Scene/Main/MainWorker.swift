@@ -11,7 +11,6 @@
 //
 
 import UIKit
-import Fakery
 
 class MainWorker: TodoWorkerUsecase
 {
@@ -22,6 +21,10 @@ class MainWorker: TodoWorkerUsecase
     }
     
     return todoListDTO.map { TodoEntity.init(datunm: $0) }
+  }
+  
+  func deleteTodo(id: Int) async throws {
+    try await todoUsecase.deleteTodo(id: id)
   }
 }
 

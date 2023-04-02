@@ -12,16 +12,30 @@
 
 import UIKit
 
-enum FetchTodoList
+enum MainScene
 {
   // MARK: Use cases
+  
+  enum DeleteTodo
+  {
+    struct Request // 뷰가 인터렉터한테 요청하는 데이터
+    {
+      var id: Int
+    }
+    struct Response //워커에서 들어온 데이터 - 날것의 데이터
+    {
+    }
+    struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
+    {
+    }
+  }
   
   enum FetchTodoList
   {
     struct Request // 뷰가 인터렉터한테 요청하는 데이터
     {
-      var page: Int
-      var perPage: Int
+      var page: Int = 1
+      var perPage: Int = 10
     }
     struct Response //워커에서 들어온 데이터 - 날것의 데이터
     {

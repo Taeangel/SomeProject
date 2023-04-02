@@ -10,7 +10,7 @@ import Foundation
 protocol TodoUsecasealbe {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws
-  func deleteTOdo(id: Int) async throws
+  func deleteTodo(id: Int) async throws
 }
 
 final class TodoUsecase {
@@ -30,7 +30,7 @@ extension TodoUsecase: TodoUsecasealbe {
     try await todoRepository.fetchtodoList(page: page, perPage: perPage)
   }
   
-  func deleteTOdo(id: Int) async throws {
+  func deleteTodo(id: Int) async throws {
     try await todoRepository.delete(id: id)
   }
 }

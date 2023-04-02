@@ -15,7 +15,7 @@ import UIKit
 protocol MainPresentationLogic
 
 {
-  func presentTodoList(response: FetchTodoList.FetchTodoList.Response)
+  func presentTodoList(response: MainScene.FetchTodoList.Response)
 }
 
 class MainPresenter: MainPresentationLogic
@@ -27,8 +27,8 @@ class MainPresenter: MainPresentationLogic
   
   //인터렉터한테 받은 날것의 데이터를 받음
   
-  func presentTodoList(response: FetchTodoList.FetchTodoList.Response) {
-    typealias DisplayedTodoList = FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo
+  func presentTodoList(response: MainScene.FetchTodoList.Response) {
+    typealias DisplayedTodoList = MainScene.FetchTodoList.ViewModel.DisplayedTodo
     
     let displayedTodoList = response.todoList.map { todoEntity -> DisplayedTodoList in
       
@@ -54,7 +54,7 @@ class MainPresenter: MainPresentationLogic
       )
     }
     
-    let viewModel = FetchTodoList.FetchTodoList.ViewModel(displayedTodoList: displayedTodoList)
+    let viewModel = MainScene.FetchTodoList.ViewModel(displayedTodoList: displayedTodoList)
     
     viewController?.displayTodoList(viewModel: viewModel)
   }

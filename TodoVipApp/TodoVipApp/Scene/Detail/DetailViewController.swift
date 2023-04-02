@@ -98,6 +98,8 @@ class DetailViewController: UIViewController, DetailDisplayLogic
       try await interactor?.modifyTodo(request: request)
     }
     
+    router!.dismiss()
+    
   }
   
   func displaySomething(viewModel: Detail.PresentTodo.ViewModel)

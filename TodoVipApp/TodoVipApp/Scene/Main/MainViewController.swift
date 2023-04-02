@@ -14,12 +14,11 @@ import UIKit
 
 protocol MainDisplayLogic: AnyObject
 {
-  func displayTodoList(viewModel: FetchTodoList.FetchTodoList.ViewModel)
+  func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
 }
 
 class MainViewController: UIViewController, MainDisplayLogic
 {
-  
   var interactor: MainBusinessLogic?
   var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
   
@@ -27,7 +26,7 @@ class MainViewController: UIViewController, MainDisplayLogic
   @IBOutlet weak var myTableView: UITableView!
   
   // MARK: - Properties
-  typealias Displayedtodo = FetchTodoList.FetchTodoList.ViewModel.DisplayedTodo
+  typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
   
   var sections: [String] = []
   var sectionsNumber: [String] = []
@@ -69,7 +68,6 @@ class MainViewController: UIViewController, MainDisplayLogic
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
     
-    
     if let scene = segue.identifier {
       let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
       if let router = router, router.responds(to: selector) {
@@ -91,14 +89,24 @@ class MainViewController: UIViewController, MainDisplayLogic
   //뷰에서 인터렉터한테 시키는 곳
   func fetchTodoList()
   {
-    let request = FetchTodoList.FetchTodoList.Request(page: 1, perPage: 10)
+    let request = MainScene.FetchTodoList.Request()
     Task {
       try await interactor?.fetchTodoList(request: request)
     }
   }
   
+  func deleteTodo(id: Int) {
+    let deleteRequest = MainScene.DeleteTodo.Request(id: id)
+    let fetchRequest = MainScene.FetchTodoList.Request()
+
+    Task {
+      try await interactor?.deleteTodo(request: deleteRequest)
+      try await interactor?.fetchTodoList(request: fetchRequest)
+    }
+  }
+  
   //프리젠터에서 뷰로 화면에 그리는 것
-  func displayTodoList(viewModel: FetchTodoList.FetchTodoList.ViewModel) {
+  func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
     
     self.todoList = viewModel.displayedTodoList
     
@@ -134,6 +142,30 @@ extension MainViewController: UITableViewDelegate
     
     self.myTableView.delegate = self
     self.myTableView.dataSource = self
+  }
+  
+  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+  
+    let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, _) in
+      guard let section = indexPath.first else { return }
+      let row = indexPath.row
+      let id: Int
+      
+      if section == 0 {
+        id = self?.todoList[row].id ?? 0
+      } else {
+        var startIndex = 0
+        
+        for i in 0...indexPath.section - 1 {
+          startIndex += self?.sectionInfo[i] ?? 0
+        }
+        id = self?.todoList[startIndex + row].id ?? 0
+      }
+        self?.deleteTodo(id: id)
+        self?.fetchTodoList()
+    }
+    
+    return UISwipeActionsConfiguration(actions: [delete])
   }
 }
 
