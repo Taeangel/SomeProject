@@ -32,11 +32,27 @@
                     </view>
                     <connections>
                         <outlet property="myTableView" destination="WMH-iD-wij" id="FxN-Pv-26k"/>
+                        <segue destination="D1c-Aa-S1l" kind="presentation" identifier="showDetail" id="mMw-Ov-x0v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="58" y="-2"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="gIb-qb-lkI">
+            <objects>
+                <viewController storyboardIdentifier="DetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="D1c-Aa-S1l" customClass="DetailViewController" customModule="TodoVipApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="leX-Sb-WLI">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="NQe-dQ-0lY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uMp-eu-57g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1289" y="-2"/>
         </scene>
     </scenes>
     <resources>

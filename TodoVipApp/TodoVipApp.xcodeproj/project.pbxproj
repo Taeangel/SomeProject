@@ -36,6 +36,12 @@
 		865F55FE29D31FCC00908B3E /* TodoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55FD29D31FCC00908B3E /* TodoEntity.swift */; };
 		865F560029D320CB00908B3E /* FetchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55FF29D320CB00908B3E /* FetchUseCase.swift */; };
 		865F560329D5E04100908B3E /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560229D5E04100908B3E /* Array.swift */; };
+		865F560B29D995BB00908B3E /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560529D995BB00908B3E /* DetailPresenter.swift */; };
+		865F560C29D995BB00908B3E /* DetailWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560629D995BB00908B3E /* DetailWorker.swift */; };
+		865F560D29D995BB00908B3E /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560729D995BB00908B3E /* DetailRouter.swift */; };
+		865F560E29D995BB00908B3E /* DetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560829D995BB00908B3E /* DetailModels.swift */; };
+		865F560F29D995BB00908B3E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560929D995BB00908B3E /* DetailViewController.swift */; };
+		865F561029D995BB00908B3E /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560A29D995BB00908B3E /* DetailInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +83,12 @@
 		865F55FD29D31FCC00908B3E /* TodoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEntity.swift; sourceTree = "<group>"; };
 		865F55FF29D320CB00908B3E /* FetchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUseCase.swift; sourceTree = "<group>"; };
 		865F560229D5E04100908B3E /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		865F560529D995BB00908B3E /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		865F560629D995BB00908B3E /* DetailWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWorker.swift; sourceTree = "<group>"; };
+		865F560729D995BB00908B3E /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
+		865F560829D995BB00908B3E /* DetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModels.swift; sourceTree = "<group>"; };
+		865F560929D995BB00908B3E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		865F560A29D995BB00908B3E /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +140,7 @@
 				865427A429CDA7DE006E23A0 /* Model */,
 				8654279329CDA6C1006E23A0 /* Scene */,
 				8654278829CDA5CE006E23A0 /* Assets.xcassets */,
+				8654278529CDA5CE006E23A0 /* Main.storyboard */,
 				865F55C929D0AA9B00908B3E /* Domain */,
 				865F55C129D0A38F00908B3E /* Data */,
 				865F55B429D09AE900908B3E /* Infrastructure */,
@@ -140,6 +153,7 @@
 		8654279329CDA6C1006E23A0 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				865F560429D995AA00908B3E /* Detail */,
 				8654279429CDA6D3006E23A0 /* Main */,
 			);
 			path = Scene;
@@ -148,15 +162,14 @@
 		8654279429CDA6D3006E23A0 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8654278529CDA5CE006E23A0 /* Main.storyboard */,
 				865F559529D07CFE00908B3E /* MyTableViewCell.swift */,
 				865F559129D07A7F00908B3E /* MyTableViewCell.xib */,
 				8654279529CDA6FA006E23A0 /* MainPresenter.swift */,
 				8654279629CDA6FA006E23A0 /* MainWorker.swift */,
-				8654279729CDA6FA006E23A0 /* MainRouter.swift */,
 				8654279829CDA6FA006E23A0 /* MainModels.swift */,
 				8654279929CDA6FA006E23A0 /* MainViewController.swift */,
 				8654279A29CDA6FA006E23A0 /* MainInteractor.swift */,
+				8654279729CDA6FA006E23A0 /* MainRouter.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -269,6 +282,19 @@
 				865F560229D5E04100908B3E /* Array.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		865F560429D995AA00908B3E /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				865F560529D995BB00908B3E /* DetailPresenter.swift */,
+				865F560629D995BB00908B3E /* DetailWorker.swift */,
+				865F560829D995BB00908B3E /* DetailModels.swift */,
+				865F560929D995BB00908B3E /* DetailViewController.swift */,
+				865F560A29D995BB00908B3E /* DetailInteractor.swift */,
+				865F560729D995BB00908B3E /* DetailRouter.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,18 +412,24 @@
 				8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */,
 				865F55C829D0A40600908B3E /* NetworkError.swift in Sources */,
 				865F55F829D31EB900908B3E /* FetchRepositorty.swift in Sources */,
+				865F561029D995BB00908B3E /* DetailInteractor.swift in Sources */,
+				865F560E29D995BB00908B3E /* DetailModels.swift in Sources */,
 				865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */,
 				865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */,
 				8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */,
 				865F55F629D31A0600908B3E /* TodoListDTO.swift in Sources */,
 				8654279C29CDA6FA006E23A0 /* MainWorker.swift in Sources */,
 				865F55FA29D31F0F00908B3E /* FetchRepositorable.swift in Sources */,
+				865F560D29D995BB00908B3E /* DetailRouter.swift in Sources */,
 				865F560329D5E04100908B3E /* Array.swift in Sources */,
 				865F55F329D3192E00908B3E /* TodoStorage.swift in Sources */,
+				865F560F29D995BB00908B3E /* DetailViewController.swift in Sources */,
 				865F55FE29D31FCC00908B3E /* TodoEntity.swift in Sources */,
 				8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */,
+				865F560C29D995BB00908B3E /* DetailWorker.swift in Sources */,
 				865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */,
 				8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */,
+				865F560B29D995BB00908B3E /* DetailPresenter.swift in Sources */,
 				865F55C629D0A3B600908B3E /* TodoApiManager.swift in Sources */,
 				865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */,
 				865F560029D320CB00908B3E /* FetchUseCase.swift in Sources */,
