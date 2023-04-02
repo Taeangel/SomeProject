@@ -40,8 +40,12 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
     
-    let response = FetchTodoList.FetchTodoList.Response(todoList: todoList)
     
+    // 데이터 전달
+    let response = FetchTodoList.FetchTodoList.Response(todoList: todoList)
+    presenter?.presentTodoList(response: response)
+    
+    // 데이터 보관
     let sections = todoList
       .map { "\($0.createdAt?.prefix(10) ?? "")" }
       .removeDuplicates()
@@ -56,6 +60,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     }
     
     self.todoList = todoList
-    presenter?.presentTodoList(response: response)
+ 
   }
 }

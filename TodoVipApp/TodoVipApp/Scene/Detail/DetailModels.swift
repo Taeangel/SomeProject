@@ -20,14 +20,12 @@ enum Detail
   {
     struct Request
     {
-      var id : Int
-      var todo: String
-      var done: Bool
     }
     struct Response
     {
+      var todo: TodoEntity
     }
-    struct ViewModel
+    struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
       struct DisplayedTodo: Hashable {
         let id: Int
@@ -35,7 +33,7 @@ enum Detail
         let isDone: Bool
       }
       
-      var displayedTodoList: [DisplayedTodo]
+      var displayedTodo: DisplayedTodo
     }
   }
 }

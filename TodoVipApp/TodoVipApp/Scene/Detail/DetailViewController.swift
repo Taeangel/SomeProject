@@ -36,12 +36,6 @@ class DetailViewController: UIViewController, DetailDisplayLogic
     setup()
   }
   
-  // MARK: - outlets
-  
-  @IBOutlet weak var doWorkTextField: UITextField!
-  @IBOutlet weak var finishSwitch: UISwitch!
-  
-  
   // MARK: Setup
   
   private func setup()
@@ -56,12 +50,6 @@ class DetailViewController: UIViewController, DetailDisplayLogic
     presenter.viewController = viewController
     router.viewController = viewController
     router.dataStore = interactor
-  }
-  
-  private func setupLable() {
-    
-    print(finishSwitch.isOn = false)
-
   }
   
   // MARK: Routing
@@ -82,13 +70,12 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   {
     super.viewDidLoad()
     doSomething()
-    setupLable()
-    
   }
   
   // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
+    
+  @IBOutlet weak var doWorkTextField: UITextField!
+  @IBOutlet weak var finishSwitch: UISwitch!
   
   func doSomething()
   {
@@ -98,6 +85,7 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   
   func displaySomething(viewModel: Detail.Todo.ViewModel)
   {
-    //nameTextField.text = viewModel.name
+    self.doWorkTextField.text = viewModel.displayedTodo.title
+    self.finishSwitch.isOn = viewModel.displayedTodo.isDone
   }
 }
