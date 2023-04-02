@@ -18,15 +18,11 @@
 		8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279829CDA6FA006E23A0 /* MainModels.swift */; };
 		8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279929CDA6FA006E23A0 /* MainViewController.swift */; };
 		865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279A29CDA6FA006E23A0 /* MainInteractor.swift */; };
-		865427A329CDA72B006E23A0 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 865427A229CDA72B006E23A0 /* Fakery */; };
 		865427A629CDA7EC006E23A0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865427A529CDA7EC006E23A0 /* Post.swift */; };
 		865F559229D07A7F00908B3E /* MyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 865F559129D07A7F00908B3E /* MyTableViewCell.xib */; };
 		865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F559529D07CFE00908B3E /* MyTableViewCell.swift */; };
 		865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B529D09B2800908B3E /* TodoRequestManager.swift */; };
 		865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B829D0A23000908B3E /* HTTPMethod.swift */; };
-		865F55BC29D0A35000908B3E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 865F55BB29D0A35000908B3E /* RxCocoa */; };
-		865F55BE29D0A35000908B3E /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 865F55BD29D0A35000908B3E /* RxRelay */; };
-		865F55C029D0A35000908B3E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 865F55BF29D0A35000908B3E /* RxSwift */; };
 		865F55C629D0A3B600908B3E /* TodoApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55C529D0A3B600908B3E /* TodoApiManager.swift */; };
 		865F55C829D0A40600908B3E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55C729D0A40600908B3E /* NetworkError.swift */; };
 		865F55F329D3192E00908B3E /* TodoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F229D3192E00908B3E /* TodoStorage.swift */; };
@@ -96,10 +92,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				865F55BE29D0A35000908B3E /* RxRelay in Frameworks */,
-				865F55BC29D0A35000908B3E /* RxCocoa in Frameworks */,
-				865F55C029D0A35000908B3E /* RxSwift in Frameworks */,
-				865427A329CDA72B006E23A0 /* Fakery in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,10 +306,6 @@
 			);
 			name = TodoVipApp;
 			packageProductDependencies = (
-				865427A229CDA72B006E23A0 /* Fakery */,
-				865F55BB29D0A35000908B3E /* RxCocoa */,
-				865F55BD29D0A35000908B3E /* RxRelay */,
-				865F55BF29D0A35000908B3E /* RxSwift */,
 			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
@@ -370,8 +358,6 @@
 			);
 			mainGroup = 8654277329CDA5CE006E23A0;
 			packageReferences = (
-				865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */,
-				865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
@@ -713,48 +699,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/vadymmarkov/Fakery";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		865427A229CDA72B006E23A0 /* Fakery */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 865427A129CDA72B006E23A0 /* XCRemoteSwiftPackageReference "Fakery" */;
-			productName = Fakery;
-		};
-		865F55BB29D0A35000908B3E /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		865F55BD29D0A35000908B3E /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
-		865F55BF29D0A35000908B3E /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 865F55BA29D0A35000908B3E /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8654277429CDA5CE006E23A0 /* Project object */;
 }

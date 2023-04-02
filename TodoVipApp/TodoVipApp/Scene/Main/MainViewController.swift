@@ -68,7 +68,7 @@ class MainViewController: UIViewController, MainDisplayLogic
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
-
+    
     
     if let scene = segue.identifier {
       let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
@@ -141,7 +141,6 @@ extension MainViewController: UITableViewDataSource
 {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//    print(indexPath.row)
     router?.routeToDetail()
   }
   
