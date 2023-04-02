@@ -26,13 +26,12 @@ class DetailPresenter: DetailPresentationLogic
   func presentTodo(response: Detail.PresentTodo.Response)
   {
     typealias todo = Detail.PresentTodo.ViewModel.DisplayedTodo
-     
-   let displayTodo = todo(
-    id: response.todo.id ?? 0,
-    title: response.todo.title ?? "",
-    isDone: response.todo.isDone ?? false
-   )
     
+    let displayTodo = todo(
+      id: response.todo.id ?? 0,
+      title: response.todo.title ?? "",
+      isDone: response.todo.isDone ?? false
+    )
     
     let viewModel = Detail.PresentTodo.ViewModel(displayedTodo: displayTodo )
     viewController?.displaySomething(viewModel: viewModel)

@@ -27,8 +27,8 @@
 		865F55C829D0A40600908B3E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55C729D0A40600908B3E /* NetworkError.swift */; };
 		865F55F329D3192E00908B3E /* TodoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F229D3192E00908B3E /* TodoStorage.swift */; };
 		865F55F629D31A0600908B3E /* TodoListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F529D31A0600908B3E /* TodoListDTO.swift */; };
-		865F55F829D31EB900908B3E /* FetchRepositorty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F729D31EB900908B3E /* FetchRepositorty.swift */; };
-		865F55FA29D31F0F00908B3E /* FetchRepositorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F929D31F0F00908B3E /* FetchRepositorable.swift */; };
+		865F55F829D31EB900908B3E /* TodoRepositorty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F729D31EB900908B3E /* TodoRepositorty.swift */; };
+		865F55FA29D31F0F00908B3E /* TodoRepositorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F929D31F0F00908B3E /* TodoRepositorable.swift */; };
 		865F55FE29D31FCC00908B3E /* TodoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55FD29D31FCC00908B3E /* TodoEntity.swift */; };
 		865F560029D320CB00908B3E /* TodoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55FF29D320CB00908B3E /* TodoUseCase.swift */; };
 		865F560329D5E04100908B3E /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560229D5E04100908B3E /* Array.swift */; };
@@ -74,8 +74,8 @@
 		865F55C729D0A40600908B3E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		865F55F229D3192E00908B3E /* TodoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStorage.swift; sourceTree = "<group>"; };
 		865F55F529D31A0600908B3E /* TodoListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListDTO.swift; sourceTree = "<group>"; };
-		865F55F729D31EB900908B3E /* FetchRepositorty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRepositorty.swift; sourceTree = "<group>"; };
-		865F55F929D31F0F00908B3E /* FetchRepositorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRepositorable.swift; sourceTree = "<group>"; };
+		865F55F729D31EB900908B3E /* TodoRepositorty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepositorty.swift; sourceTree = "<group>"; };
+		865F55F929D31F0F00908B3E /* TodoRepositorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepositorable.swift; sourceTree = "<group>"; };
 		865F55FD29D31FCC00908B3E /* TodoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEntity.swift; sourceTree = "<group>"; };
 		865F55FF29D320CB00908B3E /* TodoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoUseCase.swift; sourceTree = "<group>"; };
 		865F560229D5E04100908B3E /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
@@ -204,7 +204,7 @@
 		865F55C229D0A39C00908B3E /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				865F55F729D31EB900908B3E /* FetchRepositorty.swift */,
+				865F55F729D31EB900908B3E /* TodoRepositorty.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 		865F55CB29D0AAAF00908B3E /* RepositoryInterface */ = {
 			isa = PBXGroup;
 			children = (
-				865F55F929D31F0F00908B3E /* FetchRepositorable.swift */,
+				865F55F929D31F0F00908B3E /* TodoRepositorable.swift */,
 			);
 			path = RepositoryInterface;
 			sourceTree = "<group>";
@@ -397,7 +397,7 @@
 			files = (
 				8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */,
 				865F55C829D0A40600908B3E /* NetworkError.swift in Sources */,
-				865F55F829D31EB900908B3E /* FetchRepositorty.swift in Sources */,
+				865F55F829D31EB900908B3E /* TodoRepositorty.swift in Sources */,
 				865F561029D995BB00908B3E /* DetailInteractor.swift in Sources */,
 				865F560E29D995BB00908B3E /* DetailModels.swift in Sources */,
 				865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */,
@@ -405,7 +405,7 @@
 				8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */,
 				865F55F629D31A0600908B3E /* TodoListDTO.swift in Sources */,
 				8654279C29CDA6FA006E23A0 /* MainWorker.swift in Sources */,
-				865F55FA29D31F0F00908B3E /* FetchRepositorable.swift in Sources */,
+				865F55FA29D31F0F00908B3E /* TodoRepositorable.swift in Sources */,
 				865F560D29D995BB00908B3E /* DetailRouter.swift in Sources */,
 				865F560329D5E04100908B3E /* Array.swift in Sources */,
 				865F55F329D3192E00908B3E /* TodoStorage.swift in Sources */,

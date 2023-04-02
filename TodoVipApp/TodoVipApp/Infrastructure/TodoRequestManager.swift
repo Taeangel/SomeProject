@@ -10,14 +10,20 @@ import Foundation
 enum TodoRequestManager {
   case getTodos(page: Int, orderBy: String = "desc", perPage: Int)
   case modify(id: Int, title: String, isDone: Bool)
+  case delete(id: Int)
   
+  var todoBaseURL: String {
+   return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
+  }
   
   private var baseURL: String {
     switch self {
     case .getTodos:
-      return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
-    case let .modify(id, _, _):
-      return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
+      return todoBaseURL
+    case .modify:
+      return todoBaseURL
+    case .delete:
+      return todoBaseURL
     }
   }
   
@@ -26,8 +32,10 @@ enum TodoRequestManager {
     switch self {
     case .getTodos:
       return "todos?"
-    case let .modify(id, _, _) :
+    case let .modify(id, _, _):
       return "todos/\(id)"
+    case let .delete(id):
+      return "toods/\(id)"
     }
   }
   
@@ -37,6 +45,8 @@ enum TodoRequestManager {
       return .get
     case .modify:
       return .put
+    case .delete:
+      return .delete
     }
   }
   
@@ -50,6 +60,8 @@ enum TodoRequestManager {
       return params
     case .modify:
       return nil
+    case .delete:
+      return nil
     }
   }
   
@@ -59,6 +71,8 @@ enum TodoRequestManager {
       return ["Content-Type": "application/json"]
     case .modify:
       return ["Content-Type": "application/x-www-form-urlencoded"]
+    case .delete:
+      return ["Accept": "application/json"]
     }
   }
   
@@ -68,6 +82,8 @@ enum TodoRequestManager {
       return nil
     case let .modify(_ , title, isDone):
       return encodeParameters(parameters: ["title": title, "is_done": "\(isDone)"])
+    case .delete:
+      return nil
     }
   }
   

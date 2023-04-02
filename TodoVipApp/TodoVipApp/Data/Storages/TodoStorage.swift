@@ -10,6 +10,7 @@ import Foundation
 protocol TodoStorageable: AnyObject {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws
+  func deleteTodo(id: Int) async throws
 }
 
 final class TodoStorage {
@@ -37,6 +38,13 @@ extension TodoStorage: TodoStorageable {
     } catch {
       throw NetworkError.unknown
     }
-    
+  }
+  
+  func deleteTodo(id: Int) async throws {
+    do {
+      let _ = try await todoApiManager.requestData(.delete(id: id))
+    } catch {
+      throw NetworkError.unknown
+    }
   }
 }
