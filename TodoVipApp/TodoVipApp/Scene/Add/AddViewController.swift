@@ -74,12 +74,9 @@ class AddViewController: UIViewController, AddDisplayLogic
   // MARK: Do something
   
   @IBOutlet weak var todoLabel: UITextField!
-  
   @IBOutlet weak var isDoneSwitch: UISwitch!
   
-  //@IBOutlet weak var nameTextField: UITextField!
   @IBAction func addTodoButtonDidTap(_ sender: Any) {
-    
     Task {
       try await postTodo()
     }
@@ -90,6 +87,8 @@ class AddViewController: UIViewController, AddDisplayLogic
   {
     let request = Add.PostTodo.Request(todo: TodoDTO(title: todoLabel.text!, isDone: isDoneSwitch.isOn))
     try await interactor?.postTodo(request: request)
+    
+    router!.dismiss()
   }
   
   func displaySomething(viewModel: Add.PostTodo.ViewModel)

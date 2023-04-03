@@ -14,7 +14,7 @@ import UIKit
 
 @objc protocol AddRoutingLogic
 {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func dismiss()
 }
 
 protocol AddDataPassing
@@ -29,27 +29,17 @@ class AddRouter: NSObject, AddRoutingLogic, AddDataPassing
   
   // MARK: Routing
   
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
+  func dismiss()
+  {
+    dismissModal(source: viewController!)
+  }
 
   // MARK: Navigation
   
-  //func navigateToSomewhere(source: AddViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
+  func dismissModal(source: AddViewController)
+  {
+    source.dismiss(animated: true)
+  }
   
   // MARK: Passing data
   

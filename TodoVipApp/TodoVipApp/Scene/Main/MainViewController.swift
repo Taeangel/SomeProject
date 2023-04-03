@@ -84,6 +84,7 @@ class MainViewController: UIViewController, MainDisplayLogic
     fetchTodoList()
     resizeButton()
   }
+  
   // MARK: Do something
   
   @IBOutlet weak var myTableView: UITableView!
@@ -173,7 +174,6 @@ extension MainViewController: UITableViewDelegate
         id = self?.todoList[startIndex + row].id ?? 0
       }
         self?.deleteTodo(id: id)
-        self?.fetchTodoList()
     }
     
     return UISwipeActionsConfiguration(actions: [delete])
