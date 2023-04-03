@@ -26,7 +26,6 @@ class MainViewController: UIViewController, MainDisplayLogic
   
   // MARK: - Properties
   typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
-  
   var sections: [String] = []
   var sectionsNumber: [String] = []
   var todoList: [Displayedtodo] = []
@@ -76,7 +75,6 @@ class MainViewController: UIViewController, MainDisplayLogic
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
-    
     if let scene = segue.identifier {
       let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
       if let router = router, router.responds(to: selector) {
@@ -126,11 +124,9 @@ class MainViewController: UIViewController, MainDisplayLogic
   func beginBatchFetch()
   {
     fetchingMore = true
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
       self.fetchTodoList()
       self.fetchingMore = false
-      self.myTableView.reloadData()
     })
   }
   
@@ -160,7 +156,6 @@ class MainViewController: UIViewController, MainDisplayLogic
     let request = MainScene.FetchTodoList.Request(page: page)
     Task {
       try await interactor?.fetchTodoList(request: request)
-      page += 1
     }
   }
   
@@ -176,7 +171,7 @@ class MainViewController: UIViewController, MainDisplayLogic
   
   //프리젠터에서 뷰로 화면에 그리는 것
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
-    
+    self.page += 1
     self.todoList = viewModel.displayedTodoList
     
     sections = todoList

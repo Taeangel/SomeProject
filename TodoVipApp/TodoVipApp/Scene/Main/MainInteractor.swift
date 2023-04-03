@@ -41,9 +41,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
     
-    // 데이터 전달
-    
-    
     // 데이터 보관
     let sections = todoList
       .map { "\($0.createdAt?.prefix(10) ?? "")" }
@@ -69,6 +66,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
       self.todoList += todoList
     }
     
+    // 데이터 전달
     let response = MainScene.FetchTodoList.Response(todoList: self.todoList)
     presenter?.presentTodoList(response: response)
   }

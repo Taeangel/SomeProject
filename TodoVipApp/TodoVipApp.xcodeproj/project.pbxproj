@@ -25,7 +25,6 @@
 		8655A4DC29DA892500412868 /* AddModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D629DA892500412868 /* AddModels.swift */; };
 		8655A4DD29DA892500412868 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D729DA892500412868 /* AddViewController.swift */; };
 		8655A4DE29DA892500412868 /* AddInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D829DA892500412868 /* AddInteractor.swift */; };
-		8655A4E129DAA45C00412868 /* MultipartForm in Frameworks */ = {isa = PBXBuildFile; productRef = 8655A4E029DAA45C00412868 /* MultipartForm */; };
 		8655A4E329DAA61800412868 /* TodoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E229DAA61800412868 /* TodoDTO.swift */; };
 		8655A4E529DAA93A00412868 /* Multipartform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E429DAA93A00412868 /* Multipartform.swift */; };
 		8655A4E729DAB1D800412868 /* PercentEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E629DAB1D800412868 /* PercentEncoding.swift */; };
@@ -111,7 +110,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8655A4E129DAA45C00412868 /* MultipartForm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,7 +341,6 @@
 			);
 			name = TodoVipApp;
 			packageProductDependencies = (
-				8655A4E029DAA45C00412868 /* MultipartForm */,
 			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
@@ -396,7 +393,6 @@
 			);
 			mainGroup = 8654277329CDA5CE006E23A0;
 			packageReferences = (
-				8655A4DF29DAA45B00412868 /* XCRemoteSwiftPackageReference "MultipartForm" */,
 			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
@@ -747,25 +743,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		8655A4DF29DAA45B00412868 /* XCRemoteSwiftPackageReference "MultipartForm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/davbeck/MultipartForm";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		8655A4E029DAA45C00412868 /* MultipartForm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8655A4DF29DAA45B00412868 /* XCRemoteSwiftPackageReference "MultipartForm" */;
-			productName = MultipartForm;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8654277429CDA5CE006E23A0 /* Project object */;
 }
