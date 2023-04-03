@@ -19,6 +19,15 @@
 		8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279929CDA6FA006E23A0 /* MainViewController.swift */; };
 		865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654279A29CDA6FA006E23A0 /* MainInteractor.swift */; };
 		865427A629CDA7EC006E23A0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865427A529CDA7EC006E23A0 /* Post.swift */; };
+		8655A4D929DA892500412868 /* AddPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D329DA892500412868 /* AddPresenter.swift */; };
+		8655A4DA29DA892500412868 /* AddWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D429DA892500412868 /* AddWorker.swift */; };
+		8655A4DB29DA892500412868 /* AddRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D529DA892500412868 /* AddRouter.swift */; };
+		8655A4DC29DA892500412868 /* AddModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D629DA892500412868 /* AddModels.swift */; };
+		8655A4DD29DA892500412868 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D729DA892500412868 /* AddViewController.swift */; };
+		8655A4DE29DA892500412868 /* AddInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4D829DA892500412868 /* AddInteractor.swift */; };
+		8655A4E129DAA45C00412868 /* MultipartForm in Frameworks */ = {isa = PBXBuildFile; productRef = 8655A4E029DAA45C00412868 /* MultipartForm */; };
+		8655A4E329DAA61800412868 /* TodoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E229DAA61800412868 /* TodoDTO.swift */; };
+		8655A4E529DAA93A00412868 /* Multipartform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E429DAA93A00412868 /* Multipartform.swift */; };
 		865F559229D07A7F00908B3E /* MyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 865F559129D07A7F00908B3E /* MyTableViewCell.xib */; };
 		865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F559529D07CFE00908B3E /* MyTableViewCell.swift */; };
 		865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B529D09B2800908B3E /* TodoRequestManager.swift */; };
@@ -65,6 +74,14 @@
 		8654279929CDA6FA006E23A0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8654279A29CDA6FA006E23A0 /* MainInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractor.swift; sourceTree = "<group>"; };
 		865427A529CDA7EC006E23A0 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		8655A4D329DA892500412868 /* AddPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPresenter.swift; sourceTree = "<group>"; };
+		8655A4D429DA892500412868 /* AddWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorker.swift; sourceTree = "<group>"; };
+		8655A4D529DA892500412868 /* AddRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRouter.swift; sourceTree = "<group>"; };
+		8655A4D629DA892500412868 /* AddModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddModels.swift; sourceTree = "<group>"; };
+		8655A4D729DA892500412868 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		8655A4D829DA892500412868 /* AddInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInteractor.swift; sourceTree = "<group>"; };
+		8655A4E229DAA61800412868 /* TodoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDTO.swift; sourceTree = "<group>"; };
+		8655A4E429DAA93A00412868 /* Multipartform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multipartform.swift; sourceTree = "<group>"; };
 		865F559129D07A7F00908B3E /* MyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTableViewCell.xib; sourceTree = "<group>"; };
 		865F559529D07CFE00908B3E /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 		865F559B29D08C9900908B3E /* TodoVipAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8655A4E129DAA45C00412868 /* MultipartForm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +163,7 @@
 		8654279329CDA6C1006E23A0 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				8655A4D229DA891400412868 /* Add */,
 				865F560429D995AA00908B3E /* Detail */,
 				8654279429CDA6D3006E23A0 /* Main */,
 			);
@@ -174,6 +193,19 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8655A4D229DA891400412868 /* Add */ = {
+			isa = PBXGroup;
+			children = (
+				8655A4D329DA892500412868 /* AddPresenter.swift */,
+				8655A4D429DA892500412868 /* AddWorker.swift */,
+				8655A4D529DA892500412868 /* AddRouter.swift */,
+				8655A4D629DA892500412868 /* AddModels.swift */,
+				8655A4D729DA892500412868 /* AddViewController.swift */,
+				8655A4D829DA892500412868 /* AddInteractor.swift */,
+			);
+			path = Add;
+			sourceTree = "<group>";
+		};
 		865F559C29D08C9900908B3E /* TodoVipAppTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +219,7 @@
 				865F55B529D09B2800908B3E /* TodoRequestManager.swift */,
 				865F55B829D0A23000908B3E /* HTTPMethod.swift */,
 				865F55C729D0A40600908B3E /* NetworkError.swift */,
+				8655A4E429DAA93A00412868 /* Multipartform.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -264,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				865F55F529D31A0600908B3E /* TodoListDTO.swift */,
+				8655A4E229DAA61800412868 /* TodoDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -306,6 +340,7 @@
 			);
 			name = TodoVipApp;
 			packageProductDependencies = (
+				8655A4E029DAA45C00412868 /* MultipartForm */,
 			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
@@ -358,6 +393,7 @@
 			);
 			mainGroup = 8654277329CDA5CE006E23A0;
 			packageReferences = (
+				8655A4DF29DAA45B00412868 /* XCRemoteSwiftPackageReference "MultipartForm" */,
 			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
@@ -397,11 +433,14 @@
 			files = (
 				8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */,
 				865F55C829D0A40600908B3E /* NetworkError.swift in Sources */,
+				8655A4DB29DA892500412868 /* AddRouter.swift in Sources */,
 				865F55F829D31EB900908B3E /* TodoRepositorty.swift in Sources */,
 				865F561029D995BB00908B3E /* DetailInteractor.swift in Sources */,
 				865F560E29D995BB00908B3E /* DetailModels.swift in Sources */,
 				865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */,
+				8655A4D929DA892500412868 /* AddPresenter.swift in Sources */,
 				865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */,
+				8655A4DA29DA892500412868 /* AddWorker.swift in Sources */,
 				8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */,
 				865F55F629D31A0600908B3E /* TodoListDTO.swift in Sources */,
 				8654279C29CDA6FA006E23A0 /* MainWorker.swift in Sources */,
@@ -412,12 +451,17 @@
 				865F560F29D995BB00908B3E /* DetailViewController.swift in Sources */,
 				865F55FE29D31FCC00908B3E /* TodoEntity.swift in Sources */,
 				8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */,
+				8655A4E529DAA93A00412868 /* Multipartform.swift in Sources */,
+				8655A4DE29DA892500412868 /* AddInteractor.swift in Sources */,
+				8655A4DC29DA892500412868 /* AddModels.swift in Sources */,
 				865F560C29D995BB00908B3E /* DetailWorker.swift in Sources */,
 				865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */,
 				8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */,
 				865F560B29D995BB00908B3E /* DetailPresenter.swift in Sources */,
 				865F55C629D0A3B600908B3E /* TodoApiManager.swift in Sources */,
+				8655A4DD29DA892500412868 /* AddViewController.swift in Sources */,
 				865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */,
+				8655A4E329DAA61800412868 /* TodoDTO.swift in Sources */,
 				865F560029D320CB00908B3E /* TodoUseCase.swift in Sources */,
 				8654279D29CDA6FA006E23A0 /* MainRouter.swift in Sources */,
 				8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */,
@@ -699,6 +743,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8655A4DF29DAA45B00412868 /* XCRemoteSwiftPackageReference "MultipartForm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/davbeck/MultipartForm";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8655A4E029DAA45C00412868 /* MultipartForm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8655A4DF29DAA45B00412868 /* XCRemoteSwiftPackageReference "MultipartForm" */;
+			productName = MultipartForm;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8654277429CDA5CE006E23A0 /* Project object */;
 }

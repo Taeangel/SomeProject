@@ -14,8 +14,8 @@ import UIKit
 
 protocol MainRoutingLogic: AnyObject
 {
-  
   func routeToDetail()
+  func routeAdd()
 }
 
 protocol MainDataPassing
@@ -39,6 +39,31 @@ class MainRouter: NSObject, MainRoutingLogic, MainDataPassing
     navigateToSomewhere(source: viewController!, destination: destinationVC)
   }
   
+  func routeAdd() {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let destinationVC = storyboard.instantiateViewController(withIdentifier: "AddViewController") as! AddViewController
+    navigateToAdd(source: viewController!, destination: destinationVC)
+  }
+}
+
+// MARK: - ToAddView
+
+extension MainRouter {
+  
+  // MARK: - Navigation
+  func navigateToAdd(source: MainViewController, destination: AddViewController) {
+    source.show(destination, sender: nil)
+  }
+  
+  // MARK: - Passing data
+  
+  func passDataToAdd(source: MainViewController, destination: inout AddViewController) {
+    
+  }
+}
+
+// MARK: - ToModifyView
+extension MainRouter {
   //   MARK: Navigation
   
   func navigateToSomewhere(source: MainViewController, destination: DetailViewController)

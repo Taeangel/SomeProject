@@ -24,7 +24,11 @@ extension TodoRepository: TodoRepositoriable {
     try await todoStorageable.modifyTodo(id: id, title: title, isDone: isDone)
   }
   
-  func delete(id: Int) async throws {
+  func deleteTodo(id: Int) async throws {
     try await todoStorageable.deleteTodo(id: id)
+  }
+  
+  func postTodo(todo: TodoDTO) async throws {
+    try await todoStorageable.postTodo(todo: todo)
   }
 }

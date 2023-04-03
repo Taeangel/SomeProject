@@ -6,15 +6,16 @@
 //
 
 import Foundation
+//import MultipartForm
 
 enum TodoRequestManager {
   case getTodos(page: Int, orderBy: String = "desc", perPage: Int)
   case modify(id: Int, title: String, isDone: Bool)
   case delete(id: Int)
-  case postTodo(title: String, isDone: Bool)
+  case postTodo(todo: TodoDTO)
   
   var todoBaseURL: String {
-   return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
+    return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
   }
   
   private var baseURL: String {
@@ -82,8 +83,8 @@ enum TodoRequestManager {
       return ["Content-Type": "application/x-www-form-urlencoded"]
     case .delete:
       return ["Accept": "application/json"]
-    case .postTodo:
-      return ["Accept": "application/json", "Content-Type": "multipart/form-data"]
+    case let .postTodo(todo):
+      return [ "Content-Type": "multipart/form-data; boundary=\(todo.boundary)"]
     }
   }
   
@@ -95,8 +96,13 @@ enum TodoRequestManager {
       return encodeParameters(parameters: ["title": title, "is_done": "\(isDone)"])
     case .delete:
       return nil
-    case .postTodo:
-      return nil
+    case let .postTodo(todo):
+      var multipartFormParts: [Datapart] = []
+
+      multipartFormParts.append(Datapart(name: "title", value: todo.title))
+      multipartFormParts.append(Datapart(name: "is_done", value: "\(todo.isDone)"))
+      
+      return MultipartForm(parts: multipartFormParts, boundary: todo.boundary).bodyData
     }
   }
   
@@ -139,6 +145,7 @@ enum TodoRequestManager {
     let parameterArray: [String] = parameters.map { (key, value) -> String in
       return "\(key)=\(self.percentEscapeString(value))"
     }
-     return parameterArray.joined(separator: "&").data(using: String.Encoding.utf8)
+    return parameterArray.joined(separator: "&").data(using: String.Encoding.utf8)
   }
 }
+

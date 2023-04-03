@@ -23,7 +23,6 @@ class MainViewController: UIViewController, MainDisplayLogic
   var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
   
   // MARK: - IBoutlets
-  @IBOutlet weak var myTableView: UITableView!
   
   // MARK: - Properties
   typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
@@ -83,8 +82,20 @@ class MainViewController: UIViewController, MainDisplayLogic
     super.viewDidLoad()
     configureTableView()
     fetchTodoList()
+    resizeButton()
   }
   // MARK: Do something
+  
+  @IBOutlet weak var myTableView: UITableView!
+  @IBOutlet weak var addButton: UIButton!
+  
+  private func resizeButton() {
+    let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
+           
+    let largeBoldDoc = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
+
+    addButton.setImage(largeBoldDoc, for: .normal)
+  }
   
   //뷰에서 인터렉터한테 시키는 곳
   func fetchTodoList()
