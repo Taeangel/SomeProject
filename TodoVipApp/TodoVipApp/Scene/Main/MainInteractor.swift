@@ -42,8 +42,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
     
     // 데이터 전달
-    let response = MainScene.FetchTodoList.Response(todoList: todoList)
-    presenter?.presentTodoList(response: response)
+    
     
     // 데이터 보관
     let sections = todoList
@@ -53,13 +52,25 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     let sectionsNumber = todoList
       .map { "\($0.createdAt?.prefix(10) ?? "")" }
     
-    self.sectionInfo = sections.map { standard in
-      sectionsNumber.filter { target in
-        standard == target
-      }.count
+    if request.page == 1 {
+      self.sectionInfo = sections.map { standard in
+        sectionsNumber.filter { target in
+          standard == target
+        }.count
+      }
+      self.todoList = todoList
+    } else {
+      
+      self.sectionInfo += sections.map { standard in
+        sectionsNumber.filter { target in
+          standard == target
+        }.count
+      }
+      self.todoList += todoList
     }
     
-    self.todoList = todoList
+    let response = MainScene.FetchTodoList.Response(todoList: self.todoList)
+    presenter?.presentTodoList(response: response)
   }
   
   func deleteTodo(request: MainScene.DeleteTodo.Request) async throws {

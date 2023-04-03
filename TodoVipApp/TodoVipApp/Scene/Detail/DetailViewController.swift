@@ -107,8 +107,6 @@ class DetailViewController: UIViewController, DetailDisplayLogic
         throw NetworkError.unknown
       }
     }
-    
-    
   }
   
   func displaySomething(viewModel: Detail.PresentTodo.ViewModel)

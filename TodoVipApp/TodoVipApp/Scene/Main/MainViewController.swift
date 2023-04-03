@@ -31,6 +31,9 @@ class MainViewController: UIViewController, MainDisplayLogic
   var sectionsNumber: [String] = []
   var todoList: [Displayedtodo] = []
   var sectionInfo: [Int] = []
+  let refreshControl: UIRefreshControl = UIRefreshControl()
+  var fetchingMore = false
+  var page = 1
   
   // MARK: Object lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -44,7 +47,6 @@ class MainViewController: UIViewController, MainDisplayLogic
     super.init(coder: aDecoder)
     setup()
   }
-  
   // MARK: Setup
   
   private func setup()
@@ -62,14 +64,13 @@ class MainViewController: UIViewController, MainDisplayLogic
     router.dataStore = interactor
   }
   
-  
-   private func resizeButton() {
-     let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
-     
-     let largeBoldDoc = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
-     
-     addButton.setImage(largeBoldDoc, for: .normal)
-   }
+  private func resizeButton() {
+    let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
+    
+    let largeBoldDoc = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
+    
+    addButton.setImage(largeBoldDoc, for: .normal)
+  }
   
   // MARK: Routing
   
@@ -101,6 +102,38 @@ class MainViewController: UIViewController, MainDisplayLogic
     )
   }
   
+  // MARK: 인터랙터에게 보내는 메서드
+  
+  @IBOutlet weak var myTableView: UITableView!
+  @IBOutlet weak var addButton: UIButton!
+  @IBOutlet weak var searchBar: UISearchBar!
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView)
+  {
+    let offsetY = scrollView.contentOffset.y
+    let contentHeight = scrollView.contentSize.height
+    
+    if offsetY > contentHeight - scrollView.frame.height
+    {
+      if !fetchingMore
+      {
+        beginBatchFetch()
+        
+      }
+    }
+  }
+  
+  func beginBatchFetch()
+  {
+    fetchingMore = true
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+      self.fetchTodoList()
+      self.fetchingMore = false
+      self.myTableView.reloadData()
+    })
+  }
+  
   @objc func didDismissDetailNotification(_ notification: Notification) {
     let fetchRequest = MainScene.FetchTodoList.Request()
     Task {
@@ -108,27 +141,26 @@ class MainViewController: UIViewController, MainDisplayLogic
     }
   }
   
-  // MARK: 인터랙터에게 보내는 메서드
-  
-  @IBOutlet weak var myTableView: UITableView!
-  @IBOutlet weak var addButton: UIButton!
-  @IBOutlet weak var searchBar: UISearchBar!
-  
-  
   @IBAction func SearchButtondidTap(_ sender: Any) {
-    
-    let request = MainScene.FetchSearchTodoList.Request(quary: searchBar.text!)
-    Task {
-      try await interactor?.fetchSearchTodoList(request: request)
+    if searchBar.text! == "" {
+      let request = MainScene.FetchTodoList.Request()
+      Task {
+        try await interactor?.fetchTodoList(request: request)
+      }
+    } else {
+      let request = MainScene.FetchSearchTodoList.Request(quary: searchBar.text!)
+      Task {
+        try await interactor?.fetchSearchTodoList(request: request)
+      }
     }
   }
   
-  //뷰에서 인터렉터한테 시키는 곳
   func fetchTodoList()
   {
-    let request = MainScene.FetchTodoList.Request()
+    let request = MainScene.FetchTodoList.Request(page: page)
     Task {
       try await interactor?.fetchTodoList(request: request)
+      page += 1
     }
   }
   
@@ -179,6 +211,18 @@ extension MainViewController: UITableViewDelegate
     
     self.myTableView.delegate = self
     self.myTableView.dataSource = self
+    refreshControl.addTarget(self, action: #selector(self.refreshFunction), for: .valueChanged)
+    
+    self.myTableView.refreshControl = refreshControl
+  }
+  
+  @objc func refreshFunction() {
+    self.page = 1
+    let request = MainScene.FetchTodoList.Request(page: 1)
+    Task {
+      try await interactor?.fetchTodoList(request: request)
+      refreshControl.endRefreshing()
+    }
   }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
