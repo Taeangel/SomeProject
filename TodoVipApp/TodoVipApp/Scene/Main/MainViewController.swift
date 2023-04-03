@@ -83,6 +83,20 @@ class MainViewController: UIViewController, MainDisplayLogic
     configureTableView()
     fetchTodoList()
     resizeButton()
+    
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.didDismissDetailNotification(_:)),
+      name: NSNotification.Name("ModalDismissNC"),
+      object: nil
+    )
+  }
+  
+  @objc func didDismissDetailNotification(_ notification: Notification) {
+    let fetchRequest = MainScene.FetchTodoList.Request()
+    Task {
+      try await self.interactor?.fetchTodoList(request: fetchRequest)
+    }
   }
   
   // MARK: Do something
@@ -92,9 +106,9 @@ class MainViewController: UIViewController, MainDisplayLogic
   
   private func resizeButton() {
     let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
-           
+    
     let largeBoldDoc = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
-
+    
     addButton.setImage(largeBoldDoc, for: .normal)
   }
   
@@ -110,7 +124,7 @@ class MainViewController: UIViewController, MainDisplayLogic
   func deleteTodo(id: Int) {
     let deleteRequest = MainScene.DeleteTodo.Request(id: id)
     let fetchRequest = MainScene.FetchTodoList.Request()
-
+    
     Task {
       try await interactor?.deleteTodo(request: deleteRequest)
       try await interactor?.fetchTodoList(request: fetchRequest)
@@ -157,7 +171,7 @@ extension MainViewController: UITableViewDelegate
   }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-  
+    
     let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, _) in
       guard let section = indexPath.first else { return }
       let row = indexPath.row
@@ -173,7 +187,7 @@ extension MainViewController: UITableViewDelegate
         }
         id = self?.todoList[startIndex + row].id ?? 0
       }
-        self?.deleteTodo(id: id)
+      self?.deleteTodo(id: id)
     }
     
     return UISwipeActionsConfiguration(actions: [delete])

@@ -34,8 +34,8 @@ extension URLSession: Requestable {
     let (data, response) = try await URLSession.shared.data(for: request.urlRequest)
     
     guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-     
-      throw NetworkError.unknown
+
+      throw NetworkError.badStatus(code: response.hash)
     }
     
     return data

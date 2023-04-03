@@ -80,11 +80,11 @@ enum TodoRequestManager {
     case .getTodos:
       return ["Content-Type": "application/json"]
     case .modify:
-      return ["Content-Type": "application/x-www-form-urlencoded"]
+      return ["Accept": "application/json", "Content-Type": "application/x-www-form-urlencoded"]
     case .delete:
       return ["Accept": "application/json"]
     case let .postTodo(todo):
-      return [ "Content-Type": "multipart/form-data; boundary=\(todo.boundary)"]
+      return ["Accept": "application/json", "Content-Type": "multipart/form-data; boundary=\(todo.boundary)"]
     }
   }
   

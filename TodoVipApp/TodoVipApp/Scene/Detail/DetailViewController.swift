@@ -71,6 +71,11 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   
   // MARK: View lifecycle
   
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    NotificationCenter.default.post(name: NSNotification.Name("ModalDismissNC"), object: nil, userInfo: nil)
+  }
+  
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -89,16 +94,20 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   }
   
   @IBAction func modifyButtonDidTap(_ sender: Any) {
+
     let request = Detail.ModifyTodo.Request(
       id: self.id,
       title: doWorkTextField.text ?? "",
       isDone: finishSwitch.isOn)
     
     Task {
-      try await interactor?.modifyTodo(request: request)
+      do {
+        try await interactor?.modifyTodo(request: request)
+      } catch {
+        throw NetworkError.unknown
+      }
     }
     
-    router!.dismiss()
     
   }
   
@@ -108,6 +117,4 @@ class DetailViewController: UIViewController, DetailDisplayLogic
     self.finishSwitch.isOn = viewModel.displayedTodo.isDone
     self.id = viewModel.displayedTodo.id
   }
-  
-  
 }

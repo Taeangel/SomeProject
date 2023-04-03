@@ -66,6 +66,11 @@ class AddViewController: UIViewController, AddDisplayLogic
   
   // MARK: View lifecycle
   
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    NotificationCenter.default.post(name: NSNotification.Name("ModalDismissNC"), object: nil, userInfo: nil)
+  }
+  
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -76,24 +81,25 @@ class AddViewController: UIViewController, AddDisplayLogic
   @IBOutlet weak var todoLabel: UITextField!
   @IBOutlet weak var isDoneSwitch: UISwitch!
   
-  @IBAction func addTodoButtonDidTap(_ sender: Any) {
+  @IBAction func addTodo(_ sender: Any) {
+    
     Task {
       try await postTodo()
     }
   }
-  
-  
+
   func postTodo() async throws
   {
     let request = Add.PostTodo.Request(todo: TodoDTO(title: todoLabel.text!, isDone: isDoneSwitch.isOn))
     try await interactor?.postTodo(request: request)
-    
-    router!.dismiss()
   }
   
   func displaySomething(viewModel: Add.PostTodo.ViewModel)
   {
-    todoLabel.text = viewModel.title
-    isDoneSwitch.isOn = viewModel.isDone
+    DispatchQueue.main.async {
+      self.todoLabel.text = viewModel.title
+      self.isDoneSwitch.isOn = viewModel.isDone
+    }
+    
   }
 }
