@@ -12,4 +12,5 @@ protocol TodoRepositoriable {
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws
   func deleteTodo(id: Int) async throws
   func postTodo(todo: TodoDTO) async throws
+  func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> TodoListDTO
 }

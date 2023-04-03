@@ -39,31 +39,49 @@
                                     <segue destination="YVJ-6Q-Ke1" kind="presentation" id="CWl-If-kpx"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="bz7-pF-CKd">
-                                <rect key="frame" x="0.0" y="59" width="393" height="56"/>
+                            <searchBar contentMode="redraw" text="" placeholder="할일을 검색하세요" translatesAutoresizingMaskIntoConstraints="NO" id="bz7-pF-CKd">
+                                <rect key="frame" x="0.0" y="59" width="299.66666666666669" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="b4R-Hh-PiT"/>
                                 </connections>
                             </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JJu-sm-2M5">
+                                <rect key="frame" x="307.66666666666669" y="69" width="77.333333333333314" height="35"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" systemColor="systemBackgroundColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Search"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="SearchButtondidTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U7y-h5-JnP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JJu-sm-2M5" secondAttribute="trailing" constant="8" id="1tw-G2-jyt"/>
+                            <constraint firstItem="JJu-sm-2M5" firstAttribute="leading" secondItem="bz7-pF-CKd" secondAttribute="trailing" constant="8" id="2vT-p7-vsM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4ld-Qj-COh" secondAttribute="trailing" constant="50" id="4mH-Mp-2Ew"/>
                             <constraint firstItem="bz7-pF-CKd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7Bx-QL-JYQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WMH-iD-wij" secondAttribute="bottom" id="7bB-hg-Pty"/>
                             <constraint firstItem="bz7-pF-CKd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="8fK-Bq-PMv"/>
                             <constraint firstItem="WMH-iD-wij" firstAttribute="top" secondItem="bz7-pF-CKd" secondAttribute="bottom" constant="2" id="DKf-vA-Vdj"/>
                             <constraint firstAttribute="bottom" secondItem="4ld-Qj-COh" secondAttribute="bottom" constant="50" id="QVd-HU-Umx"/>
+                            <constraint firstItem="JJu-sm-2M5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="Wpn-2O-ygY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WMH-iD-wij" secondAttribute="trailing" id="ld8-5P-fdz"/>
-                            <constraint firstItem="bz7-pF-CKd" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yL6-0R-JiW"/>
                             <constraint firstItem="WMH-iD-wij" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="yWv-gR-qoX"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="addButton" destination="4ld-Qj-COh" id="Ui1-xe-F7L"/>
                         <outlet property="myTableView" destination="WMH-iD-wij" id="FxN-Pv-26k"/>
+                        <outlet property="searchBar" destination="bz7-pF-CKd" id="J4X-qf-WN2"/>
                         <segue destination="D1c-Aa-S1l" kind="presentation" identifier="showDetail" id="mMw-Ov-x0v"/>
                     </connections>
                 </viewController>

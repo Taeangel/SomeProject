@@ -62,6 +62,15 @@ class MainViewController: UIViewController, MainDisplayLogic
     router.dataStore = interactor
   }
   
+  
+   private func resizeButton() {
+     let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
+     
+     let largeBoldDoc = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
+     
+     addButton.setImage(largeBoldDoc, for: .normal)
+   }
+  
   // MARK: Routing
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -99,17 +108,19 @@ class MainViewController: UIViewController, MainDisplayLogic
     }
   }
   
-  // MARK: Do something
+  // MARK: 인터랙터에게 보내는 메서드
   
   @IBOutlet weak var myTableView: UITableView!
   @IBOutlet weak var addButton: UIButton!
+  @IBOutlet weak var searchBar: UISearchBar!
   
-  private func resizeButton() {
-    let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
+  
+  @IBAction func SearchButtondidTap(_ sender: Any) {
     
-    let largeBoldDoc = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
-    
-    addButton.setImage(largeBoldDoc, for: .normal)
+    let request = MainScene.FetchSearchTodoList.Request(quary: searchBar.text!)
+    Task {
+      try await interactor?.fetchSearchTodoList(request: request)
+    }
   }
   
   //뷰에서 인터렉터한테 시키는 곳

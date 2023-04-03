@@ -16,6 +16,7 @@ protocol MainBusinessLogic
 {
   func fetchTodoList(request: MainScene.FetchTodoList.Request) async throws
   func deleteTodo(request: MainScene.DeleteTodo.Request) async throws
+  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) async throws
 }
 
 protocol MainDataStore
@@ -64,5 +65,30 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   func deleteTodo(request: MainScene.DeleteTodo.Request) async throws {
     worker = MainWorker()
     try await worker?.deleteTodo(id: request.id)
+  }
+  
+  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) async throws {
+    worker = MainWorker()
+    guard let todoList = try await worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary) else {
+      return
+    }
+    
+    let response = MainScene.FetchSearchTodoList.Response(todoList: todoList)
+    presenter?.presentTodoList(response: response)
+    
+    // 데이터 보관
+    let sections = todoList
+      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+      .removeDuplicates()
+
+    let sectionsNumber = todoList
+      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+    
+    self.sectionInfo = sections.map { standard in
+      sectionsNumber.filter { target in
+        standard == target
+      }.count
+    }
+    self.todoList = todoList
   }
 }

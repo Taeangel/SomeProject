@@ -26,6 +26,14 @@ class MainWorker: TodoWorkerUsecase
   func deleteTodo(id: Int) async throws {
     try await todoUsecase.deleteTodo(id: id)
   }
+  
+  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> [TodoEntity] {
+    guard let todoListDTO = try await todoUsecase.fetchSearchTodoList(page: page, perPage: perPage, query: query).data else {
+      return []
+    }
+    
+    return todoListDTO.map { TodoEntity.init(datunm: $0) }
+  }
 }
 
 protocol ApiManagerProtocol {}

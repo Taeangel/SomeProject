@@ -12,6 +12,7 @@ protocol TodoStorageable: AnyObject {
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws
   func deleteTodo(id: Int) async throws
   func postTodo(todo: TodoDTO) async throws
+  func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> TodoListDTO
 }
 
 final class TodoStorage {
@@ -54,6 +55,16 @@ extension TodoStorage: TodoStorageable {
       let _ = try await todoApiManager.requestData(.postTodo(todo: todo))
     } catch {
       throw NetworkError.unknown
+    }
+  }
+  
+  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
+    let data = try await todoApiManager.requestData(.getSearchTodos(page: page, query: query, perPage: perPage))
+    
+    do {
+      return try JSONDecoder().decode(TodoListDTO.self, from: data)
+    } catch {
+      throw  NetworkError.decoding
     }
   }
 }
