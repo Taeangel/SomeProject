@@ -31,7 +31,7 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
   var worker: DetailWorker?
   
   init() {
-    let datum = Datum(id: nil, title: nil, isDone: nil, createdAt: nil, updatedAt: nil)
+    let datum = Datum(id: nil, title: nil, isDone: nil, updatedAt: nil)
     self.todo = TodoEntity(datunm: datum)
   }
   

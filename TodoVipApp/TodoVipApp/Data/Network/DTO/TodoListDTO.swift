@@ -19,12 +19,11 @@ struct Datum: Codable {
   let id: Int?
   let title: String?
   let isDone: Bool?
-  let createdAt, updatedAt: String?
+  let updatedAt: String?
   
   enum CodingKeys: String, CodingKey {
     case id, title
     case isDone = "is_done"
-    case createdAt = "created_at"
     case updatedAt = "updated_at"
   }
 }

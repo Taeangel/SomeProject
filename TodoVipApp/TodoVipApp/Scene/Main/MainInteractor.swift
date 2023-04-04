@@ -43,11 +43,11 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     
     // 데이터 보관
     let sections = todoList
-      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
       .removeDuplicates()
 
     let sectionsNumber = todoList
-      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
     
     if request.page == 1 {
       self.sectionInfo = sections.map { standard in
@@ -87,11 +87,11 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     
     // 데이터 보관
     let sections = todoList
-      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
       .removeDuplicates()
 
     let sectionsNumber = todoList
-      .map { "\($0.createdAt?.prefix(10) ?? "")" }
+      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
     
     self.sectionInfo = sections.map { standard in
       sectionsNumber.filter { target in

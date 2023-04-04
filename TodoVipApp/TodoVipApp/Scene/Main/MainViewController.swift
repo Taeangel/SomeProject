@@ -104,8 +104,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   @IBOutlet weak var myTableView: UITableView!
   @IBOutlet weak var addButton: UIButton!
-  @IBOutlet weak var searchBar: UISearchBar!
+  @IBOutlet weak var searchBar: UITextField!
   
+  @IBOutlet weak var searchBarView: UIView!
   func scrollViewDidScroll(_ scrollView: UIScrollView)
   {
     let offsetY = scrollView.contentOffset.y
@@ -180,11 +181,11 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.todoList = viewModel.displayedTodoList
     
     sections = todoList
-      .map { $0.createdDate }
+      .map { $0.updatedDate }
       .removeDuplicates()
     
     sectionsNumber = todoList
-      .map { $0.createdDate }
+      .map { $0.updatedDate }
     
     sectionInfo = sections.map { standard in
       sectionsNumber.filter { target in
@@ -203,18 +204,21 @@ extension MainViewController: UITableViewDelegate
   private func configureTableView()
   {
     let myTableViewCellNib = UINib(nibName: String(describing: MyTableViewCell.self), bundle: nil)
-    
     self.myTableView.register(myTableViewCellNib, forCellReuseIdentifier: "MyTableViewCell")
-    
     self.myTableView.rowHeight = UITableView.automaticDimension
     self.myTableView.estimatedRowHeight = 120
-    
     self.myTableView.delegate = self
     self.myTableView.dataSource = self
     refreshControl.addTarget(self, action: #selector(self.refreshFunction), for: .valueChanged)
-    
-    
     self.myTableView.refreshControl = refreshControl
+    
+    self.view.backgroundColor = UIColor.theme.backgroundColor
+    self.searchBar.clipsToBounds = true
+    self.searchBar.layer.cornerRadius = 15
+    self.searchBar.layer.borderWidth = 1
+    self.searchBar.layer.borderColor = UIColor.theme.boardColor?.cgColor
+    self.searchBar.addLeftPadding()
+    self.searchBar.addleftimage(image: UIImage.theme.magnifyingglass?.withTintColor(.gray) ?? UIImage())
   }
   
   @objc func refreshFunction() {

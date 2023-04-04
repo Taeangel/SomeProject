@@ -32,25 +32,25 @@ class MainPresenter: MainPresentationLogic
     
     let displayedTodoList = response.todoList.map { todoEntity -> DisplayedTodoList in
       
-      guard let findDateT = todoEntity.createdAt?.firstIndex(of: "T"),
-            let findDateDot = todoEntity.createdAt?.firstIndex(of: ".") else {
-        return DisplayedTodoList(id: 0, title: "", isDone: false, createdTime: "", createdDate: "")
+      guard let findDateT = todoEntity.updatedAt?.firstIndex(of: "T"),
+            let findDateDot = todoEntity.updatedAt?.firstIndex(of: ".") else {
+        return DisplayedTodoList(id: 0, title: "", isDone: false, updatedTime: "", updatedDate: "")
       }
       
-      guard var createdDate = todoEntity.createdAt?[...findDateT],
-            var createdTime = todoEntity.createdAt?[findDateT...findDateDot] else {
-        return DisplayedTodoList(id: 0, title: "", isDone: false, createdTime: "", createdDate: "")
+      guard var updatedDate = todoEntity.updatedAt?[...findDateT],
+            var updatedTime = todoEntity.updatedAt?[findDateT...findDateDot] else {
+        return DisplayedTodoList(id: 0, title: "", isDone: false, updatedTime: "", updatedDate: "")
       }
       
-      createdDate.removeLast()
-      createdTime.removeFirst()
+      updatedDate.removeLast()
+      updatedTime.removeFirst()
       
       return  DisplayedTodoList(
         id: todoEntity.id ?? 1,
         title: todoEntity.title ?? "",
         isDone: todoEntity.isDone ?? false,
-        createdTime: "\(createdTime.prefix(5))",
-        createdDate: "\(createdDate)"
+        updatedTime: "\(updatedTime.prefix(5))",
+        updatedDate: "\(updatedDate)"
       )
     }
     

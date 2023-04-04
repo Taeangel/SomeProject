@@ -74,8 +74,8 @@ enum MainScene
         let id: Int
         let title: String
         let isDone: Bool
-        let createdTime: String
-        let createdDate: String
+        let updatedTime: String
+        let updatedDate: String
       }
       
       var displayedTodoList: [DisplayedTodo]

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Array where Element: Hashable {
   func removeDuplicates() -> [Element] {

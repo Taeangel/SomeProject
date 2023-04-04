@@ -26,7 +26,7 @@ class MyTableViewCell: UITableViewCell {
   func configureCell(todo: MainScene.FetchTodoList.ViewModel.DisplayedTodo)
   {
     self.contentLabel.text = todo.title
-    self.dateLabel.text = "\(todo.createdDate)"
+    self.dateLabel.text = "\(todo.updatedDate)"
     
     if todo.isDone == false {
       doneButton.setImage(UIImage(systemName: "square"), for: .normal)

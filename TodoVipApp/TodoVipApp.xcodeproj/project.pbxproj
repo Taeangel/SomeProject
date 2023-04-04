@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		864073F129DC688D00264436 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F029DC688D00264436 /* UIColor.swift */; };
+		864073F329DC689600264436 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F229DC689600264436 /* UITextField.swift */; };
+		864073F529DC698200264436 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F429DC698200264436 /* UIImage.swift */; };
 		8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654277F29CDA5CE006E23A0 /* AppDelegate.swift */; };
 		8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654278129CDA5CE006E23A0 /* SceneDelegate.swift */; };
 		8654278729CDA5CE006E23A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8654278529CDA5CE006E23A0 /* Main.storyboard */; };
@@ -61,6 +64,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		864073F029DC688D00264436 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		864073F229DC689600264436 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		864073F429DC698200264436 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8654277C29CDA5CE006E23A0 /* TodoVipApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoVipApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8654277F29CDA5CE006E23A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8654278129CDA5CE006E23A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -318,6 +324,9 @@
 			isa = PBXGroup;
 			children = (
 				865F560229D5E04100908B3E /* Array.swift */,
+				864073F029DC688D00264436 /* UIColor.swift */,
+				864073F229DC689600264436 /* UITextField.swift */,
+				864073F429DC698200264436 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -442,10 +451,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */,
+				864073F529DC698200264436 /* UIImage.swift in Sources */,
 				865F55C829D0A40600908B3E /* NetworkError.swift in Sources */,
 				8655A4DB29DA892500412868 /* AddRouter.swift in Sources */,
 				865F55F829D31EB900908B3E /* TodoRepositorty.swift in Sources */,
 				8655A4E729DAB1D800412868 /* PercentEncoding.swift in Sources */,
+				864073F329DC689600264436 /* UITextField.swift in Sources */,
 				865F561029D995BB00908B3E /* DetailInteractor.swift in Sources */,
 				865F560E29D995BB00908B3E /* DetailModels.swift in Sources */,
 				865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */,
@@ -468,6 +479,7 @@
 				865F560C29D995BB00908B3E /* DetailWorker.swift in Sources */,
 				865427A029CDA6FA006E23A0 /* MainInteractor.swift in Sources */,
 				8654279E29CDA6FA006E23A0 /* MainModels.swift in Sources */,
+				864073F129DC688D00264436 /* UIColor.swift in Sources */,
 				865F560B29D995BB00908B3E /* DetailPresenter.swift in Sources */,
 				865F55C629D0A3B600908B3E /* TodoApiManager.swift in Sources */,
 				8655A4DD29DA892500412868 /* AddViewController.swift in Sources */,
