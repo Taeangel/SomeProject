@@ -17,7 +17,7 @@ protocol MainDisplayLogic: AnyObject
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
 }
 
-class MainViewController: UIViewController, MainDisplayLogic
+class MainViewController: UIViewController, MainDisplayLogic, Alertable
 {
   var interactor: MainBusinessLogic?
   var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
@@ -155,7 +155,12 @@ class MainViewController: UIViewController, MainDisplayLogic
   {
     let request = MainScene.FetchTodoList.Request(page: page)
     Task {
-      try await interactor?.fetchTodoList(request: request)
+      do {
+        try await interactor?.fetchTodoList(request: request)
+      } catch {
+        self.showErrorAlertWithConfirmButton(error.localizedDescription)
+      }
+      
     }
   }
   
@@ -208,6 +213,7 @@ extension MainViewController: UITableViewDelegate
     self.myTableView.dataSource = self
     refreshControl.addTarget(self, action: #selector(self.refreshFunction), for: .valueChanged)
     
+    
     self.myTableView.refreshControl = refreshControl
   }
   
@@ -242,6 +248,12 @@ extension MainViewController: UITableViewDelegate
     
     return UISwipeActionsConfiguration(actions: [delete])
   }
+  
+  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+  {
+  let header = view as! UITableViewHeaderFooterView
+    header.textLabel?.textColor = .black
+  }
 }
 
 extension MainViewController: UITableViewDataSource
@@ -252,6 +264,7 @@ extension MainViewController: UITableViewDataSource
   }
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+     
     return sections[section]
   }
   

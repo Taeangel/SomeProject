@@ -28,6 +28,7 @@
 		8655A4E329DAA61800412868 /* TodoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E229DAA61800412868 /* TodoDTO.swift */; };
 		8655A4E529DAA93A00412868 /* Multipartform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E429DAA93A00412868 /* Multipartform.swift */; };
 		8655A4E729DAB1D800412868 /* PercentEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4E629DAB1D800412868 /* PercentEncoding.swift */; };
+		8655A4EC29DC195100412868 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8655A4EB29DC195100412868 /* AlertBuilder.swift */; };
 		865F559229D07A7F00908B3E /* MyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 865F559129D07A7F00908B3E /* MyTableViewCell.xib */; };
 		865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F559529D07CFE00908B3E /* MyTableViewCell.swift */; };
 		865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B529D09B2800908B3E /* TodoRequestManager.swift */; };
@@ -83,6 +84,7 @@
 		8655A4E229DAA61800412868 /* TodoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDTO.swift; sourceTree = "<group>"; };
 		8655A4E429DAA93A00412868 /* Multipartform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multipartform.swift; sourceTree = "<group>"; };
 		8655A4E629DAB1D800412868 /* PercentEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentEncoding.swift; sourceTree = "<group>"; };
+		8655A4EB29DC195100412868 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		865F559129D07A7F00908B3E /* MyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTableViewCell.xib; sourceTree = "<group>"; };
 		865F559529D07CFE00908B3E /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 		865F559B29D08C9900908B3E /* TodoVipAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,6 +148,7 @@
 			children = (
 				8654277F29CDA5CE006E23A0 /* AppDelegate.swift */,
 				8654278129CDA5CE006E23A0 /* SceneDelegate.swift */,
+				8655A4E929DC193B00412868 /* Utils */,
 				865F560129D5E02700908B3E /* Extension */,
 				865427A429CDA7DE006E23A0 /* Model */,
 				8654279329CDA6C1006E23A0 /* Scene */,
@@ -204,6 +207,14 @@
 				8655A4D529DA892500412868 /* AddRouter.swift */,
 			);
 			path = Add;
+			sourceTree = "<group>";
+		};
+		8655A4E929DC193B00412868 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8655A4EB29DC195100412868 /* AlertBuilder.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		865F559C29D08C9900908B3E /* TodoVipAppTests */ = {
@@ -463,6 +474,7 @@
 				865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */,
 				8655A4E329DAA61800412868 /* TodoDTO.swift in Sources */,
 				865F560029D320CB00908B3E /* TodoUseCase.swift in Sources */,
+				8655A4EC29DC195100412868 /* AlertBuilder.swift in Sources */,
 				8654279D29CDA6FA006E23A0 /* MainRouter.swift in Sources */,
 				8654279F29CDA6FA006E23A0 /* MainViewController.swift in Sources */,
 				865427A629CDA7EC006E23A0 /* Post.swift in Sources */,

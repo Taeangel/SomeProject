@@ -30,32 +30,21 @@ extension TodoStorage: TodoStorageable {
     do {
       return try JSONDecoder().decode(TodoListDTO.self, from: data)
     } catch {
-      throw  NetworkError.decoding
+      
+      throw NetworkError.decoding
     }
   }
   
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws {
-    do {
-      let _ = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
-    } catch {
-      throw NetworkError.unknown
-    }
+    let _ = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
   }
   
   func deleteTodo(id: Int) async throws {
-    do {
-      let _ = try await todoApiManager.requestData(.delete(id: id))
-    } catch {
-      throw NetworkError.unknown
-    }
+    let _ = try await todoApiManager.requestData(.delete(id: id))
   }
   
   func postTodo(todo: TodoDTO) async throws {
-    do {
-      let _ = try await todoApiManager.requestData(.postTodo(todo: todo))
-    } catch {
-      throw NetworkError.unknown
-    }
+    let _ = try await todoApiManager.requestData(.postTodo(todo: todo))
   }
   
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
@@ -64,7 +53,7 @@ extension TodoStorage: TodoStorageable {
     do {
       return try JSONDecoder().decode(TodoListDTO.self, from: data)
     } catch {
-      throw  NetworkError.decoding
+      throw NetworkError.decoding
     }
   }
 }

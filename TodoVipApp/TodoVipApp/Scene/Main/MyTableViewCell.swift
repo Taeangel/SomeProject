@@ -29,9 +29,9 @@ class MyTableViewCell: UITableViewCell {
     self.dateLabel.text = "\(todo.createdDate)"
     
     if todo.isDone == false {
-      
+      doneButton.setImage(UIImage(systemName: "square"), for: .normal)
     } else {
-      
+      doneButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
       contentLabel.textColor = .gray
       dateLabel.textColor = .gray
     }
