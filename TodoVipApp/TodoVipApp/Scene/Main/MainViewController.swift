@@ -151,8 +151,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       .store(in: &cancellables)
   }
   
- 
-  
   // MARK: 인터랙터에게 보내는 메서드
   
   private func searchTodos(_ todo: String) {
@@ -197,7 +195,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   // MARK: - 프리젠터에서 뷰로 보내진
 
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
-    self.page += viewModel.page + 1
+    self.page += viewModel.page
     self.todoList = viewModel.displayedTodoList
     self.sections = viewModel.sections
     
@@ -207,7 +205,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   func updatePage(viewModel: UpdateViewModelPage) {
-    
+    self.page = viewModel.page
   }
 }
 
@@ -217,7 +215,7 @@ extension MainViewController: UITableViewDelegate
 {
   @objc func refreshFunction() {
     self.page = 1
-    let request = MainScene.FetchTodoList.Request(page: 1)
+    let request = MainScene.FetchTodoList.Request(page: self.page)
     interactor?.fetchTodoList(request: request)
     refreshControl.endRefreshing()
   }
@@ -282,8 +280,10 @@ extension MainViewController: UITableViewDataSource
       var asd = todo.isDone
       asd.toggle()
       let request = MainScene.CheckBoxTodo.Request(id: todo.id, title: todo.title, isDone: asd)
+      
       self?.interactor?.checkTodo(request: request)
-//      self?.resetTodoList()
+      self?.interactor?.fetchTodoList(request: MainScene.FetchTodoList.Request(page: 1))
+     
     }
     
     return cell

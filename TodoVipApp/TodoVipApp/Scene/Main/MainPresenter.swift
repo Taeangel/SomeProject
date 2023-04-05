@@ -60,7 +60,9 @@ class MainPresenter: MainPresentationLogic
     groupedTodoList.keys.sorted().forEach { sections.append($0) }
     sections.reverse()
     
-    let viewModel = MainScene.FetchTodoList.ViewModel(page: response.page, displayedTodoList: groupedTodoList, sections: sections)
+    let nowPage = response.page
+    
+    let viewModel = MainScene.FetchTodoList.ViewModel(page: nowPage + 1, displayedTodoList: groupedTodoList, sections: sections)
     
     viewController?.displayTodoList(viewModel: viewModel)
   }
