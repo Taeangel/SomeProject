@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import Combine
 
 protocol MainDisplayLogic: AnyObject
 {
@@ -26,11 +27,13 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   // MARK: - Properties
   typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
-  var sections: [String] = []
-  var todoList: [String: [Displayedtodo]] = [:]
-  let refreshControl: UIRefreshControl = UIRefreshControl()
-  var fetchingMore = false
-  var page = 1
+  private var sections: [String] = []
+  private var todoList: [String: [Displayedtodo]] = [:]
+  private let refreshControl: UIRefreshControl = UIRefreshControl()
+  private var fetchingMore = false
+  private var page = 1
+  private var cancellables = Set<AnyCancellable>()
+  private var searchText = CurrentValueSubject<String, Never>("")
   
   // MARK: Object lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -81,6 +84,26 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     configureTableView()
     fetchTodoList()
     configureView()
+    addSubscription()
+  }
+  
+  // MARK: - addSubscriptionn
+  
+  private func addSubscription() {
+    searchBar.textPublisher()
+      .sink { [weak self] in self?.searchTodos($0)}
+      .store(in: &cancellables)
+  }
+  
+  private func searchTodos(_ todo: String) {
+    if todo == "" {
+      let request = MainScene.FetchTodoList.Request()
+      interactor?.fetchTodoList(request: request)
+      
+    } else {
+      let request = MainScene.FetchSearchTodoList.Request(quary: todo)
+      interactor?.fetchSearchTodoList(request: request)
+    }
   }
   
   // MARK: 인터랙터에게 보내는 메서드
@@ -132,44 +155,23 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   @objc func didDismissDetailNotification(_ notification: Notification) {
     let fetchRequest = MainScene.FetchTodoList.Request()
-    Task {
-      try await self.interactor?.fetchTodoList(request: fetchRequest)
-    }
-  }
-  
-  @IBAction func searchButtondidTap(_ sender: Any) {
-    if searchBar.text! == "" {
-      let request = MainScene.FetchTodoList.Request()
-      Task {
-        try await interactor?.fetchTodoList(request: request)
-      }
-    } else {
-      let request = MainScene.FetchSearchTodoList.Request(quary: searchBar.text!)
-      Task {
-        try await interactor?.fetchSearchTodoList(request: request)
-      }
-    }
+    
+    self.interactor?.fetchTodoList(request: fetchRequest)
+    
   }
   
   func fetchTodoList()
   {
     let request = MainScene.FetchTodoList.Request(page: page)
-    Task {
-      do {
-        try await interactor?.fetchTodoList(request: request)
-      } catch {
-        self.showErrorAlertWithConfirmButton(error.localizedDescription)
-      }
-    }
+    interactor?.fetchTodoList(request: request)
   }
   
   func deleteTodo(id: Int) {
     let deleteRequest = MainScene.DeleteTodo.Request(id: id)
     let fetchRequest = MainScene.FetchTodoList.Request()
-    Task {
-      try await interactor?.deleteTodo(request: deleteRequest)
-      try await interactor?.fetchTodoList(request: fetchRequest)
-    }
+    interactor?.deleteTodo(request: deleteRequest)
+    interactor?.fetchTodoList(request: fetchRequest)
+    //매끄럽게 잘안된다
   }
   
   //프리젠터에서 뷰로 화면에 그리는 것
@@ -178,18 +180,18 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.todoList = viewModel.displayedTodoList
     self.sections = viewModel.sections
     
-//    sections = todoList
-//      .map { $0.updatedDate }
-//      .removeDuplicates()
-//
-//    sectionsNumber = todoList
-//      .map { $0.updatedDate }
-//
-//    sectionInfo = sections.map { standard in
-//      sectionsNumber.filter { target in
-//        standard == target
-//      }.count
-//    }
+    //    sections = todoList
+    //      .map { $0.updatedDate }
+    //      .removeDuplicates()
+    //
+    //    sectionsNumber = todoList
+    //      .map { $0.updatedDate }
+    //
+    //    sectionInfo = sections.map { standard in
+    //      sectionsNumber.filter { target in
+    //        standard == target
+    //      }.count
+    //    }
     
     DispatchQueue.main.async {
       self.myTableView.reloadData()
@@ -214,35 +216,33 @@ extension MainViewController: UITableViewDelegate
   @objc func refreshFunction() {
     self.page = 1
     let request = MainScene.FetchTodoList.Request(page: 1)
-    Task {
-      try await interactor?.fetchTodoList(request: request)
-      refreshControl.endRefreshing()
-    }
+    interactor?.fetchTodoList(request: request)
+    refreshControl.endRefreshing()
   }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     
     let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, _) in
-
+      
       guard let date = self?.sections[indexPath.section] else { return }
       guard let todos = self?.todoList[date] else { return }
       self?.deleteTodo(id: todos[indexPath.row].id)
       
-//      guard let section = indexPath.first else { return }
-//      let row = indexPath.row
-//      let id: Int
-//
-//      if section == 0 {
-//        id = self?.todoList[row].id ?? 0
-//      } else {
-//        var startIndex = 0
-//
-//        for i in 0...indexPath.section - 1 {
-//          startIndex += self?.sectionInfo[i] ?? 0
-//        }
-//        id = self?.todoList[startIndex + row].id ?? 0
-//      }
-//      self?.deleteTodo(id: id)
+      //      guard let section = indexPath.first else { return }
+      //      let row = indexPath.row
+      //      let id: Int
+      //
+      //      if section == 0 {
+      //        id = self?.todoList[row].id ?? 0
+      //      } else {
+      //        var startIndex = 0
+      //
+      //        for i in 0...indexPath.section - 1 {
+      //          startIndex += self?.sectionInfo[i] ?? 0
+      //        }
+      //        id = self?.todoList[startIndex + row].id ?? 0
+      //      }
+      //      self?.deleteTodo(id: id)
     }
     
     return UISwipeActionsConfiguration(actions: [delete])
@@ -250,7 +250,7 @@ extension MainViewController: UITableViewDelegate
   
   func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
   {
-  let header = view as! UITableViewHeaderFooterView
+    let header = view as! UITableViewHeaderFooterView
     header.textLabel?.textColor = .black
   }
 }
@@ -266,7 +266,7 @@ extension MainViewController: UITableViewDataSource
   }
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-
+    
     return sections[section]
   }
   
@@ -275,7 +275,7 @@ extension MainViewController: UITableViewDataSource
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//    return sectionsNumber.filter { $0 == sections[section] }.count
+    //    return sectionsNumber.filter { $0 == sections[section] }.count
     guard let sectionsCount = todoList[sections[section]]?.count else {
       return 0
     }
@@ -291,21 +291,22 @@ extension MainViewController: UITableViewDataSource
     let date = sections[indexPath.section]
     guard let todos = todoList[date] else { return cell }
     cell.configureCell(todo: todos[indexPath.row])
-
+    
     return cell
     
-//    if indexPath.section == 0 {
-//      cell.configureCell(todo: todoList[indexPath.row])
-//      return cell
-//    } else {
-//      var startIndex = 0
-//
-//      for i in 0...indexPath.section - 1 {
-//        startIndex += sectionInfo[i]
-//      }
-//
-//      cell.configureCell(todo: todoList[startIndex + indexPath.row])
-//      return cell
-//    }
+    //    if indexPath.section == 0 {
+    //      cell.configureCell(todo: todoList[indexPath.row])
+    //      return cell
+    //    } else {
+    //      var startIndex = 0
+    //
+    //      for i in 0...indexPath.section - 1 {
+    //        startIndex += sectionInfo[i]
+    //      }
+    //
+    //      cell.configureCell(todo: todoList[startIndex + indexPath.row])
+    //      return cell
+    //    }
   }
 }
+

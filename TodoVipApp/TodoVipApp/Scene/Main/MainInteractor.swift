@@ -14,9 +14,9 @@ import UIKit
 
 protocol MainBusinessLogic
 {
-  func fetchTodoList(request: MainScene.FetchTodoList.Request) async throws
-  func deleteTodo(request: MainScene.DeleteTodo.Request) async throws
-  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) async throws
+  func fetchTodoList(request: MainScene.FetchTodoList.Request)
+  func deleteTodo(request: MainScene.DeleteTodo.Request)
+  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request)
 }
 
 protocol MainDataStore
@@ -39,9 +39,13 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   
   // 뷰에서 인터렉터한테 시키는 메서드
   
-  func fetchTodoList(request: MainScene.FetchTodoList.Request) async throws {
+  func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
     worker = MainWorker()
-    guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
+    Task{
+      guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
+      let response = MainScene.FetchTodoList.Response(todoList: todoList)
+      presenter?.presentTodoList(response: response)
+    }
     
 //     데이터 보관
 //    let sections = todoList
@@ -69,23 +73,28 @@ class MainInteractor: MainBusinessLogic, MainDataStore
 //    }
 //
 //     데이터 전달
-    let response = MainScene.FetchTodoList.Response(todoList: todoList)
-    presenter?.presentTodoList(response: response)
+   
   }
   
-  func deleteTodo(request: MainScene.DeleteTodo.Request) async throws {
+  func deleteTodo(request: MainScene.DeleteTodo.Request)  {
     worker = MainWorker()
-    try await worker?.deleteTodo(id: request.id)
-  }
-  
-  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) async throws {
-    worker = MainWorker()
-    guard let todoList = try await worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary) else {
-      return
+    Task {
+      try await worker?.deleteTodo(id: request.id)
     }
+  }
+  
+  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) {
+    worker = MainWorker()
     
-    let response = MainScene.FetchSearchTodoList.Response(todoList: todoList)
-    presenter?.presentTodoList(response: response)
+    Task {
+      guard let todoList = try await worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary) else {
+        return
+      }
+      
+      let response = MainScene.FetchSearchTodoList.Response(todoList: todoList)
+      presenter?.presentTodoList(response: response)
+    }
+   
     
     // 데이터 보관
 //    let sections = todoList
