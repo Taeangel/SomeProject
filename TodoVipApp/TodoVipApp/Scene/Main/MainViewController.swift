@@ -121,7 +121,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   // MARK: - @IBOutlets
   
   @IBOutlet weak var myTableView: UITableView!
-  
   @IBOutlet weak var addButton: UIButton!
   @IBOutlet weak var searchBar: UITextField!
   
@@ -199,19 +198,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.todoList = viewModel.displayedTodoList
     self.sections = viewModel.sections
     
-    //    sections = todoList
-    //      .map { $0.updatedDate }
-    //      .removeDuplicates()
-    //
-    //    sectionsNumber = todoList
-    //      .map { $0.updatedDate }
-    //
-    //    sectionInfo = sections.map { standard in
-    //      sectionsNumber.filter { target in
-    //        standard == target
-    //      }.count
-    //    }
-    
     DispatchQueue.main.async {
       self.myTableView.reloadData()
     }
@@ -236,22 +222,6 @@ extension MainViewController: UITableViewDelegate
       guard let date = self?.sections[indexPath.section] else { return }
       guard let todos = self?.todoList[date] else { return }
       self?.deleteTodo(id: todos[indexPath.row].id)
-      
-      //      guard let section = indexPath.first else { return }
-      //      let row = indexPath.row
-      //      let id: Int
-      //
-      //      if section == 0 {
-      //        id = self?.todoList[row].id ?? 0
-      //      } else {
-      //        var startIndex = 0
-      //
-      //        for i in 0...indexPath.section - 1 {
-      //          startIndex += self?.sectionInfo[i] ?? 0
-      //        }
-      //        id = self?.todoList[startIndex + row].id ?? 0
-      //      }
-      //      self?.deleteTodo(id: id)
     }
     
     return UISwipeActionsConfiguration(actions: [delete])
@@ -284,7 +254,6 @@ extension MainViewController: UITableViewDataSource
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    //    return sectionsNumber.filter { $0 == sections[section] }.count
     guard let sectionsCount = todoList[sections[section]]?.count else {
       return 0
     }
@@ -302,20 +271,6 @@ extension MainViewController: UITableViewDataSource
     cell.configureCell(todo: todos[indexPath.row])
     
     return cell
-    
-    //    if indexPath.section == 0 {
-    //      cell.configureCell(todo: todoList[indexPath.row])
-    //      return cell
-    //    } else {
-    //      var startIndex = 0
-    //
-    //      for i in 0...indexPath.section - 1 {
-    //        startIndex += sectionInfo[i]
-    //      }
-    //
-    //      cell.configureCell(todo: todoList[startIndex + indexPath.row])
-    //      return cell
-    //    }
   }
 }
 

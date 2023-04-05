@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "multipartform",
+      "identity" : "combinecocoa",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/davbeck/MultipartForm",
+      "location" : "https://github.com/CombineCommunity/CombineCocoa.git",
       "state" : {
-        "branch" : "master",
-        "revision" : "c91979ea956a360bf84f0cc480afbcc7c946c753"
+        "branch" : "main",
+        "revision" : "7300c75ff9e072aa7fd0fccefcc88f74aae9bf56"
       }
     }
   ],
