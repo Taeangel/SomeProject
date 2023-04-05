@@ -14,7 +14,7 @@ import UIKit
 
 protocol AddBusinessLogic
 {
-  func postTodo(request: Add.PostTodo.Request) async throws
+  func postTodo(request: Add.PostTodo.Request)
 }
 
 protocol AddDataStore
@@ -30,12 +30,15 @@ class AddInteractor: AddBusinessLogic, AddDataStore
   
   // MARK: Do something
   
-  func postTodo(request: Add.PostTodo.Request) async throws
+  func postTodo(request: Add.PostTodo.Request)
   {
     worker = AddWorker()
-    try await worker?.postTodo(todo: request.todo)
     
-    let response = Add.PostTodo.Response()
-    presenter?.cleanAddView(response: response)
+    Task {
+      try await worker?.postTodo(todo: request.todo)
+      let response = Add.PostTodo.Response()
+      presenter?.cleanAddView(response: response)
+    }
+   
   }
 }

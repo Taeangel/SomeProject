@@ -64,6 +64,37 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     router.dataStore = interactor
   }
   
+  
+  private func configureView() {
+    self.view.backgroundColor = UIColor.theme.backgroundColor
+    self.searchBar.clipsToBounds = true
+    self.searchBar.layer.cornerRadius = 15
+    self.searchBar.layer.borderWidth = 1
+    self.searchBar.layer.borderColor = UIColor.theme.boardColor?.cgColor
+    self.searchBar.addleftimage(image: UIImage.theme.magnifyingglass?.withTintColor(.gray) ?? UIImage())
+
+    addButton.setImage(UIImage.theme.largePlusButton, for: .normal)
+
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.didDismissDetailNotification(_:)),
+      name: NSNotification.Name("ModalDismissNC"),
+      object: nil
+    )
+  }
+  
+  private func configureTableView()
+  {
+    let myTableViewCellNib = UINib(nibName: String(describing: MyTableViewCell.self), bundle: nil)
+    self.myTableView.register(myTableViewCellNib, forCellReuseIdentifier: "MyTableViewCell")
+    self.myTableView.rowHeight = UITableView.automaticDimension
+    self.myTableView.estimatedRowHeight = 120
+    self.myTableView.delegate = self
+    self.myTableView.dataSource = self
+    refreshControl.addTarget(self, action: #selector(self.refreshFunction), for: .valueChanged)
+    self.myTableView.refreshControl = refreshControl
+  }
+  
   // MARK: Routing
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -87,6 +118,13 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     addSubscription()
   }
   
+  // MARK: - @IBOutlets
+  
+  @IBOutlet weak var myTableView: UITableView!
+  
+  @IBOutlet weak var addButton: UIButton!
+  @IBOutlet weak var searchBar: UITextField!
+  
   // MARK: - addSubscriptionn
   
   private func addSubscription() {
@@ -107,28 +145,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   // MARK: 인터랙터에게 보내는 메서드
-  
-  @IBOutlet weak var myTableView: UITableView!
-  @IBOutlet weak var addButton: UIButton!
-  @IBOutlet weak var searchBar: UITextField!
-  
-  private func configureView() {
-    self.view.backgroundColor = UIColor.theme.backgroundColor
-    self.searchBar.clipsToBounds = true
-    self.searchBar.layer.cornerRadius = 15
-    self.searchBar.layer.borderWidth = 1
-    self.searchBar.layer.borderColor = UIColor.theme.boardColor?.cgColor
-    self.searchBar.addleftimage(image: UIImage.theme.magnifyingglass?.withTintColor(.gray) ?? UIImage())
-    
-    addButton.setImage(UIImage.theme.largePlusButton, for: .normal)
-    
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(self.didDismissDetailNotification(_:)),
-      name: NSNotification.Name("ModalDismissNC"),
-      object: nil
-    )
-  }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView)
   {
@@ -155,9 +171,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   @objc func didDismissDetailNotification(_ notification: Notification) {
     let fetchRequest = MainScene.FetchTodoList.Request()
-    
     self.interactor?.fetchTodoList(request: fetchRequest)
-    
   }
   
   func fetchTodoList()
@@ -174,7 +188,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     //매끄럽게 잘안된다
   }
   
-  //프리젠터에서 뷰로 화면에 그리는 것
+  @IBAction func presentModal(_ sender: Any) {
+    router?.presentModalAdd()
+  }
+  
+  // MARK: - 프리젠터에서 뷰로 보내진
+
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
     self.page += 1
     self.todoList = viewModel.displayedTodoList
@@ -199,20 +218,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
 }
 
+// MARK: - TableView
+
 extension MainViewController: UITableViewDelegate
 {
-  private func configureTableView()
-  {
-    let myTableViewCellNib = UINib(nibName: String(describing: MyTableViewCell.self), bundle: nil)
-    self.myTableView.register(myTableViewCellNib, forCellReuseIdentifier: "MyTableViewCell")
-    self.myTableView.rowHeight = UITableView.automaticDimension
-    self.myTableView.estimatedRowHeight = 120
-    self.myTableView.delegate = self
-    self.myTableView.dataSource = self
-    refreshControl.addTarget(self, action: #selector(self.refreshFunction), for: .valueChanged)
-    self.myTableView.refreshControl = refreshControl
-  }
-  
   @objc func refreshFunction() {
     self.page = 1
     let request = MainScene.FetchTodoList.Request(page: 1)

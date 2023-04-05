@@ -27,9 +27,7 @@ class DetailPresenter: DetailPresentationLogic
   {
     typealias todo = Detail.PresentTodo.ViewModel.DisplayedTodo
     
-//    response.todo
     let displayTodo = todo(todo: response.todo)
-  
     let viewModel = Detail.PresentTodo.ViewModel(displayedTodo: displayTodo)
     viewController?.displaySomething(viewModel: viewModel)
   }

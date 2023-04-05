@@ -15,7 +15,7 @@ import UIKit
 protocol MainRoutingLogic: AnyObject
 {
   func routeToDetail(todoId: Int)
-  func routeAdd()
+  func presentModalAdd()
 }
 
 protocol MainDataPassing
@@ -40,7 +40,7 @@ class MainRouter: NSObject, MainRoutingLogic, MainDataPassing
     navigateToSomewhere(source: viewController!, destination: destinationVC)
   }
   
-  func routeAdd() {
+  func presentModalAdd() {
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     let destinationVC = storyboard.instantiateViewController(withIdentifier: "AddViewController") as! AddViewController
     navigateToAdd(source: viewController!, destination: destinationVC)

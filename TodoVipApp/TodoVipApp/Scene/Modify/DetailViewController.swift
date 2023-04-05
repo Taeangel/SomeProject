@@ -80,34 +80,29 @@ class DetailViewController: UIViewController, DetailDisplayLogic
     presentTodo()
   }
   
-  // MARK: Do something
-    
+  // MARK: - @IBOutlets
+  
   @IBOutlet weak var doWorkTextField: UITextField!
   @IBOutlet weak var finishSwitch: UISwitch!
+  
+  // MARK: 인터렉터한테 시키는 메서드
   
   func presentTodo()
   {
     let request = Detail.PresentTodo.Request()
-    Task {
-      try await interactor?.fetchTodo(request: request)
-    }
+    interactor?.fetchTodo(request: request)
   }
   
   @IBAction func modifyButtonDidTap(_ sender: Any) {
-
+    
     let request = Detail.ModifyTodo.Request(
       id: self.id,
       title: doWorkTextField.text ?? "",
       isDone: finishSwitch.isOn)
-    
-    Task {
-      do {
-        try await interactor?.modifyTodo(request: request)
-      } catch {
-        throw NetworkError.unknown
-      }
-    }
+    interactor?.modifyTodo(request: request)
   }
+
+  // MARK: - 프리젠터에게 받는 메서드
   
   func displaySomething(viewModel: Detail.PresentTodo.ViewModel)
   {

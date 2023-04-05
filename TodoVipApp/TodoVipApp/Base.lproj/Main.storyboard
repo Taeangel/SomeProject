@@ -16,8 +16,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WMH-iD-wij">
+                                <rect key="frame" x="0.0" y="117" width="393" height="701"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="701" id="JSK-dg-Rjt"/>
+                                </constraints>
+                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ld-Qj-COh">
-                                <rect key="frame" x="293" y="752" width="50" height="50"/>
+                                <rect key="frame" x="313" y="738" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="2Te-uM-0hW">
                                         <userDefinedRuntimeAttributes>
@@ -26,13 +33,15 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </constraint>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="YKn-Hk-Jvk"/>
                                     <constraint firstAttribute="height" constant="50" id="ZqL-MW-d2L"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="gBX-jT-Mcx"/>
                                 </constraints>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus.circle.fill" catalog="system" buttonSize="large"/>
                                 <connections>
-                                    <segue destination="YVJ-6Q-Ke1" kind="presentation" id="CWl-If-kpx"/>
+                                    <action selector="presentModal:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nMU-jg-Hgb"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZ8-Z1-mqa">
@@ -57,21 +66,14 @@
                                     <constraint firstItem="5to-jJ-NaX" firstAttribute="leading" secondItem="zZ8-Z1-mqa" secondAttribute="leading" id="q5Y-45-soX"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WMH-iD-wij">
-                                <rect key="frame" x="0.0" y="125" width="393" height="701"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="701" id="JSK-dg-Rjt"/>
-                                </constraints>
-                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4ld-Qj-COh" secondAttribute="trailing" constant="50" id="4mH-Mp-2Ew"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WMH-iD-wij" secondAttribute="bottom" id="7bB-hg-Pty"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4ld-Qj-COh" secondAttribute="trailing" constant="30" id="8YU-mu-Lkb"/>
                             <constraint firstItem="zZ8-Z1-mqa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Nbk-fy-PRL"/>
-                            <constraint firstAttribute="bottom" secondItem="4ld-Qj-COh" secondAttribute="bottom" constant="50" id="QVd-HU-Umx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="4ld-Qj-COh" secondAttribute="bottom" constant="30" id="fPt-wz-LGP"/>
                             <constraint firstItem="zZ8-Z1-mqa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="hOV-rr-wpm"/>
                             <constraint firstItem="WMH-iD-wij" firstAttribute="top" secondItem="zZ8-Z1-mqa" secondAttribute="bottom" id="hiA-14-xWk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WMH-iD-wij" secondAttribute="trailing" id="ld8-5P-fdz"/>
@@ -80,7 +82,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="addButton" destination="4ld-Qj-COh" id="Ui1-xe-F7L"/>
+                        <outlet property="addButton" destination="4ld-Qj-COh" id="4Vb-2I-zZ1"/>
                         <outlet property="myTableView" destination="WMH-iD-wij" id="FxN-Pv-26k"/>
                         <outlet property="searchBar" destination="5to-jJ-NaX" id="8ZR-PT-Ltl"/>
                         <segue destination="D1c-Aa-S1l" kind="presentation" identifier="showDetail" id="mMw-Ov-x0v"/>
@@ -95,7 +97,7 @@
             <objects>
                 <viewController storyboardIdentifier="AddViewController" id="YVJ-6Q-Ke1" customClass="AddViewController" customModule="TodoVipApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bdR-Ln-h7j">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="할일 추가" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wJA-cs-NPF">

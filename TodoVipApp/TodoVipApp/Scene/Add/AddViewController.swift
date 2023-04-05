@@ -82,18 +82,10 @@ class AddViewController: UIViewController, AddDisplayLogic
   @IBOutlet weak var isDoneSwitch: UISwitch!
   
   @IBAction func addTodo(_ sender: Any) {
-    
-    Task {
-      try await postTodo()
-    }
+    let request = Add.PostTodo.Request(todo: TodoPostDTO(title: todoLabel.text!, isDone: isDoneSwitch.isOn))
+    interactor?.postTodo(request: request)
   }
 
-  func postTodo() async throws
-  {
-    let request = Add.PostTodo.Request(todo: TodoPostDTO(title: todoLabel.text!, isDone: isDoneSwitch.isOn))
-    try await interactor?.postTodo(request: request)
-  }
-  
   func displaySomething(viewModel: Add.PostTodo.ViewModel)
   {
     DispatchQueue.main.async {

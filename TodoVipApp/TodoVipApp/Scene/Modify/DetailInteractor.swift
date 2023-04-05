@@ -14,8 +14,8 @@ import UIKit
 
 protocol DetailBusinessLogic
 {
-  func fetchTodo(request: Detail.PresentTodo.Request) async throws
-  func modifyTodo(request: Detail.ModifyTodo.Request) async throws
+  func fetchTodo(request: Detail.PresentTodo.Request)
+  func modifyTodo(request: Detail.ModifyTodo.Request)
 }
 
 protocol DetailDataStore
@@ -32,21 +32,22 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
   
   // MARK: Do something
   
-  func fetchTodo(request: Detail.PresentTodo.Request) async throws
+  func fetchTodo(request: Detail.PresentTodo.Request)
   {
     worker = DetailWorker()
+    Task {
+      guard let todoDataDTO = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0) else { return }
+      let todo = todoDataDTO.data
+      let response = Detail.PresentTodo.Response(todo: todo)
+      presenter?.presentTodo(response: response)
+    }
     
-    guard let todoDataDTO = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0) else { return }
-    
-//    guard let todoDTO = todoDataDTO.data else { return }
-    let todo = todoDataDTO.data
-    
-    let response = Detail.PresentTodo.Response(todo: todo)
-    presenter?.presentTodo(response: response)
   }
   
-  func modifyTodo(request: Detail.ModifyTodo.Request) async throws {
+  func modifyTodo(request: Detail.ModifyTodo.Request) {
     worker = DetailWorker()
-    try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
+    Task {
+      try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
+    }
   }
 }
