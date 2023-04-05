@@ -12,6 +12,7 @@
 
 import UIKit
 import Combine
+import CombineCocoa
 
 protocol MainDisplayLogic: AnyObject
 {
@@ -130,6 +131,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     searchBar.textPublisher()
       .sink { [weak self] in self?.searchTodos($0)}
       .store(in: &cancellables)
+    
+    
+//    myTableView.contentOffsetPublisher
   }
   
   private func searchTodos(_ todo: String) {
@@ -145,8 +149,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   // MARK: 인터랙터에게 보내는 메서드
   
-  func scrollViewDidScroll(_ scrollView: UIScrollView)
-  {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let offsetY = scrollView.contentOffset.y
     let contentHeight = scrollView.contentSize.height
     
@@ -159,8 +162,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func beginBatchFetch()
-  {
+  func beginBatchFetch() {
     fetchingMore = true
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
       self.fetchTodoList()
@@ -173,8 +175,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.interactor?.fetchTodoList(request: fetchRequest)
   }
   
-  func fetchTodoList()
-  {
+  func fetchTodoList() {
     let request = MainScene.FetchTodoList.Request(page: page)
     interactor?.fetchTodoList(request: request)
   }

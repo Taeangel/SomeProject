@@ -23,7 +23,7 @@ protocol MainDataStore
 {
 //  typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
 //  var todoList: [String: [Displayedtodo]] { get set }
-//  var todoList: [TodoEntity] { get set }
+  var todoList: [TodoEntity] { get set }
 //  var sectionInfo: [Int] { get set }
 }
 
@@ -31,7 +31,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
 {
 //  var todoList: [String: [Displayedtodo]] = [:]
 //  var sectionInfo: [Int] = []
-//  var todoList: [TodoEntity] = []
+  var todoList: [TodoEntity] = []
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
   
@@ -42,9 +42,18 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
     worker = MainWorker()
     Task{
-      guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
-      let response = MainScene.FetchTodoList.Response(todoList: todoList)
+      if request.page == 1 {
+        guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
+        self.todoList = todoList
+        
+      } else {
+        guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
+        self.todoList += todoList
+      }
+      
+      let response = MainScene.FetchTodoList.Response(todoList: self.todoList)
       presenter?.presentTodoList(response: response)
+     
     }
     
 //     데이터 보관

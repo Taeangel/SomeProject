@@ -23,6 +23,14 @@ class MyTableViewCell: UITableViewCell {
     // Configure the view for the selected state
   }
   
+  override func prepareForReuse() {
+    self.doneButton.setImage(UIImage(systemName: "square"), for: .normal)
+    self.contentLabel.text = ""
+    self.dateLabel.text = ""
+    contentLabel.textColor = .black
+    dateLabel.textColor = .black
+  }
+  
   func configureCell(todo: MainScene.FetchTodoList.ViewModel.DisplayedTodo)
   {
     self.contentLabel.text = todo.title
