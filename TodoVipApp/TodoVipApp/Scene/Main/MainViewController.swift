@@ -133,7 +133,20 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       .store(in: &cancellables)
     
     
-//    myTableView.contentOffsetPublisher
+    myTableView.contentOffsetPublisher
+      .dropFirst(10)
+      .sink { [weak self] offset in
+        guard let self = self else { return }
+        let offsetY = offset.y
+        let contentHeight = self.myTableView.contentSize.height
+
+        if offsetY > contentHeight - self.myTableView.frame.height {
+          if !self.fetchingMore {
+            self.beginBatchFetch()
+          }
+        }
+      }
+      .store(in: &cancellables)
   }
   
   private func searchTodos(_ todo: String) {
@@ -148,19 +161,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   // MARK: 인터랙터에게 보내는 메서드
-  
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let offsetY = scrollView.contentOffset.y
-    let contentHeight = scrollView.contentSize.height
-    
-    if offsetY > contentHeight - scrollView.frame.height
-    {
-      if !fetchingMore
-      {
-        beginBatchFetch()
-      }
-    }
-  }
   
   func beginBatchFetch() {
     fetchingMore = true
