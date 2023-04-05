@@ -13,9 +13,9 @@
 import UIKit
 
 protocol MainPresentationLogic
-
 {
   func presentTodoList(response: TodoListProtocol)
+  func updatePage(response: UpdateResponsePage)
 }
 
 class MainPresenter: MainPresentationLogic
@@ -60,9 +60,14 @@ class MainPresenter: MainPresentationLogic
     groupedTodoList.keys.sorted().forEach { sections.append($0) }
     sections.reverse()
     
-    let viewModel = MainScene.FetchTodoList.ViewModel(displayedTodoList: groupedTodoList, sections: sections)
-   
+    let viewModel = MainScene.FetchTodoList.ViewModel(page: response.page, displayedTodoList: groupedTodoList, sections: sections)
     
     viewController?.displayTodoList(viewModel: viewModel)
   }
+  
+  func updatePage(response: UpdateResponsePage) {
+    let viewModel = MainScene.UpdatePageViewModel(page: response.page)
+    viewController?.updatePage(viewModel: viewModel)
+  }
+  
 }

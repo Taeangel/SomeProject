@@ -11,7 +11,8 @@ class MyTableViewCell: UITableViewCell {
   @IBOutlet weak var doneButton: UIButton!
   @IBOutlet weak var contentLabel: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
-  
+  var onEditAction: (() -> Void)?
+
   override func awakeFromNib() {
     super.awakeFromNib()
     // Initialization code
@@ -29,6 +30,9 @@ class MyTableViewCell: UITableViewCell {
     self.dateLabel.text = ""
     contentLabel.textColor = .black
     dateLabel.textColor = .black
+  }
+  @IBAction func checkBoxDidTap(_ sender: Any) {
+    onEditAction?()
   }
   
   func configureCell(todo: MainScene.FetchTodoList.ViewModel.DisplayedTodo)

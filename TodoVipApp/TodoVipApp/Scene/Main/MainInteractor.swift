@@ -17,27 +17,23 @@ protocol MainBusinessLogic
   func fetchTodoList(request: MainScene.FetchTodoList.Request)
   func deleteTodo(request: MainScene.DeleteTodo.Request)
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request)
+  func checkTodo(request: MainScene.CheckBoxTodo.Request)
+
 }
 
 protocol MainDataStore
 {
-//  typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
-//  var todoList: [String: [Displayedtodo]] { get set }
   var todoList: [TodoEntity] { get set }
-//  var sectionInfo: [Int] { get set }
 }
 
 class MainInteractor: MainBusinessLogic, MainDataStore
 {
-//  var todoList: [String: [Displayedtodo]] = [:]
-//  var sectionInfo: [Int] = []
+
   var todoList: [TodoEntity] = []
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
   
-  // MARK: Do something
-  
-  // 뷰에서 인터렉터한테 시키는 메서드
+  // MARK: 뷰에서 인터렉터한테 시키는 메서드
   
   func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
     worker = MainWorker()
@@ -51,44 +47,17 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         self.todoList += todoList
       }
       
-      let response = MainScene.FetchTodoList.Response(todoList: self.todoList)
+      let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: request.page)
       presenter?.presentTodoList(response: response)
-     
     }
-    
-//     데이터 보관
-//    let sections = todoList
-//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-//      .removeDuplicates()
-//
-//    let sectionsNumber = todoList
-//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-//
-//    if request.page == 1 {
-//      self.sectionInfo = sections.map { standard in
-//        sectionsNumber.filter { target in
-//          standard == target
-//        }.count
-//      }
-//      self.todoList = todoList
-//    } else {
-//
-//      self.sectionInfo += sections.map { standard in
-//        sectionsNumber.filter { target in
-//          standard == target
-//        }.count
-//      }
-//      self.todoList += todoList
-//    }
-//
-//     데이터 전달
-   
   }
   
   func deleteTodo(request: MainScene.DeleteTodo.Request)  {
     worker = MainWorker()
     Task {
       try await worker?.deleteTodo(id: request.id)
+      let response = MainScene.DeleteTodo.Response(page: request.page)
+      presenter?.updatePage(response: response)
     }
   }
   
@@ -100,24 +69,17 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         return
       }
       
-      let response = MainScene.FetchSearchTodoList.Response(todoList: todoList)
+      let response = MainScene.FetchSearchTodoList.Response(todoList: todoList, page: request.page)
       presenter?.presentTodoList(response: response)
     }
-   
-    
-    // 데이터 보관
-//    let sections = todoList
-//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-//      .removeDuplicates()
-//
-//    let sectionsNumber = todoList
-//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-//
-//    self.sectionInfo = sections.map { standard in
-//      sectionsNumber.filter { target in
-//        standard == target
-//      }.count
-//    }
-//    self.todoList = todoList
+  }
+  
+  func checkTodo(request: MainScene.CheckBoxTodo.Request) {
+    worker = MainWorker()
+    Task {
+      try await worker?.checkisDone(id:request.id ,title: request.title , isDone: request.isDone)
+      let response = MainScene.CheckBoxTodo.Response(page: request.page)
+      presenter?.updatePage(response: response)
+    }
   }
 }

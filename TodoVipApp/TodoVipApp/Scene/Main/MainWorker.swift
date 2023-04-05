@@ -34,6 +34,10 @@ class MainWorker: TodoWorkerUsecase
     
     return todoListDTO.map { TodoEntity.init(datunm: $0) }
   }
+  
+  func checkisDone(id: Int, title: String, isDone: Bool) async throws {
+   try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
+  }
 }
 
 protocol ApiManagerProtocol {}

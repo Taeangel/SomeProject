@@ -26,6 +26,9 @@
                         <buttonConfiguration key="configuration" style="plain" image="square" catalog="system">
                             <color key="baseForegroundColor" systemColor="labelColor"/>
                         </buttonConfiguration>
+                        <connections>
+                            <action selector="checkBoxDidTap:" destination="Tux-EX-Tv6" eventType="touchUpInside" id="fex-B2-IHj"/>
+                        </connections>
                     </button>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="c3x-vn-OXo">
                         <rect key="frame" x="66" y="8" width="375" height="357"/>

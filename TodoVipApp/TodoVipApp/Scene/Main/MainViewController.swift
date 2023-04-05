@@ -17,10 +17,12 @@ import CombineCocoa
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
+  func updatePage(viewModel: UpdateViewModelPage)
 }
 
 class MainViewController: UIViewController, MainDisplayLogic, Alertable
 {
+  
   var interactor: MainBusinessLogic?
   var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
   
@@ -149,6 +151,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       .store(in: &cancellables)
   }
   
+ 
+  
+  // MARK: 인터랙터에게 보내는 메서드
+  
   private func searchTodos(_ todo: String) {
     if todo == "" {
       let request = MainScene.FetchTodoList.Request()
@@ -159,9 +165,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       interactor?.fetchSearchTodoList(request: request)
     }
   }
-  
-  // MARK: 인터랙터에게 보내는 메서드
-  
   func beginBatchFetch() {
     fetchingMore = true
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
@@ -185,7 +188,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     let fetchRequest = MainScene.FetchTodoList.Request()
     interactor?.deleteTodo(request: deleteRequest)
     interactor?.fetchTodoList(request: fetchRequest)
-    //매끄럽게 잘안된다
   }
   
   @IBAction func presentModal(_ sender: Any) {
@@ -195,13 +197,17 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   // MARK: - 프리젠터에서 뷰로 보내진
 
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
-    self.page += 1
+    self.page += viewModel.page + 1
     self.todoList = viewModel.displayedTodoList
     self.sections = viewModel.sections
     
     DispatchQueue.main.async {
       self.myTableView.reloadData()
     }
+  }
+  
+  func updatePage(viewModel: UpdateViewModelPage) {
+    
   }
 }
 
@@ -269,7 +275,16 @@ extension MainViewController: UITableViewDataSource
     
     let date = sections[indexPath.section]
     guard let todos = todoList[date] else { return cell }
+    let todo = todos[indexPath.row]
     cell.configureCell(todo: todos[indexPath.row])
+    
+    cell.onEditAction = { [weak self] in
+      var asd = todo.isDone
+      asd.toggle()
+      let request = MainScene.CheckBoxTodo.Request(id: todo.id, title: todo.title, isDone: asd)
+      self?.interactor?.checkTodo(request: request)
+//      self?.resetTodoList()
+    }
     
     return cell
   }

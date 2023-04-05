@@ -16,6 +16,21 @@ enum MainScene
 {
   // MARK: Use cases
   
+  enum CheckBoxTodo
+  {
+    struct Request // 뷰가 인터렉터한테 요청하는 데이터
+    {
+      var page: Int = 1
+      var id: Int
+      var title: String
+      var isDone: Bool
+    }
+    struct Response: UpdateResponsePage //워커에서 들어온 데이터 - 날것의 데이터
+    {
+      var page: Int
+    }
+  }
+  
   enum FetchSearchTodoList
   {
     struct Request // 뷰가 인터렉터한테 요청하는 데이터
@@ -27,6 +42,7 @@ enum MainScene
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
       var todoList: [TodoEntity] = []
+      var page: Int
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
@@ -37,7 +53,7 @@ enum MainScene
         let createdTime: String
         let createdDate: String
       }
-      
+      var page: Int
       var displayedTodoList: [DisplayedTodo]
     
     }
@@ -47,13 +63,12 @@ enum MainScene
   {
     struct Request // 뷰가 인터렉터한테 요청하는 데이터
     {
+      var page: Int = 1
       var id: Int
     }
-    struct Response //워커에서 들어온 데이터 - 날것의 데이터
+    struct Response: UpdateResponsePage //워커에서 들어온 데이터 - 날것의 데이터
     {
-    }
-    struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
-    {
+      var page: Int
     }
   }
   
@@ -67,6 +82,7 @@ enum MainScene
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
       var todoList: [TodoEntity] = []
+      var page: Int
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
@@ -78,12 +94,26 @@ enum MainScene
         let updatedDate: String
       }
       
+      var page: Int
       var displayedTodoList: [String: [DisplayedTodo]]
       var sections: [String]
     }
   }
+  
+  struct UpdatePageViewModel: UpdateViewModelPage // 업데이트Page
+  {
+    var page: Int
+  }
 }
 
-protocol TodoListProtocol {
+protocol TodoListProtocol: UpdateResponsePage {
   var todoList: [TodoEntity] { get set }
+}
+
+protocol UpdateResponsePage {
+  var page: Int { get set }
+}
+
+protocol UpdateViewModelPage {
+  var page: Int { get set }
 }
