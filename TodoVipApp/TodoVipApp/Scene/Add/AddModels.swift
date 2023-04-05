@@ -20,7 +20,7 @@ enum Add
   {
     struct Request
     {
-      var todo: TodoDTO
+      var todo: TodoPostDTO
     }
     struct Response
     {

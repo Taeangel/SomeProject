@@ -83,7 +83,6 @@
                         <outlet property="addButton" destination="4ld-Qj-COh" id="Ui1-xe-F7L"/>
                         <outlet property="myTableView" destination="WMH-iD-wij" id="FxN-Pv-26k"/>
                         <outlet property="searchBar" destination="5to-jJ-NaX" id="8ZR-PT-Ltl"/>
-                        <outlet property="searchBarView" destination="zZ8-Z1-mqa" id="yLH-TW-8Mx"/>
                         <segue destination="D1c-Aa-S1l" kind="presentation" identifier="showDetail" id="mMw-Ov-x0v"/>
                     </connections>
                 </viewController>

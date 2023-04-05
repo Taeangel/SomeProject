@@ -27,9 +27,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   // MARK: - Properties
   typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
   var sections: [String] = []
-  var sectionsNumber: [String] = []
-  var todoList: [Displayedtodo] = []
-  var sectionInfo: [Int] = []
+  var todoList: [String: [Displayedtodo]] = [:]
   let refreshControl: UIRefreshControl = UIRefreshControl()
   var fetchingMore = false
   var page = 1
@@ -63,14 +61,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     router.dataStore = interactor
   }
   
-  private func resizeButton() {
-    let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
-    
-    let largeBoldDoc = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
-    
-    addButton.setImage(largeBoldDoc, for: .normal)
-  }
-  
   // MARK: Routing
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -90,7 +80,24 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     super.viewDidLoad()
     configureTableView()
     fetchTodoList()
-    resizeButton()
+    configureView()
+  }
+  
+  // MARK: 인터랙터에게 보내는 메서드
+  
+  @IBOutlet weak var myTableView: UITableView!
+  @IBOutlet weak var addButton: UIButton!
+  @IBOutlet weak var searchBar: UITextField!
+  
+  private func configureView() {
+    self.view.backgroundColor = UIColor.theme.backgroundColor
+    self.searchBar.clipsToBounds = true
+    self.searchBar.layer.cornerRadius = 15
+    self.searchBar.layer.borderWidth = 1
+    self.searchBar.layer.borderColor = UIColor.theme.boardColor?.cgColor
+    self.searchBar.addleftimage(image: UIImage.theme.magnifyingglass?.withTintColor(.gray) ?? UIImage())
+    
+    addButton.setImage(UIImage.theme.largePlusButton, for: .normal)
     
     NotificationCenter.default.addObserver(
       self,
@@ -100,13 +107,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     )
   }
   
-  // MARK: 인터랙터에게 보내는 메서드
-  
-  @IBOutlet weak var myTableView: UITableView!
-  @IBOutlet weak var addButton: UIButton!
-  @IBOutlet weak var searchBar: UITextField!
-  
-  @IBOutlet weak var searchBarView: UIView!
   func scrollViewDidScroll(_ scrollView: UIScrollView)
   {
     let offsetY = scrollView.contentOffset.y
@@ -117,7 +117,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       if !fetchingMore
       {
         beginBatchFetch()
-        
       }
     }
   }
@@ -161,14 +160,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       } catch {
         self.showErrorAlertWithConfirmButton(error.localizedDescription)
       }
-      
     }
   }
   
   func deleteTodo(id: Int) {
     let deleteRequest = MainScene.DeleteTodo.Request(id: id)
     let fetchRequest = MainScene.FetchTodoList.Request()
-    
     Task {
       try await interactor?.deleteTodo(request: deleteRequest)
       try await interactor?.fetchTodoList(request: fetchRequest)
@@ -179,19 +176,20 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
     self.page += 1
     self.todoList = viewModel.displayedTodoList
+    self.sections = viewModel.sections
     
-    sections = todoList
-      .map { $0.updatedDate }
-      .removeDuplicates()
-    
-    sectionsNumber = todoList
-      .map { $0.updatedDate }
-    
-    sectionInfo = sections.map { standard in
-      sectionsNumber.filter { target in
-        standard == target
-      }.count
-    }
+//    sections = todoList
+//      .map { $0.updatedDate }
+//      .removeDuplicates()
+//
+//    sectionsNumber = todoList
+//      .map { $0.updatedDate }
+//
+//    sectionInfo = sections.map { standard in
+//      sectionsNumber.filter { target in
+//        standard == target
+//      }.count
+//    }
     
     DispatchQueue.main.async {
       self.myTableView.reloadData()
@@ -211,14 +209,6 @@ extension MainViewController: UITableViewDelegate
     self.myTableView.dataSource = self
     refreshControl.addTarget(self, action: #selector(self.refreshFunction), for: .valueChanged)
     self.myTableView.refreshControl = refreshControl
-    
-    self.view.backgroundColor = UIColor.theme.backgroundColor
-    self.searchBar.clipsToBounds = true
-    self.searchBar.layer.cornerRadius = 15
-    self.searchBar.layer.borderWidth = 1
-    self.searchBar.layer.borderColor = UIColor.theme.boardColor?.cgColor
-    self.searchBar.addLeftPadding()
-    self.searchBar.addleftimage(image: UIImage.theme.magnifyingglass?.withTintColor(.gray) ?? UIImage())
   }
   
   @objc func refreshFunction() {
@@ -233,21 +223,26 @@ extension MainViewController: UITableViewDelegate
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     
     let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, _) in
-      guard let section = indexPath.first else { return }
-      let row = indexPath.row
-      let id: Int
+
+      guard let date = self?.sections[indexPath.section] else { return }
+      guard let todos = self?.todoList[date] else { return }
+      self?.deleteTodo(id: todos[indexPath.row].id)
       
-      if section == 0 {
-        id = self?.todoList[row].id ?? 0
-      } else {
-        var startIndex = 0
-        
-        for i in 0...indexPath.section - 1 {
-          startIndex += self?.sectionInfo[i] ?? 0
-        }
-        id = self?.todoList[startIndex + row].id ?? 0
-      }
-      self?.deleteTodo(id: id)
+//      guard let section = indexPath.first else { return }
+//      let row = indexPath.row
+//      let id: Int
+//
+//      if section == 0 {
+//        id = self?.todoList[row].id ?? 0
+//      } else {
+//        var startIndex = 0
+//
+//        for i in 0...indexPath.section - 1 {
+//          startIndex += self?.sectionInfo[i] ?? 0
+//        }
+//        id = self?.todoList[startIndex + row].id ?? 0
+//      }
+//      self?.deleteTodo(id: id)
     }
     
     return UISwipeActionsConfiguration(actions: [delete])
@@ -264,11 +259,14 @@ extension MainViewController: UITableViewDataSource
 {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    router?.routeToDetail()
+    let date = sections[indexPath.section]
+    guard let todos = todoList[date] else { return  }
+    
+    router?.routeToDetail(todoId: todos[indexPath.row].id)
   }
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-     
+
     return sections[section]
   }
   
@@ -277,27 +275,37 @@ extension MainViewController: UITableViewDataSource
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return sectionsNumber.filter { $0 == sections[section] }.count
+//    return sectionsNumber.filter { $0 == sections[section] }.count
+    guard let sectionsCount = todoList[sections[section]]?.count else {
+      return 0
+    }
+    return sectionsCount
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
     guard let cell = myTableView.dequeueReusableCell(withIdentifier: "MyTableViewCell", for: indexPath) as? MyTableViewCell else {
       return UITableViewCell()
     }
     
-    if indexPath.section == 0 {
-      
-      cell.configureCell(todo: todoList[indexPath.row])
-      return cell
-    } else {
-      var startIndex = 0
-      
-      for i in 0...indexPath.section - 1 {
-        startIndex += sectionInfo[i]
-      }
-      
-      cell.configureCell(todo: todoList[startIndex + indexPath.row])
-      return cell
-    }
+    let date = sections[indexPath.section]
+    guard let todos = todoList[date] else { return cell }
+    cell.configureCell(todo: todos[indexPath.row])
+
+    return cell
+    
+//    if indexPath.section == 0 {
+//      cell.configureCell(todo: todoList[indexPath.row])
+//      return cell
+//    } else {
+//      var startIndex = 0
+//
+//      for i in 0...indexPath.section - 1 {
+//        startIndex += sectionInfo[i]
+//      }
+//
+//      cell.configureCell(todo: todoList[startIndex + indexPath.row])
+//      return cell
+//    }
   }
 }

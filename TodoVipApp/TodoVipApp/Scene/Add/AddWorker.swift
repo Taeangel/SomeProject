@@ -14,7 +14,7 @@ import UIKit
 
 class AddWorker: TodoWorkerUsecase
 {
-  func postTodo(todo: TodoDTO)  async throws
+  func postTodo(todo: TodoPostDTO)  async throws
   {
     try await todoUsecase.postTodo(todo:todo)
   }

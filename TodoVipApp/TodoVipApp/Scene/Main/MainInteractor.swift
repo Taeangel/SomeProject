@@ -21,15 +21,17 @@ protocol MainBusinessLogic
 
 protocol MainDataStore
 {
-  var todoList: [TodoEntity] { get set }
-  var sectionInfo: [Int] { get set }
+//  typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
+//  var todoList: [String: [Displayedtodo]] { get set }
+//  var todoList: [TodoEntity] { get set }
+//  var sectionInfo: [Int] { get set }
 }
 
 class MainInteractor: MainBusinessLogic, MainDataStore
 {
- 
-  var sectionInfo: [Int] = []
-  var todoList: [TodoEntity] = []
+//  var todoList: [String: [Displayedtodo]] = [:]
+//  var sectionInfo: [Int] = []
+//  var todoList: [TodoEntity] = []
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
   
@@ -41,33 +43,33 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
     
-    // 데이터 보관
-    let sections = todoList
-      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-      .removeDuplicates()
-
-    let sectionsNumber = todoList
-      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-    
-    if request.page == 1 {
-      self.sectionInfo = sections.map { standard in
-        sectionsNumber.filter { target in
-          standard == target
-        }.count
-      }
-      self.todoList = todoList
-    } else {
-      
-      self.sectionInfo += sections.map { standard in
-        sectionsNumber.filter { target in
-          standard == target
-        }.count
-      }
-      self.todoList += todoList
-    }
-    
-    // 데이터 전달
-    let response = MainScene.FetchTodoList.Response(todoList: self.todoList)
+//     데이터 보관
+//    let sections = todoList
+//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
+//      .removeDuplicates()
+//
+//    let sectionsNumber = todoList
+//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
+//
+//    if request.page == 1 {
+//      self.sectionInfo = sections.map { standard in
+//        sectionsNumber.filter { target in
+//          standard == target
+//        }.count
+//      }
+//      self.todoList = todoList
+//    } else {
+//
+//      self.sectionInfo += sections.map { standard in
+//        sectionsNumber.filter { target in
+//          standard == target
+//        }.count
+//      }
+//      self.todoList += todoList
+//    }
+//
+//     데이터 전달
+    let response = MainScene.FetchTodoList.Response(todoList: todoList)
     presenter?.presentTodoList(response: response)
   }
   
@@ -86,18 +88,18 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     presenter?.presentTodoList(response: response)
     
     // 데이터 보관
-    let sections = todoList
-      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-      .removeDuplicates()
-
-    let sectionsNumber = todoList
-      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
-    
-    self.sectionInfo = sections.map { standard in
-      sectionsNumber.filter { target in
-        standard == target
-      }.count
-    }
-    self.todoList = todoList
+//    let sections = todoList
+//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
+//      .removeDuplicates()
+//
+//    let sectionsNumber = todoList
+//      .map { "\($0.updatedAt?.prefix(10) ?? "")" }
+//
+//    self.sectionInfo = sections.map { standard in
+//      sectionsNumber.filter { target in
+//        standard == target
+//      }.count
+//    }
+//    self.todoList = todoList
   }
 }

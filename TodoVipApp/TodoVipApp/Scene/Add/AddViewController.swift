@@ -90,7 +90,7 @@ class AddViewController: UIViewController, AddDisplayLogic
 
   func postTodo() async throws
   {
-    let request = Add.PostTodo.Request(todo: TodoDTO(title: todoLabel.text!, isDone: isDoneSwitch.isOn))
+    let request = Add.PostTodo.Request(todo: TodoPostDTO(title: todoLabel.text!, isDone: isDoneSwitch.isOn))
     try await interactor?.postTodo(request: request)
   }
   

@@ -14,7 +14,7 @@ import UIKit
 
 protocol MainRoutingLogic: AnyObject
 {
-  func routeToDetail()
+  func routeToDetail(todoId: Int)
   func routeAdd()
 }
 
@@ -30,12 +30,13 @@ class MainRouter: NSObject, MainRoutingLogic, MainDataPassing
   
   // MARK: Routing
   
-  func routeToDetail()
+  func routeToDetail(todoId: Int)
   {
+    
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     let destinationVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
     var destinationDS = destinationVC.router!.dataStore!
-    passDataToDatail(source: dataStore!, destination: &destinationDS)
+    passDataToDatail(source: dataStore!, destination: &destinationDS, todoId: todoId)
     navigateToSomewhere(source: viewController!, destination: destinationVC)
   }
   
@@ -73,23 +74,22 @@ extension MainRouter {
   
   //   MARK: Passing data
   
-  func passDataToDatail(source: MainDataStore, destination: inout DetailDataStore)
+  func passDataToDatail(source: MainDataStore, destination: inout DetailDataStore, todoId: Int)
   {
-
-    guard let indexPathsForSelectedRows = viewController?.myTableView.indexPathsForSelectedRows else  { return }
-    
-    let sectionAndRow = indexPathsForSelectedRows.flatMap { $0 }
-    guard let section = sectionAndRow.first, let row = sectionAndRow.last else { return }
-    
-    if section == 0 {
-      destination.todo = source.todoList[row]
-    } else {
-      var startIndex = 0
-      
-      for i in 0...section - 1 {
-        startIndex += source.sectionInfo[i]
-      }
-      destination.todo = source.todoList[startIndex + row]
-    }
+    destination.todoId = todoId
+//    guard let indexPathsForSelectedRows = viewController?.myTableView.indexPathsForSelectedRows else  { return }
+//    let sectionAndRow = indexPathsForSelectedRows.flatMap { $0 }
+//    guard let section = sectionAndRow.first, let row = sectionAndRow.last else { return }
+//
+//    if section == 0 {
+//      destination.todo = source.todoList[row]
+//    } else {
+//      var startIndex = 0
+//
+//      for i in 0...section - 1 {
+//        startIndex += source.sectionInfo[i]
+//      }
+//      destination.todo = source.todoList[startIndex + row]
+//    }
   }
 }

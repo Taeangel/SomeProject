@@ -11,7 +11,7 @@ protocol TodoUsecasealbe {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws
   func deleteTodo(id: Int) async throws
-  func postTodo(todo: TodoDTO) async throws
+  func postTodo(todo: TodoPostDTO) async throws
   func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> TodoListDTO
 }
 
@@ -37,12 +37,16 @@ extension TodoUsecase: TodoUsecasealbe {
     try await todoRepository.deleteTodo(id: id)
   }
   
-  func postTodo(todo: TodoDTO) async throws {
+  func postTodo(todo: TodoPostDTO) async throws {
     try await todoRepository.postTodo(todo: todo)
   }
   
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
     try await todoRepository.fetchSearchTodoList(page: page, perPage: perPage, query: query)
+  }
+  
+  func fetchTodo(id: Int) async throws -> TodoDataDTO {
+    try await todoRepository.fetchTodo(id: id)
   }
   
 }

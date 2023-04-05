@@ -54,7 +54,14 @@ class MainPresenter: MainPresentationLogic
       )
     }
     
-    let viewModel = MainScene.FetchTodoList.ViewModel(displayedTodoList: displayedTodoList)
+    let groupedTodoList = Dictionary(grouping: displayedTodoList) { $0.updatedDate }
+    var sections: [String] = []
+    
+    groupedTodoList.keys.sorted().forEach { sections.append($0) }
+    sections.reverse()
+    
+    let viewModel = MainScene.FetchTodoList.ViewModel(displayedTodoList: groupedTodoList, sections: sections)
+   
     
     viewController?.displayTodoList(viewModel: viewModel)
   }

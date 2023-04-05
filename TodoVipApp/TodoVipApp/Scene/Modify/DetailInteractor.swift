@@ -14,32 +14,34 @@ import UIKit
 
 protocol DetailBusinessLogic
 {
-  func presentTodo(request: Detail.PresentTodo.Request)
+  func fetchTodo(request: Detail.PresentTodo.Request) async throws
   func modifyTodo(request: Detail.ModifyTodo.Request) async throws
 }
 
 protocol DetailDataStore
 {
-  var todo: TodoEntity { get set }
+  var todoId: Int? { get set }
 }
 
 class DetailInteractor: DetailBusinessLogic, DetailDataStore
 {
   
-  var todo: TodoEntity
+  var todoId: Int?
   var presenter: DetailPresentationLogic?
   var worker: DetailWorker?
   
-  init() {
-    let datum = Datum(id: nil, title: nil, isDone: nil, updatedAt: nil)
-    self.todo = TodoEntity(datunm: datum)
-  }
-  
   // MARK: Do something
   
-  func presentTodo(request: Detail.PresentTodo.Request)
+  func fetchTodo(request: Detail.PresentTodo.Request) async throws
   {
-    let response = Detail.PresentTodo.Response(todo: todo)
+    worker = DetailWorker()
+    
+    guard let todoDataDTO = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0) else { return }
+    
+//    guard let todoDTO = todoDataDTO.data else { return }
+    let aasd = todoDataDTO.data
+    
+    let response = Detail.PresentTodo.Response(todo: aasd)
     presenter?.presentTodo(response: response)
   }
   

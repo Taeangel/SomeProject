@@ -21,8 +21,6 @@ class DetailViewController: UIViewController, DetailDisplayLogic
 {
   var interactor: DetailBusinessLogic?
   var router: (NSObjectProtocol & DetailRoutingLogic & DetailDataPassing)?
-
-  
   
   // MARK: - properties
   var id: Int = 0
@@ -90,7 +88,9 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   func presentTodo()
   {
     let request = Detail.PresentTodo.Request()
-    interactor?.presentTodo(request: request)
+    Task {
+      try await interactor?.fetchTodo(request: request)
+    }
   }
   
   @IBAction func modifyButtonDidTap(_ sender: Any) {
@@ -111,8 +111,10 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   
   func displaySomething(viewModel: Detail.PresentTodo.ViewModel)
   {
-    self.doWorkTextField.text = viewModel.displayedTodo.title
-    self.finishSwitch.isOn = viewModel.displayedTodo.isDone
-    self.id = viewModel.displayedTodo.id
+    DispatchQueue.main.async {
+      self.doWorkTextField.text = viewModel.displayedTodo.title
+      self.finishSwitch.isOn = viewModel.displayedTodo.isDone
+      self.id = viewModel.displayedTodo.id
+    }
   }
 }

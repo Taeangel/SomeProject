@@ -78,7 +78,8 @@ enum MainScene
         let updatedDate: String
       }
       
-      var displayedTodoList: [DisplayedTodo]
+      var displayedTodoList: [String: [DisplayedTodo]]
+      var sections: [String]
     }
   }
 }

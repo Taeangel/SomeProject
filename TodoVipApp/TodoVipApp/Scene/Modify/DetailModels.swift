@@ -40,14 +40,20 @@ enum Detail
     }
     struct Response
     {
-      var todo: TodoEntity
+      var todo: TodoDTO
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
-      struct DisplayedTodo: Hashable {
+      struct DisplayedTodo {
         let id: Int
         let title: String
         let isDone: Bool
+        
+        init(todo: TodoDTO ) {
+          self.id = todo.id
+          self.title = todo.title
+          self.isDone = todo.isDone
+        }
       }
       
       var displayedTodo: DisplayedTodo

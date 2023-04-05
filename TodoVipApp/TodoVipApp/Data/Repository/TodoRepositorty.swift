@@ -16,6 +16,8 @@ final class TodoRepository {
 }
 
 extension TodoRepository: TodoRepositoriable {
+
+  
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
     try await todoStorageable.fetchSearchTodoList(page: page, perPage: perPage, query: query)
   }
@@ -32,7 +34,11 @@ extension TodoRepository: TodoRepositoriable {
     try await todoStorageable.deleteTodo(id: id)
   }
   
-  func postTodo(todo: TodoDTO) async throws {
+  func postTodo(todo: TodoPostDTO) async throws {
     try await todoStorageable.postTodo(todo: todo)
+  }
+  
+  func fetchTodo(id: Int) async throws -> TodoDataDTO {
+    try await todoStorageable.fetchTodo(id: id)
   }
 }

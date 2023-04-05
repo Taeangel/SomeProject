@@ -12,8 +12,9 @@ enum TodoRequestManager {
   case getTodos(page: Int, orderBy: String = "desc", perPage: Int)
   case modify(id: Int, title: String, isDone: Bool)
   case delete(id: Int)
-  case postTodo(todo: TodoDTO)
+  case postTodo(todo: TodoPostDTO)
   case getSearchTodos(page: Int, query: String, orderBy: String = "desc", perPage: Int)
+  case fetchTodo(id: Int)
   
   var todoBaseURL: String {
     return "https://phplaravel-574671-2962113.cloudwaysapps.com/api/v1/"
@@ -31,6 +32,8 @@ enum TodoRequestManager {
       return todoBaseURL
     case .getSearchTodos:
       return todoBaseURL
+    case .fetchTodo:
+      return todoBaseURL
     }
   }
   
@@ -47,6 +50,8 @@ enum TodoRequestManager {
       return "todos"
     case .getSearchTodos:
       return "todos/search?"
+    case let .fetchTodo(id):
+      return "todos/\(id)"
     }
   }
   
@@ -61,6 +66,8 @@ enum TodoRequestManager {
     case .postTodo:
       return .post
     case .getSearchTodos:
+      return .get
+    case .fetchTodo:
       return .get
     }
   }
@@ -86,6 +93,8 @@ enum TodoRequestManager {
       params["order_by"] = orderBy
       params["per_page"] = perPage
       return params
+    case .fetchTodo:
+      return nil
     }
   }
   
@@ -100,6 +109,8 @@ enum TodoRequestManager {
     case let .postTodo(todo):
       return ["Accept": "application/json", "Content-Type": "multipart/form-data; boundary=\(todo.boundary)"]
     case .getSearchTodos:
+      return ["Accept": "application/json"]
+    case .fetchTodo:
       return ["Accept": "application/json"]
     }
   }
@@ -120,6 +131,8 @@ enum TodoRequestManager {
       
       return MultipartForm(parts: multipartFormParts, boundary: todo.boundary).bodyData
     case .getSearchTodos:
+      return nil
+    case .fetchTodo:
       return nil
     }
   }
