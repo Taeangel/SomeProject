@@ -39,9 +39,9 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
     guard let todoDataDTO = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0) else { return }
     
 //    guard let todoDTO = todoDataDTO.data else { return }
-    let aasd = todoDataDTO.data
+    let todo = todoDataDTO.data
     
-    let response = Detail.PresentTodo.Response(todo: aasd)
+    let response = Detail.PresentTodo.Response(todo: todo)
     presenter?.presentTodo(response: response)
   }
   

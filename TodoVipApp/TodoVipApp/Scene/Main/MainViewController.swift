@@ -137,7 +137,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  @IBAction func SearchButtondidTap(_ sender: Any) {
+  @IBAction func searchButtondidTap(_ sender: Any) {
     if searchBar.text! == "" {
       let request = MainScene.FetchTodoList.Request()
       Task {
