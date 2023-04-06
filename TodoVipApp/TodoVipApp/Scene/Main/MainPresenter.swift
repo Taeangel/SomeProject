@@ -15,11 +15,14 @@ import UIKit
 protocol MainPresentationLogic
 {
   func presentTodoList(response: TodoListProtocol)
-  func updatePage(response: UpdateResponsePage)
+  func presentDeleteTodo(response: MainScene.DeleteTodo.Response)
+  func presentCheckBoxTap(response: MainScene.CheckBoxTodo.Response)
 }
 
 class MainPresenter: MainPresentationLogic
 {
+ 
+  
   
   weak var viewController: MainDisplayLogic?
   
@@ -67,8 +70,13 @@ class MainPresenter: MainPresentationLogic
     viewController?.displayTodoList(viewModel: viewModel)
   }
   
-  func updatePage(response: UpdateResponsePage) {
-    let viewModel = MainScene.UpdatePageViewModel(page: response.page, error: response.error as? NetworkError)
-    viewController?.updatePage(viewModel: viewModel)
+  func presentDeleteTodo(response: MainScene.DeleteTodo.Response) {
+    let viewModel = MainScene.DeleteTodo.ViewModel(page: response.page, error: response.error as? NetworkError)
+    viewController?.deleteTodo(viewModel: viewModel)
+  }
+  
+  func presentCheckBoxTap(response: MainScene.CheckBoxTodo.Response) {
+    let viewModel = MainScene.CheckBoxTodo.ViewModel(page: response.page, error: response.error as? NetworkError)
+    viewController?.checkDoneTodo(viewModel: viewModel)
   }
 }

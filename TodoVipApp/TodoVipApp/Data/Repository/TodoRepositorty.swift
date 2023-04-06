@@ -26,15 +26,15 @@ extension TodoRepository: TodoRepositoriable {
     try await todoStorageable.fetchTodoList(page: page, perPage: perPage)
   }
   
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws {
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoDataDTO {
     try await todoStorageable.modifyTodo(id: id, title: title, isDone: isDone)
   }
   
-  func deleteTodo(id: Int) async throws {
+  func deleteTodo(id: Int) async throws -> TodoDataDTO {
     try await todoStorageable.deleteTodo(id: id)
   }
   
-  func postTodo(todo: TodoPostDTO) async throws {
+  func postTodo(todo: TodoPostDTO) async throws -> TodoDataDTO {
     try await todoStorageable.postTodo(todo: todo)
   }
   

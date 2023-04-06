@@ -25,10 +25,16 @@ enum MainScene
       var title: String
       var isDone: Bool
     }
-    struct Response: UpdateResponsePage //워커에서 들어온 데이터 - 날것의 데이터
+    struct Response //워커에서 들어온 데이터 - 날것의 데이터
     {
       var error: Error?
       var page: Int
+    }
+    
+    struct ViewModel // 업데이트Page
+    {
+      var page: Int
+      var error: NetworkError?
     }
   }
   
@@ -73,10 +79,16 @@ enum MainScene
       var page: Int = 1
       var id: Int
     }
-    struct Response: UpdateResponsePage //워커에서 들어온 데이터 - 날것의 데이터
+    struct Response //워커에서 들어온 데이터 - 날것의 데이터
     {
+      var id: Int?
       var error: Error?
       var page: Int
+    }
+    struct ViewModel // 업데이트Page
+    {
+      var page: Int
+      var error: NetworkError?
     }
   }
   
@@ -111,23 +123,24 @@ enum MainScene
     }
   }
   
-  struct UpdatePageViewModel: UpdateViewModelPage // 업데이트Page
+  struct ViewModel // 업데이트Page
   {
     var page: Int
     var error: NetworkError?
   }
 }
 
-protocol TodoListProtocol: UpdateResponsePage {
+protocol TodoListProtocol {
   var todoList: [TodoEntity]? { get set }
-}
-
-protocol UpdateResponsePage {
   var error: Error? { get set }
   var page: Int { get set }
 }
 
-protocol UpdateViewModelPage {
-  var page: Int { get set }
-  var error: NetworkError? { get set }
-}
+//protocol UpdateResponsePage {
+// 
+//}
+//
+//protocol UpdateViewModelPage {
+//  var page: Int { get set }
+//  var error: NetworkError? { get set }
+//}

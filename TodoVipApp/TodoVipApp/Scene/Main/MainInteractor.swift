@@ -56,30 +56,30 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     }
   }
   
-  func deleteTodo(request: MainScene.DeleteTodo.Request)  {
-    worker = MainWorker()
-    Task {
-      do {
-        try await worker?.deleteTodo(id: request.id)
-        let response = MainScene.DeleteTodo.Response(page: request.page)
-        presenter?.updatePage(response: response)
-      } catch {
-        let response = MainScene.DeleteTodo.Response(error: error, page: request.page)
-        presenter?.updatePage(response: response)
-      }
-    }
-  }
-  
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) {
     worker = MainWorker()
     Task {
       do {
-        let todoList = try await worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary)
+        let todoList = try await self.worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary)
         let response = MainScene.FetchSearchTodoList.Response(todoList: todoList, page: request.page)
         presenter?.presentTodoList(response: response)
       } catch {
         let response = MainScene.FetchSearchTodoList.Response(error: error, page: request.page)
         presenter?.presentTodoList(response: response)
+      }
+    }
+  }
+  
+  func deleteTodo(request: MainScene.DeleteTodo.Request)  {
+    worker = MainWorker()
+    Task {
+      do {
+        try await self.worker?.deleteTodo(id: request.id)
+        let response = MainScene.DeleteTodo.Response(page: request.page)
+        presenter?.presentDeleteTodo(response: response)
+      } catch {
+        let response = MainScene.DeleteTodo.Response(error: error, page: request.page)
+        presenter?.presentDeleteTodo(response: response)
       }
     }
   }
@@ -90,10 +90,10 @@ class MainInteractor: MainBusinessLogic, MainDataStore
       do {
        try await worker?.checkisDone(id:request.id ,title: request.title , isDone: request.isDone)
         let response = MainScene.CheckBoxTodo.Response(page: request.page)
-        presenter?.updatePage(response: response)
+        presenter?.presentCheckBoxTap(response: response)
       } catch {
         let response = MainScene.CheckBoxTodo.Response(error: error, page: request.page)
-        presenter?.updatePage(response: response)
+        presenter?.presentCheckBoxTap(response: response)
       }
     }
   }

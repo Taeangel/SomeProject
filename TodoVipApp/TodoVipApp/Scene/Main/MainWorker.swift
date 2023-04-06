@@ -23,7 +23,7 @@ class MainWorker: TodoWorkerUsecase
     return todoListDTO.map { TodoEntity.init(datunm: $0) }
   }
   
-  func deleteTodo(id: Int) async throws {
+  func deleteTodo(id: Int) async throws -> TodoDataDTO {
     try await todoUsecase.deleteTodo(id: id)
   }
   
@@ -35,7 +35,7 @@ class MainWorker: TodoWorkerUsecase
     return todoListDTO.map { TodoEntity.init(datunm: $0) }
   }
   
-  func checkisDone(id: Int, title: String, isDone: Bool) async throws {
+  func checkisDone(id: Int, title: String, isDone: Bool) async throws -> TodoDataDTO {
    try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
   }
 }

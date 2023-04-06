@@ -17,7 +17,9 @@ import CombineCocoa
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
-  func updatePage(viewModel: UpdateViewModelPage)
+  
+  func deleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
+  func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel)
 }
 
 class MainViewController: UIViewController, MainDisplayLogic, Alertable
@@ -30,13 +32,25 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   // MARK: - Properties
   typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
+  private let refreshControl: UIRefreshControl = UIRefreshControl()
   private var sections: [String] = []
   private var todoList: [String: [Displayedtodo]] = [:]
-  private let refreshControl: UIRefreshControl = UIRefreshControl()
-  private var fetchingMore = false
   private var page = 1
   private var cancellables = Set<AnyCancellable>()
-  private var searchText = CurrentValueSubject<String, Never>("")
+  @Published private var searchText = ""
+  @Published private var isloadig: Bool = false
+  @Published private var fetchingMore = true
+  
+  lazy var isTableBottom: AnyPublisher<Bool, Never> = myTableView
+    .contentOffsetPublisher
+    .map { offset -> Bool in
+      let height = self.myTableView.frame.size.height
+      let contentTOffset = offset.y
+      let distanceFromBottom = self.myTableView.contentSize.height - contentTOffset
+      return distanceFromBottom - 200 < height
+    }
+    .eraseToAnyPublisher()
+  
   
   // MARK: Object lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -134,15 +148,28 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       .sink { [weak self] in self?.searchTodos($0)}
       .store(in: &cancellables)
     
+//    Publishers.CombineLatest(isTableBottom, $fetchingMore)
+//      .map {
+//        print("isTableBottom\($0)")
+//        print("fetchingMore\($1)")
+//        return $0 == true && $1 == true }
+//      .sink { [weak self] in
+//        if $0 {
+//          print("바닥이야. ")
+//          self?.beginBatchFetch()
+//        }
+//      }
+//      .store(in: &cancellables)
+    
     
     myTableView.contentOffsetPublisher
       .sink { [weak self] offset in
         guard let self = self else { return }
         let offsetY = offset.y
         let contentHeight = self.myTableView.contentSize.height
- 
+
         if offsetY > contentHeight - self.myTableView.frame.height {
-          if !self.fetchingMore {
+          if self.fetchingMore {
             print("시작할떄 불리는가")
             self.beginBatchFetch()
           }
@@ -163,12 +190,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       interactor?.fetchSearchTodoList(request: request)
     }
   }
+  
   func beginBatchFetch() {
-    fetchingMore = true
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
       self.fetchTodoList()
-      self.fetchingMore = false
-    })
   }
   
   @objc func didDismissDetailNotification(_ notification: Notification) {
@@ -183,9 +207,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   func deleteTodo(id: Int) {
     let deleteRequest = MainScene.DeleteTodo.Request(id: id)
-    let fetchRequest = MainScene.FetchTodoList.Request()
     interactor?.deleteTodo(request: deleteRequest)
-    interactor?.fetchTodoList(request: fetchRequest)
   }
   
   @IBAction func presentModal(_ sender: Any) {
@@ -201,6 +223,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.page += viewModel.page
       self.todoList = viewModel.displayedTodoList
       self.sections = viewModel.sections
+      self.fetchingMore = true
       
       DispatchQueue.main.async {
         self.myTableView.reloadData()
@@ -215,7 +238,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func updatePage(viewModel: UpdateViewModelPage) {
+  func deleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
       fetchTodoList()
@@ -226,6 +249,19 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
+  
+  func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel) {
+    guard let error = viewModel.error else {
+      self.page = viewModel.page
+      fetchTodoList()
+      return
+    }
+    
+    DispatchQueue.main.async {
+      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
+    }
+  }
+
 }
 
 // MARK: - TableView
@@ -297,12 +333,8 @@ extension MainViewController: UITableViewDataSource
     cell.onEditAction = { [weak self] clickedTodo in
      
       let idDone = !clickedTodo.isDone
-      
       let request = MainScene.CheckBoxTodo.Request(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
-      
       self?.interactor?.checkTodo(request: request)
-//      self?.interactor?.fetchTodoList(request: MainScene.FetchTodoList.Request(page: 1))
-     
     }
     
     return cell

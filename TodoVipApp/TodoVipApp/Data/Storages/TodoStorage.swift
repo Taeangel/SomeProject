@@ -9,9 +9,9 @@ import Foundation
 
 protocol TodoStorageable: AnyObject {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws
-  func deleteTodo(id: Int) async throws
-  func postTodo(todo: TodoPostDTO) async throws
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoDataDTO
+  func deleteTodo(id: Int) async throws -> TodoDataDTO
+  func postTodo(todo: TodoPostDTO) async throws -> TodoDataDTO
   func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> TodoListDTO
   func fetchTodo(id: Int) async throws -> TodoDataDTO
 }
@@ -25,6 +25,7 @@ final class TodoStorage {
 }
 
 extension TodoStorage: TodoStorageable {
+
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO {
     let data = try await todoApiManager.requestData(.getTodos(page: page, perPage: perPage))
 
@@ -36,17 +37,38 @@ extension TodoStorage: TodoStorageable {
     }
   }
   
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws {
-    let _ = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoDataDTO {
+    let data = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
+    
+    do {
+      return try JSONDecoder().decode(TodoDataDTO.self, from: data)
+    } catch {
+      
+      throw NetworkError.decoding
+    }
     
   }
   
-  func deleteTodo(id: Int) async throws {
-    let _ = try await todoApiManager.requestData(.delete(id: id))
+  func deleteTodo(id: Int) async throws -> TodoDataDTO {
+    let data = try await todoApiManager.requestData(.delete(id: id))
+    
+    do {
+      return try JSONDecoder().decode(TodoDataDTO.self, from: data)
+    } catch {
+      
+      throw NetworkError.decoding
+    }
   }
   
-  func postTodo(todo: TodoPostDTO) async throws {
-    let _ = try await todoApiManager.requestData(.postTodo(todo: todo))
+  func postTodo(todo: TodoPostDTO) async throws -> TodoDataDTO {
+    let data = try await todoApiManager.requestData(.postTodo(todo: todo))
+    
+    do {
+      return try JSONDecoder().decode(TodoDataDTO.self, from: data)
+    } catch {
+      
+      throw NetworkError.decoding
+    }
   }
   
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
