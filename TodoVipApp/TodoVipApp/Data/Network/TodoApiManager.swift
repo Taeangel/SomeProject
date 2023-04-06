@@ -33,10 +33,19 @@ extension URLSession: Requestable {
     
     let (data, response) = try await URLSession.shared.data(for: request.urlRequest)
     
-    guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-      throw NetworkError.badStatus(code: response)
+    guard let response = response as? HTTPURLResponse else {
+      throw NetworkError.developerProblem
+    }
+    
+    if response.statusCode == 422 {
+      throw NetworkError.badRequest
+    }
+    
+    guard (200..<300).contains(response.statusCode) else {
+      throw NetworkError.badStatus(code: response.statusCode)
     }
     
     return data
   }
 }
+
