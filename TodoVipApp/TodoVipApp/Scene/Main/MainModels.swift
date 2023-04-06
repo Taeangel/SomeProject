@@ -14,8 +14,8 @@ import UIKit
 
 enum MainScene
 {
-  // MARK: Use cases
   
+  // MARK: - CheckBoxModify
   enum CheckBoxTodo
   {
     struct Request // 뷰가 인터렉터한테 요청하는 데이터
@@ -32,6 +32,8 @@ enum MainScene
     }
   }
   
+  // MARK: - FetchSearchTodoList
+
   enum FetchSearchTodoList
   {
     struct Request // 뷰가 인터렉터한테 요청하는 데이터
@@ -43,7 +45,7 @@ enum MainScene
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
       var error: NetworkError?
-      var todoList: [TodoEntity] = []
+      var todoList: [TodoEntity]?
       var page: Int
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
@@ -55,11 +57,14 @@ enum MainScene
         let createdTime: String
         let createdDate: String
       }
+      
+      var error: NetworkError?
       var page: Int
       var displayedTodoList: [DisplayedTodo]
-    
     }
   }
+  
+  // MARK: - DeleteTodo
   
   enum DeleteTodo
   {
@@ -75,6 +80,8 @@ enum MainScene
     }
   }
   
+  // MARK: - FetchTodoList
+  
   enum FetchTodoList
   {
     struct Request // 뷰가 인터렉터한테 요청하는 데이터
@@ -85,7 +92,7 @@ enum MainScene
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
       var error: NetworkError?
-      var todoList: [TodoEntity] = []
+      var todoList: [TodoEntity]?
       var page: Int
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
@@ -112,7 +119,7 @@ enum MainScene
 }
 
 protocol TodoListProtocol: UpdateResponsePage {
-  var todoList: [TodoEntity] { get set }
+  var todoList: [TodoEntity]? { get set }
 }
 
 protocol UpdateResponsePage {

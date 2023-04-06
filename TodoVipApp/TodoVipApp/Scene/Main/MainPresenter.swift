@@ -30,7 +30,9 @@ class MainPresenter: MainPresentationLogic
   func presentTodoList(response: TodoListProtocol) {
     typealias DisplayedTodoList = MainScene.FetchTodoList.ViewModel.DisplayedTodo
     
-    let displayedTodoList = response.todoList.map { todoEntity -> DisplayedTodoList in
+    guard let responseTodoList = response.todoList else { return }
+    
+    let displayedTodoList = responseTodoList.map { todoEntity -> DisplayedTodoList in
       
       guard let findDateT = todoEntity.updatedAt?.firstIndex(of: "T"),
             let findDateDot = todoEntity.updatedAt?.firstIndex(of: ".") else {
@@ -61,9 +63,7 @@ class MainPresenter: MainPresentationLogic
     sections.reverse()
     
     let nowPage = response.page
-    
     let viewModel = MainScene.FetchTodoList.ViewModel(page: nowPage + 1, displayedTodoList: groupedTodoList, sections: sections)
-    
     viewController?.displayTodoList(viewModel: viewModel)
   }
   

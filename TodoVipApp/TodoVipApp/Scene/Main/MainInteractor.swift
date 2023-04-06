@@ -38,39 +38,49 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
     worker = MainWorker()
     Task{
-      if request.page == 1 {
+      do {
         guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
-        self.todoList = todoList
+
+        if request.page == 1 {
+          self.todoList = todoList
+        } else {
+          self.todoList += todoList
+        }
         
-      } else {
-        guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
-        self.todoList += todoList
+        let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: request.page)
+        presenter?.presentTodoList(response: response)
+      } catch {
+        let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
+        presenter?.presentTodoList(response: response)
       }
-      
-      let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: request.page)
-      presenter?.presentTodoList(response: response)
     }
   }
   
   func deleteTodo(request: MainScene.DeleteTodo.Request)  {
     worker = MainWorker()
     Task {
-      try await worker?.deleteTodo(id: request.id)
-      let response = MainScene.DeleteTodo.Response(page: request.page)
-      presenter?.updatePage(response: response)
+      do {
+        try await worker?.deleteTodo(id: request.id)
+        let response = MainScene.DeleteTodo.Response(page: request.page)
+        presenter?.updatePage(response: response)
+      } catch {
+        let response = MainScene.DeleteTodo.Response(error: error as? NetworkError, page: request.page)
+        presenter?.updatePage(response: response)
+      }
     }
   }
   
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) {
     worker = MainWorker()
-    
     Task {
-      guard let todoList = try await worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary) else {
-        return
+      do {
+        let todoList = try await worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary)
+        let response = MainScene.FetchSearchTodoList.Response(todoList: todoList, page: request.page)
+        presenter?.presentTodoList(response: response)
+      } catch {
+        let response = MainScene.FetchSearchTodoList.Response(error: error as? NetworkError, page: request.page)
+        presenter?.presentTodoList(response: response)
       }
-      
-      let response = MainScene.FetchSearchTodoList.Response(todoList: todoList, page: request.page)
-      presenter?.presentTodoList(response: response)
     }
   }
   
@@ -85,7 +95,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let response = MainScene.CheckBoxTodo.Response(error: error as? NetworkError, page: request.page)
         presenter?.updatePage(response: response)
       }
-
     }
   }
 }
