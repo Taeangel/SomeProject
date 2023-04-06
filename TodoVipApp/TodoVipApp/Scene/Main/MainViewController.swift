@@ -136,14 +136,14 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     
     
     myTableView.contentOffsetPublisher
-      .dropFirst(10)
       .sink { [weak self] offset in
         guard let self = self else { return }
         let offsetY = offset.y
         let contentHeight = self.myTableView.contentSize.height
-
+ 
         if offsetY > contentHeight - self.myTableView.frame.height {
           if !self.fetchingMore {
+            print("시작할떄 불리는가")
             self.beginBatchFetch()
           }
         }
@@ -205,6 +205,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   func updatePage(viewModel: UpdateViewModelPage) {
+    if viewModel.error == nil {
+      self.page = viewModel.page
+      fetchTodoList()
+      return
+    }
+    
     self.page = viewModel.page
   }
 }
@@ -273,16 +279,16 @@ extension MainViewController: UITableViewDataSource
     
     let date = sections[indexPath.section]
     guard let todos = todoList[date] else { return cell }
-    let todo = todos[indexPath.row]
     cell.configureCell(todo: todos[indexPath.row])
     
-    cell.onEditAction = { [weak self] in
-      var asd = todo.isDone
-      asd.toggle()
-      let request = MainScene.CheckBoxTodo.Request(id: todo.id, title: todo.title, isDone: asd)
+    cell.onEditAction = { [weak self] clickedTodo in
+     
+      let idDone = !clickedTodo.isDone
+      
+      let request = MainScene.CheckBoxTodo.Request(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
       
       self?.interactor?.checkTodo(request: request)
-      self?.interactor?.fetchTodoList(request: MainScene.FetchTodoList.Request(page: 1))
+//      self?.interactor?.fetchTodoList(request: MainScene.FetchTodoList.Request(page: 1))
      
     }
     

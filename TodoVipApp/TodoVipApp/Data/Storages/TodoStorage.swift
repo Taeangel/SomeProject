@@ -27,7 +27,7 @@ final class TodoStorage {
 extension TodoStorage: TodoStorageable {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO {
     let data = try await todoApiManager.requestData(.getTodos(page: page, perPage: perPage))
-    
+
     do {
       return try JSONDecoder().decode(TodoListDTO.self, from: data)
     } catch {
@@ -37,7 +37,8 @@ extension TodoStorage: TodoStorageable {
   }
   
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws {
-    let _ = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
+    let asd = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
+    
   }
   
   func deleteTodo(id: Int) async throws {

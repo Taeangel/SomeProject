@@ -68,8 +68,7 @@ class MainPresenter: MainPresentationLogic
   }
   
   func updatePage(response: UpdateResponsePage) {
-    let viewModel = MainScene.UpdatePageViewModel(page: response.page)
+    let viewModel = MainScene.UpdatePageViewModel(page: response.page, error: response.error)
     viewController?.updatePage(viewModel: viewModel)
   }
-  
 }

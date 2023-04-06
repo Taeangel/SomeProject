@@ -13,5 +13,5 @@ enum NetworkError: Error {
   case unknown
   case unauthorized
   case noContent
-  case badStatus(code: Int)
+  case badStatus(code: URLResponse)
 }

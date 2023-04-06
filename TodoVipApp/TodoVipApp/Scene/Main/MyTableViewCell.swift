@@ -8,10 +8,15 @@
 import UIKit
 
 class MyTableViewCell: UITableViewCell {
+  typealias Todo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
+  
   @IBOutlet weak var doneButton: UIButton!
   @IBOutlet weak var contentLabel: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
-  var onEditAction: (() -> Void)?
+  
+  var todo: Todo?
+  
+  var onEditAction: ((_ todo: Todo) -> Void)?
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -32,11 +37,14 @@ class MyTableViewCell: UITableViewCell {
     dateLabel.textColor = .black
   }
   @IBAction func checkBoxDidTap(_ sender: Any) {
-    onEditAction?()
+    if let todo = self.todo {
+      onEditAction?(todo)
+    }
   }
   
   func configureCell(todo: MainScene.FetchTodoList.ViewModel.DisplayedTodo)
   {
+    self.todo = todo
     self.contentLabel.text = todo.title
     self.dateLabel.text = "\(todo.updatedDate)"
     

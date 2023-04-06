@@ -77,9 +77,15 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   func checkTodo(request: MainScene.CheckBoxTodo.Request) {
     worker = MainWorker()
     Task {
-      try await worker?.checkisDone(id:request.id ,title: request.title , isDone: request.isDone)
-      let response = MainScene.CheckBoxTodo.Response(page: request.page)
-      presenter?.updatePage(response: response)
+      do {
+       try await worker?.checkisDone(id:request.id ,title: request.title , isDone: request.isDone)
+        let response = MainScene.CheckBoxTodo.Response(page: request.page)
+        presenter?.updatePage(response: response)
+      } catch {
+        let response = MainScene.CheckBoxTodo.Response(error: error as? NetworkError, page: request.page)
+        presenter?.updatePage(response: response)
+      }
+
     }
   }
 }
