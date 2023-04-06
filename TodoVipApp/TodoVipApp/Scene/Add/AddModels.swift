@@ -22,15 +22,19 @@ enum Add
     {
       var todo: TodoPostDTO
     }
+    
     struct Response
     {
-      let title = ""
-      let isDone = false
+      var error: Error?
+      let title: String = ""
+      let isDone: Bool = false
     }
+    
     struct ViewModel
     {
-      let title = ""
-      let isDone = false
+      var error: NetworkError?
+      let title: String = ""
+      let isDone: Bool = false
     }
   }
 }

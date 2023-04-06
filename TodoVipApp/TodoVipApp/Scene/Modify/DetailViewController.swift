@@ -15,10 +15,12 @@ import UIKit
 protocol DetailDisplayLogic: AnyObject
 {
   func displaySomething(viewModel: Detail.PresentTodo.ViewModel)
+  func displayModifyResult(viewmodel: Detail.ModifyTodo.ViewModel)
 }
 
 class DetailViewController: UIViewController, DetailDisplayLogic
 {
+  
   var interactor: DetailBusinessLogic?
   var router: (NSObjectProtocol & DetailRoutingLogic & DetailDataPassing)?
   
@@ -106,10 +108,23 @@ class DetailViewController: UIViewController, DetailDisplayLogic
   
   func displaySomething(viewModel: Detail.PresentTodo.ViewModel)
   {
-    DispatchQueue.main.async {
-      self.doWorkTextField.text = viewModel.displayedTodo.title
-      self.finishSwitch.isOn = viewModel.displayedTodo.isDone
-      self.id = viewModel.displayedTodo.id
+    guard let error = viewModel.error else {
+      //에러 없음
+      DispatchQueue.main.async {
+        self.doWorkTextField.text = viewModel.displayedTodo.title
+        self.finishSwitch.isOn = viewModel.displayedTodo.isDone
+        self.id = viewModel.displayedTodo.id
+      }
+      return
+    }
+    
+    //에러 있음
+  }
+  
+  func displayModifyResult(viewmodel: Detail.ModifyTodo.ViewModel) {
+    guard viewmodel.error == nil else {
+      
+      return
     }
   }
 }

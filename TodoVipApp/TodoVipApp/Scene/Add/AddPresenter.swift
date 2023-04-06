@@ -25,7 +25,7 @@ class AddPresenter: AddPresentationLogic
   
   func cleanAddView(response: Add.PostTodo.Response)
   {
-    let viewModel = Add.PostTodo.ViewModel()
+    let viewModel = Add.PostTodo.ViewModel(error: response.error as? NetworkError)
     viewController?.displaySomething(viewModel: viewModel)
   }
 }

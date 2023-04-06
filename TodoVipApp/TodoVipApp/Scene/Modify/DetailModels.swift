@@ -26,12 +26,13 @@ enum Detail
     }
     struct Response
     {
+      var error: Error?
     }
     struct ViewModel
     {
+      var error: NetworkError?
     }
   }
-  
   
   enum PresentTodo
   {
@@ -40,7 +41,8 @@ enum Detail
     }
     struct Response
     {
-      var todo: TodoDTO
+      var todo: TodoDataDTO?
+      var error: Error?
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
@@ -54,8 +56,9 @@ enum Detail
           self.title = todo.title
           self.isDone = todo.isDone
         }
+        
       }
-      
+      var error: NetworkError?
       var displayedTodo: DisplayedTodo
     }
   }

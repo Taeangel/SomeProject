@@ -63,7 +63,7 @@ class MainPresenter: MainPresentationLogic
     sections.reverse()
     
     let nowPage = response.page
-    let viewModel = MainScene.FetchTodoList.ViewModel(page: nowPage + 1, displayedTodoList: groupedTodoList, sections: sections)
+    let viewModel = MainScene.FetchTodoList.ViewModel(error: response.error, page: nowPage + 1, displayedTodoList: groupedTodoList, sections: sections)
     viewController?.displayTodoList(viewModel: viewModel)
   }
   

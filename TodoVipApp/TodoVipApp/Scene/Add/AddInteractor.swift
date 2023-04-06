@@ -33,12 +33,15 @@ class AddInteractor: AddBusinessLogic, AddDataStore
   func postTodo(request: Add.PostTodo.Request)
   {
     worker = AddWorker()
-    
     Task {
-      try await worker?.postTodo(todo: request.todo)
-      let response = Add.PostTodo.Response()
-      presenter?.cleanAddView(response: response)
+      do {
+        try await worker?.postTodo(todo: request.todo)
+        let response = Add.PostTodo.Response()
+        presenter?.cleanAddView(response: response)
+      } catch {
+        let response = Add.PostTodo.Response(error: error)
+        presenter?.cleanAddView(response: response)
+      }
     }
-   
   }
 }

@@ -104,7 +104,7 @@ enum MainScene
         let updatedTime: String
         let updatedDate: String
       }
-      
+      var error: NetworkError?
       var page: Int
       var displayedTodoList: [String: [DisplayedTodo]]
       var sections: [String]

@@ -15,6 +15,7 @@ import UIKit
 protocol DetailPresentationLogic
 {
   func presentTodo(response: Detail.PresentTodo.Response)
+  func presentModifyResult(response: Detail.ModifyTodo.Response)
 }
 
 class DetailPresenter: DetailPresentationLogic
@@ -25,10 +26,20 @@ class DetailPresenter: DetailPresentationLogic
   
   func presentTodo(response: Detail.PresentTodo.Response)
   {
-    typealias todo = Detail.PresentTodo.ViewModel.DisplayedTodo
+    typealias Todo = Detail.PresentTodo.ViewModel.DisplayedTodo
     
-    let displayTodo = todo(todo: response.todo)
-    let viewModel = Detail.PresentTodo.ViewModel(displayedTodo: displayTodo)
+    guard let todo = response.todo?.data else {
+      return
+    }
+    
+    let displayTodo = Todo(todo: todo)
+    let viewModel = Detail.PresentTodo.ViewModel(error: response.error as? NetworkError, displayedTodo: displayTodo)
     viewController?.displaySomething(viewModel: viewModel)
+  }
+  
+  func presentModifyResult(response: Detail.ModifyTodo.Response) {
+     
+    let viewModel = Detail.ModifyTodo.ViewModel(error: response.error as? NetworkError)
+    viewController?.displayModifyResult(viewmodel: viewModel)
   }
 }

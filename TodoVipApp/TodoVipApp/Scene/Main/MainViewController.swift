@@ -195,13 +195,22 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   // MARK: - 프리젠터에서 뷰로 보내진
 
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
-    self.page += viewModel.page
-    self.todoList = viewModel.displayedTodoList
-    self.sections = viewModel.sections
     
-    DispatchQueue.main.async {
-      self.myTableView.reloadData()
+    guard let error = viewModel.error else {
+      // 에러 있음
+      self.page += viewModel.page
+      self.todoList = viewModel.displayedTodoList
+      self.sections = viewModel.sections
+      
+      DispatchQueue.main.async {
+        self.myTableView.reloadData()
+      }
+      
+      return
     }
+  // 에러 없음
+   
+   
   }
   
   func updatePage(viewModel: UpdateViewModelPage) {

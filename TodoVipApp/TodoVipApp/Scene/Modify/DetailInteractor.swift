@@ -36,18 +36,27 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
   {
     worker = DetailWorker()
     Task {
-      guard let todoDataDTO = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0) else { return }
-      let todo = todoDataDTO.data
-      let response = Detail.PresentTodo.Response(todo: todo)
-      presenter?.presentTodo(response: response)
+      do {
+        let todoDataDTO = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0)
+        let response = Detail.PresentTodo.Response(todo: todoDataDTO)
+        presenter?.presentTodo(response: response)
+      } catch {
+        let response = Detail.PresentTodo.Response(error: error)
+        presenter?.presentTodo(response: response)
+      }
     }
-    
   }
   
   func modifyTodo(request: Detail.ModifyTodo.Request) {
     worker = DetailWorker()
     Task {
-      try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
+      do  {
+        try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
+        
+      } catch {
+        let response = Detail.ModifyTodo.Response(error: error)
+        presenter?.presentModifyResult(response: response)
+      }
     }
   }
 }
