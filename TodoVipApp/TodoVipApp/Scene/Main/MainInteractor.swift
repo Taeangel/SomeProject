@@ -50,7 +50,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: request.page)
         presenter?.presentTodoList(response: response)
       } catch {
-        let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
+        let response = MainScene.FetchTodoList.Response(error: error as! NetworkError, page: request.page)
         presenter?.presentTodoList(response: response)
       }
     }
@@ -64,7 +64,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let response = MainScene.DeleteTodo.Response(page: request.page)
         presenter?.updatePage(response: response)
       } catch {
-        let response = MainScene.DeleteTodo.Response(error: error as? NetworkError, page: request.page)
+        let response = MainScene.DeleteTodo.Response(error: error, page: request.page)
         presenter?.updatePage(response: response)
       }
     }
@@ -78,7 +78,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let response = MainScene.FetchSearchTodoList.Response(todoList: todoList, page: request.page)
         presenter?.presentTodoList(response: response)
       } catch {
-        let response = MainScene.FetchSearchTodoList.Response(error: error as? NetworkError, page: request.page)
+        let response = MainScene.FetchSearchTodoList.Response(error: error, page: request.page)
         presenter?.presentTodoList(response: response)
       }
     }
@@ -92,7 +92,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let response = MainScene.CheckBoxTodo.Response(page: request.page)
         presenter?.updatePage(response: response)
       } catch {
-        let response = MainScene.CheckBoxTodo.Response(error: error as? NetworkError, page: request.page)
+        let response = MainScene.CheckBoxTodo.Response(error: error, page: request.page)
         presenter?.updatePage(response: response)
       }
     }

@@ -27,7 +27,7 @@ enum MainScene
     }
     struct Response: UpdateResponsePage //워커에서 들어온 데이터 - 날것의 데이터
     {
-      var error: NetworkError?
+      var error: Error?
       var page: Int
     }
   }
@@ -44,7 +44,7 @@ enum MainScene
     }
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
-      var error: NetworkError?
+      var error: Error?
       var todoList: [TodoEntity]?
       var page: Int
     }
@@ -75,7 +75,7 @@ enum MainScene
     }
     struct Response: UpdateResponsePage //워커에서 들어온 데이터 - 날것의 데이터
     {
-      var error: NetworkError?
+      var error: Error?
       var page: Int
     }
   }
@@ -91,7 +91,7 @@ enum MainScene
     }
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
-      var error: NetworkError?
+      var error: Error?
       var todoList: [TodoEntity]?
       var page: Int
     }
@@ -123,7 +123,7 @@ protocol TodoListProtocol: UpdateResponsePage {
 }
 
 protocol UpdateResponsePage {
-  var error: NetworkError? { get set }
+  var error: Error? { get set }
   var page: Int { get set }
 }
 

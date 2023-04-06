@@ -37,7 +37,7 @@ extension TodoStorage: TodoStorageable {
   }
   
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws {
-    let asd = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
+    let _ = try await todoApiManager.requestData(.modify(id: id, title: title, isDone: isDone))
     
   }
   

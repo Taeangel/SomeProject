@@ -13,6 +13,7 @@ enum NetworkError: Error {
   case badRequest
   case developerProblem
   case badStatus(code: Int)
+  case fastRequest
 }
 
 extension NetworkError: LocalizedError {
@@ -24,6 +25,8 @@ extension NetworkError: LocalizedError {
       return "잘못된 정보를 입력하셨습니다. 할일은 6글자 이상 입력해 주세요"
     case .developerProblem:
       return "개발자에게 문의해 주십시오"
+    case .fastRequest:
+      return "너무 빠르게 요청하고 있습니다!"
     default:
       return ":"
     }

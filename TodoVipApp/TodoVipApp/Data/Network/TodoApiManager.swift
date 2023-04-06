@@ -41,6 +41,10 @@ extension URLSession: Requestable {
       throw NetworkError.badRequest
     }
     
+    if response.statusCode == 429 {
+      throw NetworkError.fastRequest
+    }
+    
     guard (200..<300).contains(response.statusCode) else {
       throw NetworkError.badStatus(code: response.statusCode)
     }

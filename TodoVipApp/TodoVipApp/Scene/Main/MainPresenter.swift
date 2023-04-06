@@ -63,12 +63,12 @@ class MainPresenter: MainPresentationLogic
     sections.reverse()
     
     let nowPage = response.page
-    let viewModel = MainScene.FetchTodoList.ViewModel(error: response.error, page: nowPage + 1, displayedTodoList: groupedTodoList, sections: sections)
+    let viewModel = MainScene.FetchTodoList.ViewModel(error: response.error as? NetworkError, page: nowPage + 1, displayedTodoList: groupedTodoList, sections: sections)
     viewController?.displayTodoList(viewModel: viewModel)
   }
   
   func updatePage(response: UpdateResponsePage) {
-    let viewModel = MainScene.UpdatePageViewModel(page: response.page, error: response.error)
+    let viewModel = MainScene.UpdatePageViewModel(page: response.page, error: response.error as? NetworkError)
     viewController?.updatePage(viewModel: viewModel)
   }
 }
