@@ -15,10 +15,10 @@ import UIKit
 protocol DetailDisplayLogic: AnyObject
 {
   func displaySomething(viewModel: Detail.PresentTodo.ViewModel)
-  func displayModifyResult(viewmodel: Detail.ModifyTodo.ViewModel)
+  func displayModifyResult(viewModel: Detail.ModifyTodo.ViewModel)
 }
 
-class DetailViewController: UIViewController, DetailDisplayLogic
+class DetailViewController: UIViewController, DetailDisplayLogic, Alertable
 {
   
   var interactor: DetailBusinessLogic?
@@ -117,14 +117,20 @@ class DetailViewController: UIViewController, DetailDisplayLogic
       }
       return
     }
-    
     //에러 있음
+    DispatchQueue.main.async {
+      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
+    }
   }
   
-  func displayModifyResult(viewmodel: Detail.ModifyTodo.ViewModel) {
-    guard viewmodel.error == nil else {
+  func displayModifyResult(viewModel: Detail.ModifyTodo.ViewModel) {
+    guard let error = viewModel.error else {
       
       return
+    }
+    
+    DispatchQueue.main.async {
+      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
 }

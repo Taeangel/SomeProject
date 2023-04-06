@@ -17,7 +17,7 @@ protocol AddDisplayLogic: AnyObject
   func displaySomething(viewModel: Add.PostTodo.ViewModel)
 }
 
-class AddViewController: UIViewController, AddDisplayLogic
+class AddViewController: UIViewController, AddDisplayLogic, Alertable
 {
   var interactor: AddBusinessLogic?
   var router: (NSObjectProtocol & AddRoutingLogic & AddDataPassing)?
@@ -89,15 +89,16 @@ class AddViewController: UIViewController, AddDisplayLogic
   func displaySomething(viewModel: Add.PostTodo.ViewModel)
   {
     guard let error = viewModel.error else {
-      // 에러 있음
+      // 에러 없음
+      DispatchQueue.main.async {
+        self.todoLabel.text = viewModel.title
+        self.isDoneSwitch.isOn = viewModel.isDone
+      }
       return
     }
-    
     //에러없음
     DispatchQueue.main.async {
-      self.todoLabel.text = viewModel.title
-      self.isDoneSwitch.isOn = viewModel.isDone
+      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
-    
   }
 }

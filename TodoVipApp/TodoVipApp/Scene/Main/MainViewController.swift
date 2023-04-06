@@ -210,17 +210,21 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   // 에러 없음
    
-   
+    DispatchQueue.main.async {
+      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
+    }
   }
   
   func updatePage(viewModel: UpdateViewModelPage) {
-    if viewModel.error == nil {
+    guard let error = viewModel.error else {
       self.page = viewModel.page
       fetchTodoList()
       return
     }
     
-    self.page = viewModel.page
+    DispatchQueue.main.async {
+      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
+    }
   }
 }
 
