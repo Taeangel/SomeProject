@@ -74,7 +74,9 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task {
       do {
-        try await self.worker?.deleteTodo(id: request.id)
+        let todo = try await self.worker?.deleteTodo(id: request.id)
+        let todoId = todo?.data.id
+        
         let response = MainScene.DeleteTodo.Response(page: request.page)
         presenter?.presentDeleteTodo(response: response)
       } catch {

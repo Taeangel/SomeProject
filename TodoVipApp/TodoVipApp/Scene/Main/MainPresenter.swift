@@ -21,9 +21,6 @@ protocol MainPresentationLogic
 
 class MainPresenter: MainPresentationLogic
 {
- 
-  
-  
   weak var viewController: MainDisplayLogic?
   
   // MARK: Do something

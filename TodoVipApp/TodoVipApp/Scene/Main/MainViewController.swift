@@ -241,7 +241,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   func deleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
-      fetchTodoList()
+//      fetchTodoList()
+//      let indexPath = IndexPath()
+//      indexPath.row = 0
+//      indexPath.section = 1
+//      tableView(myTableView, commit: .delete, forRowAt: indexPath)
+      
       return
     }
     
@@ -261,7 +266,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
-
 }
 
 // MARK: - TableView
@@ -275,12 +279,32 @@ extension MainViewController: UITableViewDelegate
     refreshControl.endRefreshing()
   }
   
+//  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//    .delete
+//  }
+//
+//  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//    if editingStyle == .delete {
+//      DispatchQueue.main.async {
+//        tableView.deleteRows(at: [indexPath], with: .automatic)
+//      }
+//
+//    }
+//  }
+  
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     
     let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, _) in
       
-      guard let date = self?.sections[indexPath.section] else { return }
-      guard let todos = self?.todoList[date] else { return }
+      guard let data = self?.sections[indexPath.section] else { return }
+      guard let todos = self?.todoList[data] else { return }
+      
+      self?.todoList[data]?.remove(at: indexPath.row)
+      
+      DispatchQueue.main.async {
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+      }
+      
       self?.deleteTodo(id: todos[indexPath.row].id)
     }
     
