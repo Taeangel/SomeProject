@@ -11,9 +11,9 @@ import UIKit
 protocol Alertable: UIViewController {}
 
 extension Alertable {
-  func showErrorAlertWithConfirmButton(_ message: String) {
+  func showErrorAlertWithConfirmButton(_ message: String, action: (() -> Void)? = nil) {
     AlertBuilder.init(viewController: self)
-      .addAction(title: "확인", style: .default)
+      .addAction(title: "확인", style: .default, action: action)
       .show(title: "오류", message: message, style: .alert)
   }
 }

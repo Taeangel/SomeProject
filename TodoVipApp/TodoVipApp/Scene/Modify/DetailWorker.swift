@@ -14,7 +14,7 @@ import UIKit
 
 class DetailWorker: TodoWorkerUsecase
 {
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity
   {
     try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
   }

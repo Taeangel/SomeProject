@@ -16,7 +16,7 @@ enum MainScene
 {
   
   // MARK: - CheckBoxModify
-  enum CheckBoxTodo
+  enum ModifyTodo
   {
     struct Request  // 뷰가 인터렉터한테 요청하는 데이터
     {

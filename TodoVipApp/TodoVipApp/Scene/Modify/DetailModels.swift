@@ -26,10 +26,14 @@ enum Detail
     }
     struct Response
     {
+      var title: String?
+      var isDone: Bool?
       var error: Error?
     }
     struct ViewModel
     {
+      var title: String?
+      var isDone: Bool?
       var error: NetworkError?
     }
   }

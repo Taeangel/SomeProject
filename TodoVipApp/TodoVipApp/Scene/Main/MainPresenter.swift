@@ -16,7 +16,7 @@ protocol MainPresentationLogic
 {
   func presentTodoList(response: TodoListProtocol)
   func presentDeleteTodo(response: MainScene.DeleteTodo.Response)
-  func presentCheckBoxTap(response: MainScene.CheckBoxTodo.Response)
+  func presentCheckBoxTap(response: MainScene.ModifyTodo.Response)
 }
 
 class MainPresenter: MainPresentationLogic
@@ -66,8 +66,8 @@ class MainPresenter: MainPresentationLogic
     viewController?.displayDeleteTodo(viewModel: viewModel)
   }
   
-  func presentCheckBoxTap(response: MainScene.CheckBoxTodo.Response) {
-    typealias DisplayedTodo = MainScene.CheckBoxTodo.ViewModel.DisplayedTodo
+  func presentCheckBoxTap(response: MainScene.ModifyTodo.Response) {
+    typealias DisplayedTodo = MainScene.ModifyTodo.ViewModel.DisplayedTodo
 
     let displayTodo = DisplayedTodo(
       id: response.todoEntity?.id ?? 0,
@@ -77,7 +77,7 @@ class MainPresenter: MainPresentationLogic
       updatedDate: response.todoEntity?.updatedDate ?? ""
     )
     
-    let viewModel = MainScene.CheckBoxTodo.ViewModel(indexPath: response.indexPath, disPlayTodo: displayTodo, page: response.page, error: response.error as? NetworkError)
+    let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: response.indexPath, disPlayTodo: displayTodo, page: response.page, error: response.error as? NetworkError)
     
     viewController?.checkDoneTodo(viewModel: viewModel)
   }

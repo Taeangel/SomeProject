@@ -13,12 +13,13 @@
 import UIKit
 import Combine
 import CombineCocoa
+import RxCocoa
 
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
   func displayDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
-  func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel)
+  func checkDoneTodo(viewModel: MainScene.ModifyTodo.ViewModel)
 }
 
 class MainViewController: UIViewController, MainDisplayLogic, Alertable
@@ -146,34 +147,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       .sink { [weak self] in self?.searchTodos($0)}
       .store(in: &cancellables)
     
-    //    Publishers.CombineLatest(isTableBottom, $fetchingMore)
-    //      .map {
-    //        print("isTableBottom\($0)")
-    //        print("fetchingMore\($1)")
-    //        return $0 == true && $1 == true }
-    //      .sink { [weak self] in
-    //        if $0 {
-    //          print("바닥이야. ")
-    //          self?.beginBatchFetch()
-    //        }
-    //      }
-    //      .store(in: &cancellables)
-    
-    
-//    myTableView.contentOffsetPublisher
-//      .sink { [weak self] offset in
-//        guard let self = self else { return }
-//        let offsetY = offset.y
-//        let contentHeight = self.myTableView.contentSize.height
-//        
-//        if offsetY > contentHeight - self.myTableView.frame.height {
-//          if self.fetchingMore {
-//            print("시작할떄 불리는가")
-//            self.beginBatchFetch()
-//          }
-//        }
-//      }
-//      .store(in: &cancellables)
+//        Publishers.CombineLatest(isTableBottom, $fetchingMore)
+//          .map { $0 == true && $1 == true }
+//          .sink { [weak self] in if $0 { self?.fetchTodoList() } }
+//          .store(in: &cancellables)
   }
   
   // MARK: 인터랙터에게 보내는 메서드
@@ -189,9 +166,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func beginBatchFetch() {
-    self.fetchTodoList()
-  }
   
   @objc func didDismissDetailNotification(_ notification: Notification) {
     let fetchRequest = MainScene.FetchTodoList.Request()
@@ -199,6 +173,8 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   func fetchTodoList() {
+    self.fetchingMore = false
+    
     let request = MainScene.FetchTodoList.Request(page: page)
     interactor?.fetchTodoList(request: request)
   }
@@ -210,7 +186,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   func modifyCheckBox(id: Int, title: String, isDone: Bool) {
     
-    let request = MainScene.CheckBoxTodo.Request(id: id, title: title, isDone: isDone)
+    let request = MainScene.ModifyTodo.Request(id: id, title: title, isDone: isDone)
     interactor?.checkTodo(request: request)
   }
   
@@ -225,13 +201,15 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     
     guard let error = viewModel.error else {
       // 에러 없음
-      self.page += viewModel.page
+      self.page = viewModel.page
       self.todoList = viewModel.displayedTodoList
       self.sections = viewModel.sections
+      
       self.fetchingMore = true
       
-      DispatchQueue.main.async {
+      DispatchQueue.main.sync {
         self.myTableView.reloadData()
+       
       }
       return
     }
@@ -266,7 +244,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel) {
+  func checkDoneTodo(viewModel: MainScene.ModifyTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
 
@@ -296,8 +274,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
 extension MainViewController: UITableViewDelegate
 {
   @objc func refreshFunction() {
-    self.page = 1
-    let request = MainScene.FetchTodoList.Request(page: self.page)
+    let request = MainScene.FetchTodoList.Request()
     interactor?.fetchTodoList(request: request)
     refreshControl.endRefreshing()
   }

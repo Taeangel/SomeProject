@@ -126,6 +126,11 @@ class DetailViewController: UIViewController, DetailDisplayLogic, Alertable
   func displayModifyResult(viewModel: Detail.ModifyTodo.ViewModel) {
     guard let error = viewModel.error else {
       
+      DispatchQueue.main.async {
+        self.showErrorAlertWithConfirmButton("\(viewModel.title ?? "") \(viewModel.isDone ?? false)로 변경했습니다!") {
+          self.router?.dismiss()
+        }
+      }
       return
     }
     

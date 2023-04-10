@@ -17,7 +17,7 @@ protocol MainBusinessLogic
   func fetchTodoList(request: MainScene.FetchTodoList.Request)
   func deleteTodo(request: MainScene.DeleteTodo.Request)
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request)
-  func checkTodo(request: MainScene.CheckBoxTodo.Request)
+  func checkTodo(request: MainScene.ModifyTodo.Request)
   
 }
 
@@ -34,7 +34,39 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
   
+  // MARK: - NotificationCenter
+  
+  init() {
+    NotificationCenter.default.addObserver(self, selector: #selector(addTodo), name: NSNotification.Name("addTodo"), object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(modifyTodo), name: NSNotification.Name("modifyTodo"), object: nil)
+  }
+  
   // MARK: 뷰에서 인터렉터한테 시키는 메서드
+  
+  @objc func addTodo() {
+    print("addtodo")
+  }
+  
+  @objc func modifyTodo(_ notification: Notification) {
+    guard let todoEntity = notification.object as? TodoEntity else {
+      return
+    }
+    
+    let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity.id  } }.first
+    let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
+    
+    guard let sectionIndex = self.sections.firstIndex(of: storedTodoEntity?.updatedDate ?? ""),
+          let rowIndex = rows?.firstIndex(where: { $0.id == storedTodoEntity?.id }) else {
+      return
+    }
+    
+    let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+    self.todoList[sections[sectionIndex]]?[rowIndex] = todoEntity
+    
+    let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: 1)
+    presenter?.presentCheckBoxTap(response: response)
+    
+  }
   
   func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
     worker = MainWorker()
@@ -110,7 +142,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     }
   }
   
-  func checkTodo(request: MainScene.CheckBoxTodo.Request) {
+  func checkTodo(request: MainScene.ModifyTodo.Request) {
     worker = MainWorker()
     Task {
       do {
@@ -131,10 +163,10 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         
         self.todoList[sections[sectionIndex]]?[rowIndex].isDone = request.isDone
         
-        let response = MainScene.CheckBoxTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: request.page)
+        let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: request.page)
         presenter?.presentCheckBoxTap(response: response)
       } catch {
-        let response = MainScene.CheckBoxTodo.Response(error: error, page: request.page)
+        let response = MainScene.ModifyTodo.Response(error: error, page: request.page)
         presenter?.presentCheckBoxTap(response: response)
       }
     }

@@ -39,7 +39,7 @@ class DetailPresenter: DetailPresentationLogic
   
   func presentModifyResult(response: Detail.ModifyTodo.Response) {
      
-    let viewModel = Detail.ModifyTodo.ViewModel(error: response.error as? NetworkError)
+    let viewModel = Detail.ModifyTodo.ViewModel(title: response.title,isDone: response.isDone, error: response.error as? NetworkError)
     viewController?.displayModifyResult(viewModel: viewModel)
   }
 }

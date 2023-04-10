@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		860642A029DDC6AA00BCFD5C /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 8606429F29DDC6AA00BCFD5C /* CombineCocoa */; };
 		861A6E5F29E42DB90016B873 /* WorkerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A6E5E29E42DB90016B873 /* WorkerAPI.swift */; };
+		861A6E6229E449AE0016B873 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 861A6E6129E449AE0016B873 /* RxCocoa */; };
+		861A6E6429E449AE0016B873 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 861A6E6329E449AE0016B873 /* RxRelay */; };
 		864073F129DC688D00264436 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F029DC688D00264436 /* UIColor.swift */; };
 		864073F329DC689600264436 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F229DC689600264436 /* UITextField.swift */; };
 		864073F529DC698200264436 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F429DC698200264436 /* UIImage.swift */; };
@@ -121,6 +123,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				861A6E6429E449AE0016B873 /* RxRelay in Frameworks */,
+				861A6E6229E449AE0016B873 /* RxCocoa in Frameworks */,
 				860642A029DDC6AA00BCFD5C /* CombineCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,6 +371,8 @@
 			name = TodoVipApp;
 			packageProductDependencies = (
 				8606429F29DDC6AA00BCFD5C /* CombineCocoa */,
+				861A6E6129E449AE0016B873 /* RxCocoa */,
+				861A6E6329E449AE0016B873 /* RxRelay */,
 			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
@@ -420,6 +426,7 @@
 			mainGroup = 8654277329CDA5CE006E23A0;
 			packageReferences = (
 				8606429E29DDC6AA00BCFD5C /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				861A6E6029E449AE0016B873 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
@@ -785,6 +792,14 @@
 				kind = branch;
 			};
 		};
+		861A6E6029E449AE0016B873 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -792,6 +807,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8606429E29DDC6AA00BCFD5C /* XCRemoteSwiftPackageReference "CombineCocoa" */;
 			productName = CombineCocoa;
+		};
+		861A6E6129E449AE0016B873 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 861A6E6029E449AE0016B873 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		861A6E6329E449AE0016B873 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 861A6E6029E449AE0016B873 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
