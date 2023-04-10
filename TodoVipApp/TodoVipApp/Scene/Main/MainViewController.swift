@@ -17,7 +17,7 @@ import CombineCocoa
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
-  func displatdeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
+  func displayDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
   func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel)
 }
 
@@ -236,13 +236,13 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func displatdeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
+  func displayDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
       
       guard let indexPath = viewModel.indexPath,
-              let sectionIndex = viewModel.indexPath?.section,
-              let rowIndex = viewModel.indexPath?.row  else {
+            let sectionIndex = viewModel.indexPath?.section,
+            let rowIndex = viewModel.indexPath?.row  else {
         return
       }
       
@@ -263,20 +263,19 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
-      
+
       guard let indexPath = viewModel.indexPath,
-              let sectionIndex = viewModel.indexPath?.section,
-              let rowIndex = viewModel.indexPath?.row  else {
+            let sectionIndex = viewModel.indexPath?.section,
+            let rowIndex = viewModel.indexPath?.row,
+            let isDone = viewModel.disPlayTodo?.isDone else {
         return
       }
       
-      let section = sections[sectionIndex]
-      
+      self.todoList[sections[sectionIndex]]?[rowIndex].isDone = isDone
       
       DispatchQueue.main.async {
-        self.myTableView.deleteRows(at: [indexPath], with: .automatic)
+        self.myTableView.reloadRows(at: [indexPath], with: .automatic)
       }
-      
       return
     }
     
@@ -296,19 +295,6 @@ extension MainViewController: UITableViewDelegate
     interactor?.fetchTodoList(request: request)
     refreshControl.endRefreshing()
   }
-  
-  //  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-  //    .delete
-  //  }
-  //
-  //  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-  //    if editingStyle == .delete {
-  //      DispatchQueue.main.async {
-  //        tableView.deleteRows(at: [indexPath], with: .automatic)
-  //      }
-  //
-  //    }
-  //  }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     

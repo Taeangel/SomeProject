@@ -35,8 +35,17 @@ enum MainScene
     
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
+      
+      struct DisplayedTodo: Hashable {
+        let id: Int
+        let title: String
+        let isDone: Bool
+        let updatedTime: String
+        let updatedDate: String
+      }
+
       var indexPath: IndexPath?
-      var todoEntity: TodoEntity?
+      var disPlayTodo: DisplayedTodo?
       let page: Int
       var error: NetworkError?
     }
@@ -61,11 +70,11 @@ enum MainScene
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
       struct DisplayedTodo: Hashable {
-        let id: Int
-        let title: String
-        let isDone: Bool
-        let createdTime: String
-        let createdDate: String
+        var id: Int
+        var title: String
+        var isDone: Bool
+        var createdTime: String
+        var createdDate: String
       }
       
       var error: NetworkError?
@@ -116,11 +125,12 @@ enum MainScene
     {
       struct DisplayedTodo: Hashable {
         let id: Int
-        let title: String
-        let isDone: Bool
-        let updatedTime: String
-        let updatedDate: String
+        var title: String
+        var isDone: Bool
+        var updatedTime: String
+        var updatedDate: String
       }
+      
       var error: NetworkError?
       var page: Int
       var displayedTodoList: [String: [DisplayedTodo]]
