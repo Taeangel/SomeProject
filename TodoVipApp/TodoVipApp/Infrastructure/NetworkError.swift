@@ -26,7 +26,7 @@ extension NetworkError: LocalizedError {
     case .developerProblem:
       return "개발자에게 문의해 주십시오"
     case .fastRequest:
-      return "너무 빠르게 요청하고 있습니다!"
+      return "지금 서버에 문제가 있습니다 죄송합니다!"
     default:
       return ":"
     }

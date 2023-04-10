@@ -23,13 +23,12 @@ protocol MainBusinessLogic
 
 protocol MainDataStore
 {
-  var todoList: [TodoEntity] { get set }
+  var todoList: [String: [TodoEntity]] { get set }
 }
 
 class MainInteractor: MainBusinessLogic, MainDataStore
 {
-
-  var todoList: [TodoEntity] = []
+  var todoList: [String: [TodoEntity]] = [:]
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
   
@@ -39,18 +38,22 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task{
       do {
-        guard let todoList = try await worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
+        guard let todoList = try await self.worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
 
+        let groupedTodoList = Dictionary(grouping: todoList) { $0.updatedDate }
+        
         if request.page == 1 {
-          self.todoList = todoList
+          self.todoList = groupedTodoList
         } else {
-          self.todoList += todoList
+          self.todoList.merge(groupedTodoList) { todo, _ in
+            todo
+          }
         }
         
         let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: request.page)
         presenter?.presentTodoList(response: response)
       } catch {
-        let response = MainScene.FetchTodoList.Response(error: error as! NetworkError, page: request.page)
+        let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
         presenter?.presentTodoList(response: response)
       }
     }
@@ -60,8 +63,14 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task {
       do {
-        let todoList = try await self.worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary)
-        let response = MainScene.FetchSearchTodoList.Response(todoList: todoList, page: request.page)
+        guard let todoList = try await self.worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary) else {
+          return
+        }
+        
+        let groupedTodoList = Dictionary(grouping: todoList) { $0.updatedDate }
+        self.todoList = groupedTodoList
+        
+        let response = MainScene.FetchSearchTodoList.Response(todoList: self.todoList, page: request.page)
         presenter?.presentTodoList(response: response)
       } catch {
         let response = MainScene.FetchSearchTodoList.Response(error: error, page: request.page)
@@ -76,9 +85,8 @@ class MainInteractor: MainBusinessLogic, MainDataStore
       do {
         let todo = try await self.worker?.deleteTodo(id: request.id)
         let todoId = todo?.data.id
-        
-        let response = MainScene.DeleteTodo.Response(page: request.page)
-        presenter?.presentDeleteTodo(response: response)
+//        let response = MainScene.DeleteTodo.Response(todoList: self.todoList, todoId: todoId, page: request.page)
+//        presenter?.presentDeleteTodo(response: response)
       } catch {
         let response = MainScene.DeleteTodo.Response(error: error, page: request.page)
         presenter?.presentDeleteTodo(response: response)
@@ -90,7 +98,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task {
       do {
-       try await worker?.checkisDone(id:request.id ,title: request.title , isDone: request.isDone)
+       try await worker?.checkisDone(id: request.id ,title: request.title , isDone: request.isDone)
         let response = MainScene.CheckBoxTodo.Response(page: request.page)
         presenter?.presentCheckBoxTap(response: response)
       } catch {

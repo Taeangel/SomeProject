@@ -5,8 +5,6 @@
 //  Created by song on 2023/03/31.
 //
 
-import Foundation
-import UIKit
 
 extension Array where Element: Hashable {
   func removeDuplicates() -> [Element] {

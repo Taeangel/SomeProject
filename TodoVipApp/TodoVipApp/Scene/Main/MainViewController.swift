@@ -17,7 +17,6 @@ import CombineCocoa
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
-  
   func deleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
   func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel)
 }
@@ -228,11 +227,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       DispatchQueue.main.async {
         self.myTableView.reloadData()
       }
-      
       return
     }
   // 에러 없음
-   
+
     DispatchQueue.main.async {
       self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }

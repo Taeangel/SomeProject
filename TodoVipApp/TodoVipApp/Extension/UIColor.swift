@@ -5,7 +5,6 @@
 //  Created by song on 2023/04/04.
 //
 
-import Foundation
 import UIKit
 
 extension UIColor {

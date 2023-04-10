@@ -30,40 +30,30 @@ class MainPresenter: MainPresentationLogic
   func presentTodoList(response: TodoListProtocol) {
     typealias DisplayedTodoList = MainScene.FetchTodoList.ViewModel.DisplayedTodo
     
+    var displayTodoList: [String: [DisplayedTodoList]] = [:]
+    
     guard let responseTodoList = response.todoList else { return }
     
-    let displayedTodoList = responseTodoList.map { todoEntity -> DisplayedTodoList in
-      
-      guard let findDateT = todoEntity.updatedAt?.firstIndex(of: "T"),
-            let findDateDot = todoEntity.updatedAt?.firstIndex(of: ".") else {
-        return DisplayedTodoList(id: 0, title: "", isDone: false, updatedTime: "", updatedDate: "")
-      }
-      
-      guard var updatedDate = todoEntity.updatedAt?[...findDateT],
-            var updatedTime = todoEntity.updatedAt?[findDateT...findDateDot] else {
-        return DisplayedTodoList(id: 0, title: "", isDone: false, updatedTime: "", updatedDate: "")
-      }
-      
-      updatedDate.removeLast()
-      updatedTime.removeFirst()
-      
-      return  DisplayedTodoList(
-        id: todoEntity.id ?? 1,
-        title: todoEntity.title ?? "",
-        isDone: todoEntity.isDone ?? false,
-        updatedTime: "\(updatedTime.prefix(5))",
-        updatedDate: "\(updatedDate)"
-      )
-    }
-    
-    let groupedTodoList = Dictionary(grouping: displayedTodoList) { $0.updatedDate }
     var sections: [String] = []
-    
-    groupedTodoList.keys.sorted().forEach { sections.append($0) }
+    responseTodoList.keys.sorted().forEach { sections.append($0) }
     sections.reverse()
     
+    sections.forEach {
+      let todoDate = responseTodoList[$0]
+      let todoAday = todoDate?.map{
+        return DisplayedTodoList(
+          id: $0.id ?? 0,
+          title: $0.title ?? "",
+          isDone: $0.isDone ?? false,
+          updatedTime: $0.updatedTime,
+          updatedDate: $0.updatedDate
+        )
+      }
+      displayTodoList.updateValue(todoAday!, forKey: $0)
+    }
+    
     let nowPage = response.page
-    let viewModel = MainScene.FetchTodoList.ViewModel(error: response.error as? NetworkError, page: nowPage + 1, displayedTodoList: groupedTodoList, sections: sections)
+    let viewModel = MainScene.FetchTodoList.ViewModel(error: response.error as? NetworkError, page: nowPage + 1, displayedTodoList: displayTodoList, sections: sections)
     viewController?.displayTodoList(viewModel: viewModel)
   }
   

@@ -51,7 +51,7 @@ enum MainScene
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
       var error: Error?
-      var todoList: [TodoEntity]?
+      var todoList: [String: [TodoEntity]]?
       var page: Int
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
@@ -81,7 +81,8 @@ enum MainScene
     }
     struct Response //워커에서 들어온 데이터 - 날것의 데이터
     {
-      var id: Int?
+      var todoList: [TodoEntity]?
+      var todoId: Int?
       var error: Error?
       var page: Int
     }
@@ -104,7 +105,7 @@ enum MainScene
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
       var error: Error?
-      var todoList: [TodoEntity]?
+      var todoList: [String: [TodoEntity]]?
       var page: Int
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
@@ -131,7 +132,7 @@ enum MainScene
 }
 
 protocol TodoListProtocol {
-  var todoList: [TodoEntity]? { get set }
+  var todoList: [String: [TodoEntity]]? { get set }
   var error: Error? { get set }
   var page: Int { get set }
 }
