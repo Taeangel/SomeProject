@@ -19,7 +19,7 @@ protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
   func displayDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
-  func checkDoneTodo(viewModel: MainScene.ModifyTodo.ViewModel)
+  func modifyTodo(viewModel: MainScene.ModifyTodo.ViewModel)
 }
 
 class MainViewController: UIViewController, MainDisplayLogic, Alertable
@@ -91,12 +91,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     
     addButton.setImage(UIImage.theme.largePlusButton, for: .normal)
     
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(self.didDismissDetailNotification(_:)),
-      name: NSNotification.Name("ModalDismissNC"),
-      object: nil
-    )
+//    NotificationCenter.default.addObserver(
+//      self,
+//      selector: #selector(self.didDismissDetailNotification(_:)),
+//      name: NSNotification.Name("ModalDismissNC"),
+//      object: nil
+//    )
   }
   
   private func configureTableView()
@@ -166,7 +166,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  
   @objc func didDismissDetailNotification(_ notification: Notification) {
     let fetchRequest = MainScene.FetchTodoList.Request()
     self.interactor?.fetchTodoList(request: fetchRequest)
@@ -190,7 +189,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     interactor?.checkTodo(request: request)
   }
   
-  
   @IBAction func presentModal(_ sender: Any) {
     router?.presentModalAdd()
   }
@@ -209,7 +207,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       
       DispatchQueue.main.sync {
         self.myTableView.reloadData()
-       
       }
       return
     }
@@ -244,19 +241,24 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func checkDoneTodo(viewModel: MainScene.ModifyTodo.ViewModel) {
+  func modifyTodo(viewModel: MainScene.ModifyTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
 
       guard let indexPath = viewModel.indexPath,
             let sectionIndex = viewModel.indexPath?.section,
-            let rowIndex = viewModel.indexPath?.row,
-            let isDone = viewModel.disPlayTodo?.isDone else {
+            let rowIndex = viewModel.indexPath?.row else {
         return
       }
       
-      self.todoList[sections[sectionIndex]]?[rowIndex].isDone = isDone
-      
+      self.todoList[sections[sectionIndex]]?[rowIndex] = MainViewController.Displayedtodo(
+        id: viewModel.disPlayTodo?.id ?? 0,
+        title: viewModel.disPlayTodo?.title ?? "",
+        isDone: viewModel.disPlayTodo?.isDone ?? false,
+        updatedTime: viewModel.disPlayTodo?.updatedTime ?? "",
+        updatedDate: viewModel.disPlayTodo?.updatedDate ?? ""
+      )
+
       DispatchQueue.main.async {
         self.myTableView.reloadRows(at: [indexPath], with: .automatic)
       }

@@ -19,14 +19,12 @@ protocol AddBusinessLogic
 
 protocol AddDataStore
 {
-  //var name: String { get set }
 }
 
 class AddInteractor: AddBusinessLogic, AddDataStore
 {
   var presenter: AddPresentationLogic?
   var worker: AddWorker?
-  //var name: String = ""
   
   // MARK: Do something
   

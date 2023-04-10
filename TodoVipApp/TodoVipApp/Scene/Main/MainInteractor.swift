@@ -46,7 +46,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   @objc func addTodo() {
     print("addtodo")
   }
-  
+   
   @objc func modifyTodo(_ notification: Notification) {
     guard let todoEntity = notification.object as? TodoEntity else {
       return
@@ -160,7 +160,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         }
         
         let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
-        
         self.todoList[sections[sectionIndex]]?[rowIndex].isDone = request.isDone
         
         let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: request.page)

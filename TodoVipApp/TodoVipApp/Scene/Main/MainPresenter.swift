@@ -79,6 +79,6 @@ class MainPresenter: MainPresentationLogic
     
     let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: response.indexPath, disPlayTodo: displayTodo, page: response.page, error: response.error as? NetworkError)
     
-    viewController?.checkDoneTodo(viewModel: viewModel)
+    viewController?.modifyTodo(viewModel: viewModel)
   }
 }
