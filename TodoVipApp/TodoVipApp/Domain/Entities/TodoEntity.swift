@@ -17,9 +17,14 @@ struct TodoEntity {
     self.id = datunm.id
     self.title = datunm.title
     self.isDone = datunm.isDone
-    
-    
     self.updatedAt = datunm.updatedAt
+  }
+  
+  init(datunm: TodoDataDTO) {
+    self.id = datunm.data.id
+    self.title = datunm.data.title
+    self.isDone = datunm.data.isDone
+    self.updatedAt = datunm.data.updatedAt
   }
   
   

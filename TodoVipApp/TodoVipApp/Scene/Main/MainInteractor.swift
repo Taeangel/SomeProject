@@ -84,7 +84,9 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     Task {
       do {
         let todo = try await self.worker?.deleteTodo(id: request.id)
-        let todoId = todo?.data.id
+        let todoEntity = todo.map { TodoEntity(datunm: $0) }
+        
+      
 //        let response = MainScene.DeleteTodo.Response(todoList: self.todoList, todoId: todoId, page: request.page)
 //        presenter?.presentDeleteTodo(response: response)
       } catch {
