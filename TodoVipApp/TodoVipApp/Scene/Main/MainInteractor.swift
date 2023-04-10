@@ -89,14 +89,16 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     Task {
       do {
         let todoEntity = try await self.worker?.deleteTodo(id: request.id)
-        let rows = self.todoList[todoEntity?.updatedDate ?? ""]
+        let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity?.id  } }.first
+        let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
         
-        guard let sectionIndex = self.sections.firstIndex(of: todoEntity?.updatedDate ?? ""),
-              let rowIndex = rows?.firstIndex(where: { $0.id == todoEntity?.id }) else {
+        guard let sectionIndex = self.sections.firstIndex(of: storedTodoEntity?.updatedDate ?? ""),
+              let rowIndex = rows?.firstIndex(where: { $0.id == storedTodoEntity?.id }) else {
           return
         }
-        
         let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+        
+        self.todoList[sections[sectionIndex]]?.remove(at: rowIndex)
         
         let response = MainScene.DeleteTodo.Response(indexPath: indexPath, page: request.page)
         presenter?.presentDeleteTodo(response: response)
@@ -112,15 +114,22 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task {
       do {
-        let todoEntity = try await worker?.checkisDone(id: request.id, title: request.title, isDone: request.isDone)
-        let rows = self.todoList[todoEntity?.updatedDate ?? ""]
         
-        guard let sectionIndex = self.sections.firstIndex(of: todoEntity?.updatedDate ?? ""),
-              let rowIndex = rows?.firstIndex(where: { $0.id == todoEntity?.id }) else {
+        let todoEntity = try await self.worker?.checkisDone(id: request.id, title: request.title, isDone: request.isDone)
+        let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity?.id  } }.first
+        let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
+        
+        guard let sectionIndex = self.sections.firstIndex(of: storedTodoEntity?.updatedDate ?? "") else {
+          return
+        }
+        
+        guard let rowIndex = rows?.firstIndex(where: { $0.id == storedTodoEntity?.id }) else {
           return
         }
         
         let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+        
+        self.todoList[sections[sectionIndex]]?[rowIndex].isDone = request.isDone
         
         let response = MainScene.CheckBoxTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: request.page)
         presenter?.presentCheckBoxTap(response: response)

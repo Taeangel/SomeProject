@@ -160,20 +160,20 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     //      .store(in: &cancellables)
     
     
-    myTableView.contentOffsetPublisher
-      .sink { [weak self] offset in
-        guard let self = self else { return }
-        let offsetY = offset.y
-        let contentHeight = self.myTableView.contentSize.height
-        
-        if offsetY > contentHeight - self.myTableView.frame.height {
-          if self.fetchingMore {
-            print("시작할떄 불리는가")
-            self.beginBatchFetch()
-          }
-        }
-      }
-      .store(in: &cancellables)
+//    myTableView.contentOffsetPublisher
+//      .sink { [weak self] offset in
+//        guard let self = self else { return }
+//        let offsetY = offset.y
+//        let contentHeight = self.myTableView.contentSize.height
+//        
+//        if offsetY > contentHeight - self.myTableView.frame.height {
+//          if self.fetchingMore {
+//            print("시작할떄 불리는가")
+//            self.beginBatchFetch()
+//          }
+//        }
+//      }
+//      .store(in: &cancellables)
   }
   
   // MARK: 인터랙터에게 보내는 메서드
@@ -207,6 +207,13 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     let deleteRequest = MainScene.DeleteTodo.Request(id: id)
     interactor?.deleteTodo(request: deleteRequest)
   }
+  
+  func modifyCheckBox(id: Int, title: String, isDone: Bool) {
+    
+    let request = MainScene.CheckBoxTodo.Request(id: id, title: title, isDone: isDone)
+    interactor?.checkTodo(request: request)
+  }
+  
   
   @IBAction func presentModal(_ sender: Any) {
     router?.presentModalAdd()
@@ -246,7 +253,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       }
       
       let section = sections[sectionIndex]
-      todoList[section]?.remove(at: rowIndex)
+      self.todoList[section]?.remove(at: rowIndex)
       
       DispatchQueue.main.async {
         self.myTableView.deleteRows(at: [indexPath], with: .automatic)
@@ -312,6 +319,7 @@ extension MainViewController: UITableViewDelegate
   {
     let header = view as! UITableViewHeaderFooterView
     header.textLabel?.textColor = .black
+//    header.textLabel?.font = UIFont.boldSystemFont(ofSize: 30)
   }
 }
 
@@ -352,10 +360,8 @@ extension MainViewController: UITableViewDataSource
     cell.configureCell(todo: todos[indexPath.row])
     
     cell.onEditAction = { [weak self] clickedTodo in
-      
       let idDone = !clickedTodo.isDone
-      let request = MainScene.CheckBoxTodo.Request(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
-      self?.interactor?.checkTodo(request: request)
+      self?.modifyCheckBox(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
     }
     
     return cell
