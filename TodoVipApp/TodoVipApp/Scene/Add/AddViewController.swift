@@ -90,10 +90,18 @@ class AddViewController: UIViewController, AddDisplayLogic, Alertable
   {
     guard let error = viewModel.error else {
       // 에러 없음
+      
       DispatchQueue.main.async {
-        self.todoLabel.text = viewModel.title
-        self.isDoneSwitch.isOn = viewModel.isDone
+        self.showErrorAlertWithConfirmButton("\(viewModel.titile ?? "") 할일을 등록 하였습니다!") {
+          self.router?.dismiss()
+        }
       }
+     
+      DispatchQueue.main.async {
+        self.todoLabel.text = viewModel.cleanViewTitle
+        self.isDoneSwitch.isOn = viewModel.cleanViewIsDone
+      }
+  
       return
     }
     //에러없음

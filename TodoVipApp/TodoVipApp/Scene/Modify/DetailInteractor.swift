@@ -54,8 +54,6 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
         let todoEntity = try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
         NotificationCenter.default.post(name: NSNotification.Name("modifyTodo"), object: todoEntity)
         
-        
-        
         let response = Detail.ModifyTodo.Response(title: todoEntity?.title, isDone: todoEntity?.isDone)
         presenter?.presentModifyResult(response: response)
       } catch {

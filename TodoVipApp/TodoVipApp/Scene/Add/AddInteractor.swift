@@ -35,8 +35,10 @@ class AddInteractor: AddBusinessLogic, AddDataStore
     worker = AddWorker()
     Task {
       do {
-        try await worker?.postTodo(todo: request.todo)
-        let response = Add.PostTodo.Response()
+        let todoEntiy = try await self.worker?.postTodo(todo: request.todo)
+        NotificationCenter.default.post(name: NSNotification.Name("addTodo"), object: todoEntiy)
+        
+        let response = Add.PostTodo.Response(title: todoEntiy?.title)
         presenter?.cleanAddView(response: response)
       } catch {
         let response = Add.PostTodo.Response(error: error)

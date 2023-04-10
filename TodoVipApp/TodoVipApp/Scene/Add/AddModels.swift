@@ -25,16 +25,18 @@ enum Add
     
     struct Response
     {
+      var title: String?
       var error: Error?
-      let title: String = ""
+      let cleanViewTitle: String = ""
       let isDone: Bool = false
     }
     
     struct ViewModel
     {
       var error: NetworkError?
-      let title: String = ""
-      let isDone: Bool = false
+      var titile: String?
+      let cleanViewTitle: String = ""
+      let cleanViewIsDone: Bool = false
     }
   }
 }
