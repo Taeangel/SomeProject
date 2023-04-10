@@ -92,7 +92,7 @@ class AddViewController: UIViewController, AddDisplayLogic, Alertable
       // 에러 없음
       
       DispatchQueue.main.async {
-        self.showErrorAlertWithConfirmButton("\(viewModel.titile ?? "") 할일을 등록 하였습니다!") {
+        self.showSuccessAlertWithConfirmButton("\(viewModel.titile ?? "") 할일을 등록 하였습니다!") {
           self.router?.dismiss()
         }
       }

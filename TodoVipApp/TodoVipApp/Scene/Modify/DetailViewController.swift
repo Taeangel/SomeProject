@@ -127,7 +127,7 @@ class DetailViewController: UIViewController, DetailDisplayLogic, Alertable
     guard let error = viewModel.error else {
       
       DispatchQueue.main.async {
-        self.showErrorAlertWithConfirmButton("\(viewModel.title ?? "") \(viewModel.isDone ?? false)로 변경했습니다!") {
+        self.showSuccessAlertWithConfirmButton("\(viewModel.title ?? "") \(viewModel.isDone ?? false)로 변경했습니다!") {
           self.router?.dismiss()
         }
       }
