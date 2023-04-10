@@ -18,7 +18,7 @@ enum MainScene
   // MARK: - CheckBoxModify
   enum CheckBoxTodo
   {
-    struct Request // 뷰가 인터렉터한테 요청하는 데이터
+    struct Request  // 뷰가 인터렉터한테 요청하는 데이터
     {
       var page: Int = 1
       var id: Int
@@ -27,13 +27,17 @@ enum MainScene
     }
     struct Response //워커에서 들어온 데이터 - 날것의 데이터
     {
+      var indexPath: IndexPath?
+      var todoEntity: TodoEntity?
       var error: Error?
       var page: Int
     }
     
-    struct ViewModel // 업데이트Page
+    struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
-      var page: Int
+      var indexPath: IndexPath?
+      var todoEntity: TodoEntity?
+      let page: Int
       var error: NetworkError?
     }
   }
@@ -74,20 +78,20 @@ enum MainScene
   
   enum DeleteTodo
   {
-    struct Request // 뷰가 인터렉터한테 요청하는 데이터
+    struct Request // 인터렉터로 보낼데이터
     {
       var page: Int = 1
       var id: Int
     }
-    struct Response //워커에서 들어온 데이터 - 날것의 데이터
+    struct Response //프리젠터로 보낼 데이터
     {
-      var todoList: [TodoEntity]?
-      var todoId: Int?
+      var indexPath: IndexPath?
       var error: Error?
       var page: Int
     }
-    struct ViewModel // 업데이트Page
+    struct ViewModel // 뷰로 보낼 데이터
     {
+      var indexPath: IndexPath?
       var page: Int
       var error: NetworkError?
     }

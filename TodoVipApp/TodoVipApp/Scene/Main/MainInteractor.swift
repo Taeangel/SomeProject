@@ -18,16 +18,18 @@ protocol MainBusinessLogic
   func deleteTodo(request: MainScene.DeleteTodo.Request)
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request)
   func checkTodo(request: MainScene.CheckBoxTodo.Request)
-
+  
 }
 
 protocol MainDataStore
 {
+  var sections: [String] { get set }
   var todoList: [String: [TodoEntity]] { get set }
 }
 
 class MainInteractor: MainBusinessLogic, MainDataStore
 {
+  var sections: [String] = []
   var todoList: [String: [TodoEntity]] = [:]
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
@@ -39,7 +41,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     Task{
       do {
         guard let todoList = try await self.worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
-
+        
         let groupedTodoList = Dictionary(grouping: todoList) { $0.updatedDate }
         
         if request.page == 1 {
@@ -49,6 +51,9 @@ class MainInteractor: MainBusinessLogic, MainDataStore
             todo
           }
         }
+        
+        self.todoList.keys.sorted().forEach { sections.append($0) }
+        sections.reverse()
         
         let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: request.page)
         presenter?.presentTodoList(response: response)
@@ -85,10 +90,18 @@ class MainInteractor: MainBusinessLogic, MainDataStore
       do {
         let todo = try await self.worker?.deleteTodo(id: request.id)
         let todoEntity = todo.map { TodoEntity(datunm: $0) }
+        let rows = self.todoList[todoEntity?.updatedDate ?? ""]
         
-      
-//        let response = MainScene.DeleteTodo.Response(todoList: self.todoList, todoId: todoId, page: request.page)
-//        presenter?.presentDeleteTodo(response: response)
+        guard let sectionIndex = self.sections.firstIndex(of: todoEntity?.updatedDate ?? ""),
+              let rowIndex = rows?.firstIndex(where: { $0.id == todoEntity?.id }) else {
+          return
+        }
+        
+        let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+        
+        let response = MainScene.DeleteTodo.Response(indexPath: indexPath, page: request.page)
+        presenter?.presentDeleteTodo(response: response)
+        
       } catch {
         let response = MainScene.DeleteTodo.Response(error: error, page: request.page)
         presenter?.presentDeleteTodo(response: response)
@@ -100,8 +113,19 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task {
       do {
-       try await worker?.checkisDone(id: request.id ,title: request.title , isDone: request.isDone)
-        let response = MainScene.CheckBoxTodo.Response(page: request.page)
+        let todo = try await worker?.checkisDone(id: request.id, title: request.title, isDone: request.isDone)
+        
+        let todoEntity = todo.map { TodoEntity(datunm: $0) }
+        let rows = self.todoList[todoEntity?.updatedDate ?? ""]
+        
+        guard let sectionIndex = self.sections.firstIndex(of: todoEntity?.updatedDate ?? ""),
+              let rowIndex = rows?.firstIndex(where: { $0.id == todoEntity?.id }) else {
+          return
+        }
+        
+        let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+        
+        let response = MainScene.CheckBoxTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: request.page)
         presenter?.presentCheckBoxTap(response: response)
       } catch {
         let response = MainScene.CheckBoxTodo.Response(error: error, page: request.page)

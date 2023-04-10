@@ -58,12 +58,19 @@ class MainPresenter: MainPresentationLogic
   }
   
   func presentDeleteTodo(response: MainScene.DeleteTodo.Response) {
-    let viewModel = MainScene.DeleteTodo.ViewModel(page: response.page, error: response.error as? NetworkError)
-    viewController?.deleteTodo(viewModel: viewModel)
+    guard let indexPath = response.indexPath else {
+      return
+    }
+    
+    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: indexPath, page: response.page, error: response.error as? NetworkError)
+    viewController?.displatdeleteTodo(viewModel: viewModel)
   }
   
   func presentCheckBoxTap(response: MainScene.CheckBoxTodo.Response) {
-    let viewModel = MainScene.CheckBoxTodo.ViewModel(page: response.page, error: response.error as? NetworkError)
+ 
+    
+    let viewModel = MainScene.CheckBoxTodo.ViewModel(indexPath: response.indexPath ,todoEntity: response.todoEntity, page: response.page, error: response.error as? NetworkError)
+    
     viewController?.checkDoneTodo(viewModel: viewModel)
   }
 }

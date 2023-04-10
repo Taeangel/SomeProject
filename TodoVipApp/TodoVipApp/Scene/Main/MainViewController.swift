@@ -17,7 +17,7 @@ import CombineCocoa
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
-  func deleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
+  func displatdeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
   func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel)
 }
 
@@ -88,9 +88,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.searchBar.layer.borderWidth = 1
     self.searchBar.layer.borderColor = UIColor.theme.boardColor?.cgColor
     self.searchBar.addleftimage(image: UIImage.theme.magnifyingglass?.withTintColor(.gray) ?? UIImage())
-
+    
     addButton.setImage(UIImage.theme.largePlusButton, for: .normal)
-
+    
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.didDismissDetailNotification(_:)),
@@ -147,18 +147,18 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       .sink { [weak self] in self?.searchTodos($0)}
       .store(in: &cancellables)
     
-//    Publishers.CombineLatest(isTableBottom, $fetchingMore)
-//      .map {
-//        print("isTableBottom\($0)")
-//        print("fetchingMore\($1)")
-//        return $0 == true && $1 == true }
-//      .sink { [weak self] in
-//        if $0 {
-//          print("바닥이야. ")
-//          self?.beginBatchFetch()
-//        }
-//      }
-//      .store(in: &cancellables)
+    //    Publishers.CombineLatest(isTableBottom, $fetchingMore)
+    //      .map {
+    //        print("isTableBottom\($0)")
+    //        print("fetchingMore\($1)")
+    //        return $0 == true && $1 == true }
+    //      .sink { [weak self] in
+    //        if $0 {
+    //          print("바닥이야. ")
+    //          self?.beginBatchFetch()
+    //        }
+    //      }
+    //      .store(in: &cancellables)
     
     
     myTableView.contentOffsetPublisher
@@ -166,7 +166,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
         guard let self = self else { return }
         let offsetY = offset.y
         let contentHeight = self.myTableView.contentSize.height
-
+        
         if offsetY > contentHeight - self.myTableView.frame.height {
           if self.fetchingMore {
             print("시작할떄 불리는가")
@@ -191,7 +191,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   func beginBatchFetch() {
-      self.fetchTodoList()
+    self.fetchTodoList()
   }
   
   @objc func didDismissDetailNotification(_ notification: Notification) {
@@ -214,11 +214,11 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   // MARK: - 프리젠터에서 뷰로 보내진
-
+  
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel) {
     
     guard let error = viewModel.error else {
-      // 에러 있음
+      // 에러 없음
       self.page += viewModel.page
       self.todoList = viewModel.displayedTodoList
       self.sections = viewModel.sections
@@ -229,22 +229,29 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       }
       return
     }
-  // 에러 없음
-
+    // 에러 있음
+    
     DispatchQueue.main.async {
       self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
   
-  func deleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
+  func displatdeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
-//      fetchTodoList()
-//      let indexPath = IndexPath()
-//      indexPath.row = 0
-//      indexPath.section = 1
-//      tableView(myTableView, commit: .delete, forRowAt: indexPath)
       
+      guard let indexPath = viewModel.indexPath,
+              let sectionIndex = viewModel.indexPath?.section,
+              let rowIndex = viewModel.indexPath?.row  else {
+        return
+      }
+      
+      let section = sections[sectionIndex]
+      todoList[section]?.remove(at: rowIndex)
+      
+      DispatchQueue.main.async {
+        self.myTableView.deleteRows(at: [indexPath], with: .automatic)
+      }
       return
     }
     
@@ -256,7 +263,20 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   func checkDoneTodo(viewModel: MainScene.CheckBoxTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
-      fetchTodoList()
+      
+      guard let indexPath = viewModel.indexPath,
+              let sectionIndex = viewModel.indexPath?.section,
+              let rowIndex = viewModel.indexPath?.row  else {
+        return
+      }
+      
+      let section = sections[sectionIndex]
+      
+      
+      DispatchQueue.main.async {
+        self.myTableView.deleteRows(at: [indexPath], with: .automatic)
+      }
+      
       return
     }
     
@@ -277,18 +297,18 @@ extension MainViewController: UITableViewDelegate
     refreshControl.endRefreshing()
   }
   
-//  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//    .delete
-//  }
-//
-//  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//    if editingStyle == .delete {
-//      DispatchQueue.main.async {
-//        tableView.deleteRows(at: [indexPath], with: .automatic)
-//      }
-//
-//    }
-//  }
+  //  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+  //    .delete
+  //  }
+  //
+  //  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+  //    if editingStyle == .delete {
+  //      DispatchQueue.main.async {
+  //        tableView.deleteRows(at: [indexPath], with: .automatic)
+  //      }
+  //
+  //    }
+  //  }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     
@@ -296,12 +316,6 @@ extension MainViewController: UITableViewDelegate
       
       guard let data = self?.sections[indexPath.section] else { return }
       guard let todos = self?.todoList[data] else { return }
-      
-      self?.todoList[data]?.remove(at: indexPath.row)
-      
-      DispatchQueue.main.async {
-        tableView.deleteRows(at: [indexPath], with: .automatic)
-      }
       
       self?.deleteTodo(id: todos[indexPath.row].id)
     }
@@ -353,7 +367,7 @@ extension MainViewController: UITableViewDataSource
     cell.configureCell(todo: todos[indexPath.row])
     
     cell.onEditAction = { [weak self] clickedTodo in
-     
+      
       let idDone = !clickedTodo.isDone
       let request = MainScene.CheckBoxTodo.Request(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
       self?.interactor?.checkTodo(request: request)
