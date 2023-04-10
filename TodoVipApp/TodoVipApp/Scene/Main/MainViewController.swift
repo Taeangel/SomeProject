@@ -80,7 +80,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     router.dataStore = interactor
   }
   
-  
   private func configureView() {
     self.view.backgroundColor = UIColor.theme.backgroundColor
     self.searchBar.clipsToBounds = true

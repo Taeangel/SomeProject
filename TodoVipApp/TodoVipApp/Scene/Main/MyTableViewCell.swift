@@ -36,6 +36,7 @@ class MyTableViewCell: UITableViewCell {
     contentLabel.textColor = .black
     dateLabel.textColor = .black
   }
+  
   @IBAction func checkBoxDidTap(_ sender: Any) {
     if let todo = self.todo {
       onEditAction?(todo)
@@ -46,8 +47,17 @@ class MyTableViewCell: UITableViewCell {
   {
     self.todo = todo
     self.contentLabel.text = todo.title
-    self.dateLabel.text = "\(todo.updatedDate)"
     
+    guard let time = Int(todo.updatedTime.prefix(2)) else {
+      return
+    }
+    
+    if time > 11 {
+      self.dateLabel.text = "\(todo.updatedTime) PM"
+    } else {
+      self.dateLabel.text = "\(todo.updatedTime) AM"
+    }
+      
     if todo.isDone == false {
       doneButton.setImage(UIImage(systemName: "square"), for: .normal)
     } else {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		860642A029DDC6AA00BCFD5C /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 8606429F29DDC6AA00BCFD5C /* CombineCocoa */; };
+		861A6E5F29E42DB90016B873 /* WorkerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A6E5E29E42DB90016B873 /* WorkerAPI.swift */; };
 		864073F129DC688D00264436 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F029DC688D00264436 /* UIColor.swift */; };
 		864073F329DC689600264436 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F229DC689600264436 /* UITextField.swift */; };
 		864073F529DC698200264436 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F429DC698200264436 /* UIImage.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		861A6E5E29E42DB90016B873 /* WorkerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerAPI.swift; sourceTree = "<group>"; };
 		864073F029DC688D00264436 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		864073F229DC689600264436 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		864073F429DC698200264436 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -133,6 +135,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		861A6E5D29E42DA20016B873 /* APIWoker */ = {
+			isa = PBXGroup;
+			children = (
+				861A6E5E29E42DB90016B873 /* WorkerAPI.swift */,
+			);
+			path = APIWoker;
+			sourceTree = "<group>";
+		};
 		8654277329CDA5CE006E23A0 = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +183,7 @@
 		8654279329CDA6C1006E23A0 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				861A6E5D29E42DA20016B873 /* APIWoker */,
 				8655A4D229DA891400412868 /* Add */,
 				865F560429D995AA00908B3E /* Modify */,
 				8654279429CDA6D3006E23A0 /* Main */,
@@ -457,6 +468,7 @@
 				865F560E29D995BB00908B3E /* DetailModels.swift in Sources */,
 				865F55B629D09B2900908B3E /* TodoRequestManager.swift in Sources */,
 				8655A4D929DA892500412868 /* AddPresenter.swift in Sources */,
+				861A6E5F29E42DB90016B873 /* WorkerAPI.swift in Sources */,
 				865F559629D07CFE00908B3E /* MyTableViewCell.swift in Sources */,
 				8655A4DA29DA892500412868 /* AddWorker.swift in Sources */,
 				8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */,
