@@ -41,7 +41,7 @@ enum Detail
     }
     struct Response
     {
-      var todo: TodoDataDTO?
+      var todo: TodoEntity?
       var error: Error?
     }
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
@@ -51,10 +51,10 @@ enum Detail
         let title: String
         let isDone: Bool
         
-        init(todo: TodoDTO ) {
-          self.id = todo.id
-          self.title = todo.title
-          self.isDone = todo.isDone
+        init(todo: TodoEntity) {
+          self.id = todo.id ?? 0
+          self.title = todo.title ?? ""
+          self.isDone = todo.isDone ?? false
         }
         
       }

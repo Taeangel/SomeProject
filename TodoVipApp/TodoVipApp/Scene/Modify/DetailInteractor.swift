@@ -37,8 +37,8 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
     worker = DetailWorker()
     Task {
       do {
-        let todoDataDTO = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0)
-        let response = Detail.PresentTodo.Response(todo: todoDataDTO)
+        let todoEntity = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0)
+        let response = Detail.PresentTodo.Response(todo: todoEntity)
         presenter?.presentTodo(response: response)
       } catch {
         let response = Detail.PresentTodo.Response(error: error)

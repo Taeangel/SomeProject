@@ -13,7 +13,7 @@ struct TodoEntity {
   var isDone: Bool?
   var updatedAt: String?
   
-  init(datunm: Datum) {
+  init(datunm: TodoData) {
     self.id = datunm.id
     self.title = datunm.title
     self.isDone = datunm.isDone
@@ -26,7 +26,6 @@ struct TodoEntity {
     self.isDone = datunm.data.isDone
     self.updatedAt = datunm.data.updatedAt
   }
-  
   
   var updatedTime: String {
     guard let findDateT = updatedAt?.firstIndex(of: "T"),

@@ -28,7 +28,7 @@ class DetailPresenter: DetailPresentationLogic
   {
     typealias Todo = Detail.PresentTodo.ViewModel.DisplayedTodo
     
-    guard let todo = response.todo?.data else {
+    guard let todo = response.todo else {
       return
     }
     

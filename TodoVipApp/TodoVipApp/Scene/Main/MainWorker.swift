@@ -15,27 +15,19 @@ import UIKit
 class MainWorker: TodoWorkerUsecase
 {
   
-  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity] {
-    guard let todoListDTO = try await todoUsecase.fetchTodoList(page: page, perPage: perPage).data else {
-      return []
-    }
-    
-    return todoListDTO.map { TodoEntity.init(datunm: $0) }
+  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]? {
+    try await todoUsecase.fetchTodoList(page: page, perPage: perPage)
   }
   
-  func deleteTodo(id: Int) async throws -> TodoDataDTO {
+  func deleteTodo(id: Int) async throws -> TodoEntity {
     try await todoUsecase.deleteTodo(id: id)
   }
   
-  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> [TodoEntity] {
-    guard let todoListDTO = try await todoUsecase.fetchSearchTodoList(page: page, perPage: perPage, query: query).data else {
-      return []
-    }
-    
-    return todoListDTO.map { TodoEntity.init(datunm: $0) }
+  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> [TodoEntity]? {
+    try await todoUsecase.fetchSearchTodoList(page: page, perPage: perPage, query: query)
   }
   
-  func checkisDone(id: Int, title: String, isDone: Bool) async throws -> TodoDataDTO {
+  func checkisDone(id: Int, title: String, isDone: Bool) async throws -> TodoEntity {
    try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
   }
 }

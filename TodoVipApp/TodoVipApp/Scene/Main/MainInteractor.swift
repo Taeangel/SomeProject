@@ -88,8 +88,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task {
       do {
-        let todo = try await self.worker?.deleteTodo(id: request.id)
-        let todoEntity = todo.map { TodoEntity(datunm: $0) }
+        let todoEntity = try await self.worker?.deleteTodo(id: request.id)
         let rows = self.todoList[todoEntity?.updatedDate ?? ""]
         
         guard let sectionIndex = self.sections.firstIndex(of: todoEntity?.updatedDate ?? ""),
@@ -113,9 +112,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker()
     Task {
       do {
-        let todo = try await worker?.checkisDone(id: request.id, title: request.title, isDone: request.isDone)
-        
-        let todoEntity = todo.map { TodoEntity(datunm: $0) }
+        let todoEntity = try await worker?.checkisDone(id: request.id, title: request.title, isDone: request.isDone)
         let rows = self.todoList[todoEntity?.updatedDate ?? ""]
         
         guard let sectionIndex = self.sections.firstIndex(of: todoEntity?.updatedDate ?? ""),

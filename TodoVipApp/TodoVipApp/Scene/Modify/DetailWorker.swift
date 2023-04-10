@@ -19,7 +19,7 @@ class DetailWorker: TodoWorkerUsecase
     try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
   }
   
-  func fetchtodo(id: Int) async throws -> TodoDataDTO {
+  func fetchtodo(id: Int) async throws -> TodoEntity {
     try await todoUsecase.fetchTodo(id: id)
   }
 }

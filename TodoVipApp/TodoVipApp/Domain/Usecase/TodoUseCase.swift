@@ -8,11 +8,11 @@
 import Foundation
 
 protocol TodoUsecasealbe {
-  func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoDataDTO
-  func deleteTodo(id: Int) async throws -> TodoDataDTO
-  func postTodo(todo: TodoPostDTO) async throws -> TodoDataDTO
-  func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> TodoListDTO
+  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]?
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity
+  func deleteTodo(id: Int) async throws -> TodoEntity
+  func postTodo(todo: TodoPostDTO) async throws -> TodoEntity
+  func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> [TodoEntity]?
 }
 
 final class TodoUsecase {
@@ -25,28 +25,35 @@ final class TodoUsecase {
 
 extension TodoUsecase: TodoUsecasealbe {
 
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoDataDTO {
-    try await todoRepository.modifyTodo(id: id, title: title, isDone: isDone)
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity {
+    let todoDataDTO = try await todoRepository.modifyTodo(id: id, title: title, isDone: isDone)
+    return TodoEntity(datunm: todoDataDTO)
   }
   
-  func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO {
-    try await todoRepository.fetchtodoList(page: page, perPage: perPage)
+  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]? {
+    let todoListDTO = try await todoRepository.fetchtodoList(page: page, perPage: perPage)
+    
+    return todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } }
   }
   
-  func deleteTodo(id: Int) async throws -> TodoDataDTO {
-    try await todoRepository.deleteTodo(id: id)
+  func deleteTodo(id: Int) async throws -> TodoEntity {
+    let todoDataDTO = try await todoRepository.deleteTodo(id: id)
+    return TodoEntity(datunm: todoDataDTO)
   }
   
-  func postTodo(todo: TodoPostDTO) async throws -> TodoDataDTO {
-    try await todoRepository.postTodo(todo: todo)
+  func postTodo(todo: TodoPostDTO) async throws -> TodoEntity {
+    let todoDataDTO = try await todoRepository.postTodo(todo: todo)
+    return TodoEntity(datunm: todoDataDTO)
   }
   
-  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
-    try await todoRepository.fetchSearchTodoList(page: page, perPage: perPage, query: query)
+  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> [TodoEntity]? {
+    let todoListDTO = try await todoRepository.fetchSearchTodoList(page: page, perPage: perPage, query: query)
+    return todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } }
   }
   
-  func fetchTodo(id: Int) async throws -> TodoDataDTO {
-    try await todoRepository.fetchTodo(id: id)
+  func fetchTodo(id: Int) async throws -> TodoEntity {
+    let todoDataDTO = try await todoRepository.fetchTodo(id: id)
+    return TodoEntity(datunm: todoDataDTO)
   }
   
 }

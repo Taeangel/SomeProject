@@ -9,13 +9,13 @@ import Foundation
 
 // MARK: - Todo
 struct TodoListDTO: Codable {
-  let data: [Datum]?
+  let data: [TodoData]?
   let meta: Meta?
   let message: String?
 }
 
 // MARK: - Datum
-struct Datum: Codable {
+struct TodoData: Codable {
   let id: Int?
   let title: String?
   let isDone: Bool?
