@@ -3,19 +3,10 @@
     {
       "identity" : "combinecocoa",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CombineCommunity/CombineCocoa.git",
+      "location" : "http://github.com/CombineCommunity/CombineCocoa.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "7300c75ff9e072aa7fd0fccefcc88f74aae9bf56"
-      }
-    },
-    {
-      "identity" : "rxswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ReactiveX/RxSwift.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "04c8d2b491b54e46a3534254bed8807b4a954fad"
+        "revision" : "7300c75ff9e072aa7fd0fccefcc88f74aae9bf56",
+        "version" : "0.4.1"
       }
     }
   ],

@@ -13,7 +13,6 @@
 import UIKit
 import Combine
 import CombineCocoa
-import RxCocoa
 
 protocol MainDisplayLogic: AnyObject
 {
@@ -32,11 +31,11 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   // MARK: - Properties
   typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
-  private let refreshControl: UIRefreshControl = UIRefreshControl()
-  private var sections: [String] = []
-  private var todoList: [String: [Displayedtodo]] = [:]
-  private var page = 1
-  private var cancellables = Set<AnyCancellable>()
+  let refreshControl: UIRefreshControl = UIRefreshControl()
+  var sections: [String] = []
+  var todoList: [String: [Displayedtodo]] = [:]
+  var page = 1
+  var cancellables = Set<AnyCancellable>()
   @Published private var searchText = ""
   @Published private var isloadig: Bool = false
   @Published private var fetchingMore = true
@@ -202,10 +201,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.page = viewModel.page
       self.todoList = viewModel.displayedTodoList
       self.sections = viewModel.sections
-      
+       
       self.fetchingMore = true
       
-      DispatchQueue.main.sync {
+      DispatchQueue.main.async {
         self.myTableView.reloadData()
       }
       return

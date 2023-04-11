@@ -35,13 +35,40 @@ class MainViewControllerTests: XCTestCase
     super.tearDown()
   }
   
+  // MARK: mockData
+  typealias DisplayedTodoList = MainScene.FetchTodoList.ViewModel.DisplayedTodo
+  let displayTodoListMockData: [String: [DisplayedTodoList]] = [
+    "2023-04-10": [DisplayedTodoList(id: 1,
+                                     title: "첫번째",
+                                     isDone: false,
+                                     updatedTime: "08:51",
+                                     updatedDate: "2023-04-10"),
+                   DisplayedTodoList(id: 2,
+                                     title: "두번째",
+                                     isDone: false,
+                                     updatedTime: "08:50",
+                                     updatedDate: "2023-04-10")],
+    "2023-04-11": [DisplayedTodoList(id: 3,
+                                     title: "세번째",
+                                     isDone: false,
+                                     updatedTime: "08:50",
+                                     updatedDate: "2023-04-11")],
+    "2023-04-12": [DisplayedTodoList(id: 4,
+                                     title: "네번째",
+                                     isDone: false,
+                                     updatedTime: "08:50",
+                                     updatedDate: "2023-04-12")]
+  ]
+  
+  let mockSection: [String] = ["2023-04-10", "2023-04-11", "2023-04-12"]
+  
   // MARK: Test setup
   
   func setupMainViewController()
   {
     let bundle = Bundle.main
-    let storyboard = UIStoryboard(name: "MainViewController", bundle: bundle)
-    sut = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+    let storyboard = UIStoryboard(name: "Main", bundle: bundle)
+    sut = storyboard.instantiateViewController(withIdentifier: "MainViewController") as? MainViewController
   }
   
   func loadView()
@@ -76,8 +103,7 @@ class MainViewControllerTests: XCTestCase
   
   // MARK: Tests
   
-  func testShouldDoSomethingWhenViewIsLoaded()
-  {
+  func test_시작할때메서드가불리는지() {
     // Given
     let spy = MainBusinessLogicSpy()
     sut.interactor = spy
@@ -86,19 +112,46 @@ class MainViewControllerTests: XCTestCase
     loadView()
     
     // Then
-    XCTAssertTrue(spy.fetchTodoListCalled, "viewDidLoad() should ask the interactor to do something")
+    XCTAssertTrue(spy.fetchTodoListCalled)
   }
   
-//  func testDisplaySomething()
-//  {
-//    // Given
-//    let viewModel = Main.Something.ViewModel()
-//
-//    // When
-//    loadView()
-//    sut.displaySomething(viewModel: viewModel)
-//
-//    // Then
-//    //XCTAssertEqual(sut.nameTextField.text, "", "displaySomething(viewModel:) should update the name text field")
-//  }
+  func test_시작할때presenter로부터데이터를제대로받는지() {
+    // Given
+    let viewModel = MainScene.FetchTodoList.ViewModel(page: 1, displayedTodoList: displayTodoListMockData, sections: mockSection)
+    
+    // When
+    loadView()
+    sut.displayTodoList(viewModel: viewModel)
+    
+    // Then
+    XCTAssertEqual(sut.sections.count, self.mockSection.count)
+    XCTAssertEqual(sut.todoList.count, self.displayTodoListMockData.count)
+    XCTAssertEqual(sut.todoList[self.mockSection.first!]?.count, self.displayTodoListMockData[self.mockSection.first!]?.count)
+  }
+  
+  func test_새로고침할때메서드가불리는지() {
+    // Given
+    let spy = MainBusinessLogicSpy()
+    sut.interactor = spy
+    
+    // When
+    loadView()
+    sut.refreshFunction()
+    // Then
+    XCTAssertTrue(spy.fetchTodoListCalled)
+  }
+  
+  func test_새로고침할때resenter로부터데이터를제대로받는지() {
+    // Given
+    let viewModel = MainScene.FetchTodoList.ViewModel(page: 1, displayedTodoList: displayTodoListMockData, sections: mockSection)
+    
+    // When
+    loadView()
+    sut.displayTodoList(viewModel: viewModel)
+    
+    //     Then
+    XCTAssertEqual(sut.sections.count, self.mockSection.count)
+    XCTAssertEqual(sut.todoList.count, self.displayTodoListMockData.count)
+    XCTAssertEqual(sut.todoList[self.mockSection.first!]?.count, self.displayTodoListMockData[self.mockSection.first!]?.count)
+  }
 }

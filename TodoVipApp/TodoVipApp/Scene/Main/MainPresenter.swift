@@ -51,6 +51,7 @@ class MainPresenter: MainPresentationLogic
       }
       displayTodoList.updateValue(todoAday!, forKey: $0)
     }
+
     
     let nowPage = response.page
     let viewModel = MainScene.FetchTodoList.ViewModel(error: response.error as? NetworkError, page: nowPage + 1, displayedTodoList: displayTodoList, sections: sections)
