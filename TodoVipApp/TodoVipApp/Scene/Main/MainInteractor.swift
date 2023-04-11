@@ -18,7 +18,6 @@ protocol MainBusinessLogic
   func deleteTodo(request: MainScene.DeleteTodo.Request)
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request)
   func checkTodo(request: MainScene.ModifyTodo.Request)
-  
 }
 
 protocol MainDataStore
