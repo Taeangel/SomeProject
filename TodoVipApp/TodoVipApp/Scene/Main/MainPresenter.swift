@@ -16,7 +16,7 @@ protocol MainPresentationLogic
 {
   func presentTodoList(response: TodoListProtocol)
   func presentDeleteTodo(response: MainScene.DeleteTodo.Response)
-  func presentCheckBoxTap(response: MainScene.ModifyTodo.Response)
+  func presentModifyTodo(response: MainScene.ModifyTodo.Response)
 }
 
 class MainPresenter: MainPresentationLogic
@@ -67,7 +67,7 @@ class MainPresenter: MainPresentationLogic
     viewController?.displayedDeleteTodo(viewModel: viewModel)
   }
   
-  func presentCheckBoxTap(response: MainScene.ModifyTodo.Response) {
+  func presentModifyTodo(response: MainScene.ModifyTodo.Response) {
     typealias DisplayedTodo = MainScene.ModifyTodo.ViewModel.DisplayedTodo
 
     let displayTodo = DisplayedTodo(

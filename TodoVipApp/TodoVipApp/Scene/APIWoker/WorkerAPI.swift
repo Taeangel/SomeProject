@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol ApiManagerProtocol {}
+protocol ApiManagerProtocol {
+  var apiManager: TodoApiManager { get set }
+}
 
 protocol TodoWorkerUsecase: ApiManagerProtocol {}
 
@@ -25,8 +27,8 @@ extension TodoWorkerUsecase {
   }
 }
 
-extension ApiManagerProtocol {
-  var apiManager: TodoApiManager {
-    return TodoApiManager(session: URLSession.shared)
+struct MockURLSession: Requestable  {
+  func request(_ request: TodoRequestManager) async throws -> Data {
+    return Data()
   }
 }

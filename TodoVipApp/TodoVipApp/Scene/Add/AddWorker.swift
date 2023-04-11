@@ -12,10 +12,14 @@
 
 import UIKit
 
-class AddWorker: TodoWorkerUsecase
-{
-  func postTodo(todo: TodoPostDTO) async throws -> TodoEntity
-  {
+class AddWorker: TodoWorkerUsecase {
+  var apiManager: TodoApiManager
+  
+  init(apiManager: TodoApiManager = TodoApiManager(session: URLSession.shared)) {
+    self.apiManager = apiManager
+  }
+  
+  func postTodo(todo: TodoPostDTO) async throws -> TodoEntity {
     try await todoUsecase.postTodo(todo:todo)
   }
 }

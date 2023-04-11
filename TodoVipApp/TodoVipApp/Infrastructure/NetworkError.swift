@@ -14,6 +14,7 @@ enum NetworkError: Error {
   case developerProblem
   case badStatus(code: Int)
   case fastRequest
+  case unrappingError
 }
 
 extension NetworkError: LocalizedError {
@@ -29,6 +30,8 @@ extension NetworkError: LocalizedError {
       return "지금 서버에 문제가 있습니다 죄송합니다!"
     case .decoding:
       return "디코딩에러입니다!!"
+    case .unrappingError:
+      return "옵셔널 바인딩에실패하였습니다!"
     default:
       return ":"
     }

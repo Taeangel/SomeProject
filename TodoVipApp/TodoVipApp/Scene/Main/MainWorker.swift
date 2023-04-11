@@ -14,6 +14,11 @@ import UIKit
 
 class MainWorker: TodoWorkerUsecase
 {
+  var apiManager: TodoApiManager
+  
+  init(reauestable: Requestable) {
+    self.apiManager = TodoApiManager(session: reauestable)
+  }
   
   func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]? {
     try await todoUsecase.fetchTodoList(page: page, perPage: perPage)

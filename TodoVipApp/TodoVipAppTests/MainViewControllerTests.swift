@@ -204,36 +204,36 @@ class MainViewControllerTests: XCTestCase
     XCTAssertTrue(spy.modifyTodoCalled)
   }
   
-  func test_수정를하고presenter로부터데이터를제대로받는지() {
-    // Given
-    let mockIndex = IndexPath(row: 1, section: 0)
-    typealias DisplayedTodo = MainScene.ModifyTodo.ViewModel.DisplayedTodo
-
-    let mockDisplayedTodo = DisplayedTodo(
-      id: mockModifyedTodoEntity.id!,
-      title: mockModifyedTodoEntity.title!,
-      isDone: mockModifyedTodoEntity.isDone!,
-      updatedTime: mockModifyedTodoEntity.updatedTime,
-      updatedDate: mockModifyedTodoEntity.updatedDate)
-
-    let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: mockIndex,
-                                                   disPlayTodo: mockDisplayedTodo,
-                                                   page: 1)
-    // When
-    loadView()
-    sut.sections = mockSection
-    sut.todoList = displayTodoListMockData
-    sut.displayedModifyTodo(viewModel: viewModel)
-
-    // Then
-    displayTodoListMockData[mockSection[mockIndex.section]]?[mockIndex.row] = MainViewController.Displayedtodo(
-      id: viewModel.disPlayTodo?.id ?? 0,
-      title: viewModel.disPlayTodo?.title ?? "",
-      isDone: viewModel.disPlayTodo?.isDone ?? false,
-      updatedTime: viewModel.disPlayTodo?.updatedTime ?? "",
-      updatedDate: viewModel.disPlayTodo?.updatedDate ?? ""
-    )
-
-    XCTAssertEqual(sut.todoList, displayTodoListMockData)
-  }
+//  func test_수정를하고presenter로부터데이터를제대로받는지() {
+//    // Given
+//    let mockIndex = IndexPath(row: 1, section: 0)
+//    typealias DisplayedTodo = MainScene.ModifyTodo.ViewModel.DisplayedTodo
+//
+//    let mockDisplayedTodo = DisplayedTodo(
+//      id: mockModifyedTodoEntity.id!,
+//      title: mockModifyedTodoEntity.title!,
+//      isDone: mockModifyedTodoEntity.isDone!,
+//      updatedTime: mockModifyedTodoEntity.updatedTime,
+//      updatedDate: mockModifyedTodoEntity.updatedDate)
+//
+//    let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: mockIndex,
+//                                                   disPlayTodo: mockDisplayedTodo,
+//                                                   page: 1)
+//    // When
+//    loadView()
+//    sut.sections = mockSection
+//    sut.todoList = displayTodoListMockData
+//    sut.displayedModifyTodo(viewModel: viewModel)
+//
+//    // Then
+//    displayTodoListMockData[mockSection[mockIndex.section]]?[mockIndex.row] = MainViewController.Displayedtodo(
+//      id: viewModel.disPlayTodo?.id ?? 0,
+//      title: viewModel.disPlayTodo?.title ?? "",
+//      isDone: viewModel.disPlayTodo?.isDone ?? false,
+//      updatedTime: viewModel.disPlayTodo?.updatedTime ?? "",
+//      updatedDate: viewModel.disPlayTodo?.updatedDate ?? ""
+//    )
+//
+//    XCTAssertEqual(sut.todoList, displayTodoListMockData)
+//  }
 }

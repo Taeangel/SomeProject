@@ -32,10 +32,12 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   var todoList: [String: [TodoEntity]] = [:]
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
+  var session: Requestable
   
   // MARK: - NotificationCenter
   
-  init() {
+  init(session: Requestable = URLSession.shared) {
+    self.session = session
     NotificationCenter.default.addObserver(self, selector: #selector(addNotiTodo), name: NSNotification.Name("addTodo"), object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(modifyNotiTodo), name: NSNotification.Name("modifyTodo"), object: nil)
   }
@@ -63,15 +65,18 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     self.todoList[sections[sectionIndex]]?[rowIndex] = todoEntity
     
     let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: 1)
-    presenter?.presentCheckBoxTap(response: response)
+    presenter?.presentModifyTodo(response: response)
     
   }
   
   func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
-    worker = MainWorker()
+    worker = MainWorker(reauestable: session)
+    
     Task{
       do {
-        guard let todoList = try await self.worker?.fetchTodoList(page: request.page, perPage: request.perPage) else { return }
+        guard let todoList = try await self.worker?.fetchTodoList(page: request.page, perPage: request.perPage) else {
+          return
+        }
         
         let groupedTodoList = Dictionary(grouping: todoList) { $0.updatedDate }
         
@@ -96,7 +101,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   }
   
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) {
-    worker = MainWorker()
+    worker = MainWorker(reauestable: session)
     Task {
       do {
         guard let todoList = try await self.worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary) else {
@@ -116,11 +121,14 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   }
   
   func deleteTodo(request: MainScene.DeleteTodo.Request)  {
-    worker = MainWorker()
+    worker = MainWorker(reauestable: session)
     Task {
       do {
+        
         let todoEntity = try await self.worker?.deleteTodo(id: request.id)
+        
         let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity?.id  } }.first
+        
         let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
         
         guard let sectionIndex = self.sections.firstIndex(of: storedTodoEntity?.updatedDate ?? ""),
@@ -133,7 +141,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         
         let response = MainScene.DeleteTodo.Response(indexPath: indexPath, page: request.page)
         presenter?.presentDeleteTodo(response: response)
-        
       } catch {
         let response = MainScene.DeleteTodo.Response(error: error, page: request.page)
         presenter?.presentDeleteTodo(response: response)
@@ -142,7 +149,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   }
   
   func modifyTodo(request: MainScene.ModifyTodo.Request) {
-    worker = MainWorker()
+    worker = MainWorker(reauestable: session)
     Task {
       do {
         
@@ -162,10 +169,10 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         self.todoList[sections[sectionIndex]]?[rowIndex].isDone = request.isDone
         
         let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: request.page)
-        presenter?.presentCheckBoxTap(response: response)
+        presenter?.presentModifyTodo(response: response)
       } catch {
         let response = MainScene.ModifyTodo.Response(error: error, page: request.page)
-        presenter?.presentCheckBoxTap(response: response)
+        presenter?.presentModifyTodo(response: response)
       }
     }
   }

@@ -14,6 +14,12 @@ import UIKit
 
 class DetailWorker: TodoWorkerUsecase
 {
+  var apiManager: TodoApiManager
+  
+  init(apiManager: TodoApiManager = TodoApiManager(session: URLSession.shared)) {
+    self.apiManager = apiManager
+  }
+  
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity
   {
     try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
