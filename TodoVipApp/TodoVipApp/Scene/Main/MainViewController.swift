@@ -17,8 +17,8 @@ import CombineCocoa
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
-  func displayDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
-  func modifyTodo(viewModel: MainScene.ModifyTodo.ViewModel)
+  func displayedDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
+  func displayedModifyTodo(viewModel: MainScene.ModifyTodo.ViewModel)
 }
 
 class MainViewController: UIViewController, MainDisplayLogic, Alertable
@@ -182,10 +182,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     interactor?.deleteTodo(request: deleteRequest)
   }
   
-  func modifyCheckBox(id: Int, title: String, isDone: Bool) {
+  func modifyTodo(id: Int, title: String, isDone: Bool) {
     
     let request = MainScene.ModifyTodo.Request(id: id, title: title, isDone: isDone)
-    interactor?.checkTodo(request: request)
+    interactor?.modifyTodo(request: request)
   }
   
   @IBAction func presentModal(_ sender: Any) {
@@ -216,7 +216,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func displayDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
+  func displayedDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
       
@@ -240,7 +240,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     }
   }
   
-  func modifyTodo(viewModel: MainScene.ModifyTodo.ViewModel) {
+  func displayedModifyTodo(viewModel: MainScene.ModifyTodo.ViewModel) {
     guard let error = viewModel.error else {
       self.page = viewModel.page
 
@@ -339,7 +339,7 @@ extension MainViewController: UITableViewDataSource
     
     cell.onEditAction = { [weak self] clickedTodo in
       let idDone = !clickedTodo.isDone
-      self?.modifyCheckBox(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
+      self?.modifyTodo(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
     }
     
     return cell

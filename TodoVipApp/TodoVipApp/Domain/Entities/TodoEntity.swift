@@ -27,6 +27,13 @@ struct TodoEntity {
     self.updatedAt = datunm.data.updatedAt
   }
   
+  init(id: Int, title: String, isDone: Bool, updateAt: String) {
+    self.id = id
+    self.title = title
+    self.isDone = isDone
+    self.updatedAt = updateAt
+  }
+  
   var updatedTime: String {
     guard let findDateT = updatedAt?.firstIndex(of: "T"),
           let findDateDot = updatedAt?.firstIndex(of: ".") else {

@@ -27,6 +27,29 @@ class MainViewControllerTests: XCTestCase
     super.setUp()
     window = UIWindow()
     setupMainViewController()
+    self.displayTodoListMockData = [
+      "2023-04-10": [DisplayedTodoList(id: 1,
+                                       title: "첫번째",
+                                       isDone: false,
+                                       updatedTime: "08:51",
+                                       updatedDate: "2023-04-10"),
+                     DisplayedTodoList(id: 2,
+                                       title: "두번째",
+                                       isDone: false,
+                                       updatedTime: "08:50",
+                                       updatedDate: "2023-04-10")],
+      "2023-04-11": [DisplayedTodoList(id: 3,
+                                       title: "세번째",
+                                       isDone: false,
+                                       updatedTime: "08:50",
+                                       updatedDate: "2023-04-11")],
+      "2023-04-12": [DisplayedTodoList(id: 4,
+                                       title: "네번째",
+                                       isDone: false,
+                                       updatedTime: "08:50",
+                                       updatedDate: "2023-04-12")]
+    ]
+    self.mockSection = ["2023-04-10", "2023-04-11", "2023-04-12"]
   }
   
   override func tearDown()
@@ -37,31 +60,13 @@ class MainViewControllerTests: XCTestCase
   
   // MARK: mockData
   typealias DisplayedTodoList = MainScene.FetchTodoList.ViewModel.DisplayedTodo
-  let displayTodoListMockData: [String: [DisplayedTodoList]] = [
-    "2023-04-10": [DisplayedTodoList(id: 1,
-                                     title: "첫번째",
-                                     isDone: false,
-                                     updatedTime: "08:51",
-                                     updatedDate: "2023-04-10"),
-                   DisplayedTodoList(id: 2,
-                                     title: "두번째",
-                                     isDone: false,
-                                     updatedTime: "08:50",
-                                     updatedDate: "2023-04-10")],
-    "2023-04-11": [DisplayedTodoList(id: 3,
-                                     title: "세번째",
-                                     isDone: false,
-                                     updatedTime: "08:50",
-                                     updatedDate: "2023-04-11")],
-    "2023-04-12": [DisplayedTodoList(id: 4,
-                                     title: "네번째",
-                                     isDone: false,
-                                     updatedTime: "08:50",
-                                     updatedDate: "2023-04-12")]
-  ]
+  var displayTodoListMockData: [String: [DisplayedTodoList]] = [:]
+  var mockSection: [String] = []
   
-  let mockSection: [String] = ["2023-04-10", "2023-04-11", "2023-04-12"]
-  
+  var mockModifyedTodoEntity = TodoEntity(id: 1,
+                                          title: "원래는첫번째였습니다.",
+                                          isDone: false,
+                                          updateAt: "2023-04-10T12:31:05.000000Z")
   // MARK: Test setup
   
   func setupMainViewController()
@@ -79,12 +84,11 @@ class MainViewControllerTests: XCTestCase
   
   // MARK: Test doubles
   
-  class MainBusinessLogicSpy: MainBusinessLogic
-  {
+  class MainBusinessLogicSpy: MainBusinessLogic {
     var fetchTodoListCalled = false
     var deleteTodoCalled = false
     var fetchSearchTodoListCalled = false
-    var checkTodoCalled = false
+    var modifyTodoCalled = false
     
     func fetchTodoList(request: MainScene.FetchTodoList.Request) {
       fetchTodoListCalled = true
@@ -95,15 +99,14 @@ class MainViewControllerTests: XCTestCase
     func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) {
       fetchSearchTodoListCalled = true
     }
-    func checkTodo(request: MainScene.ModifyTodo.Request) {
-      checkTodoCalled = true
+    func modifyTodo(request: MainScene.ModifyTodo.Request) {
+      modifyTodoCalled = true
     }
-    
   }
   
   // MARK: Tests
   
-  func test_시작할때메서드가불리는지() {
+  func test_시작할때fetchTodoList메서드가불리는지() {
     // Given
     let spy = MainBusinessLogicSpy()
     sut.interactor = spy
@@ -129,7 +132,7 @@ class MainViewControllerTests: XCTestCase
     XCTAssertEqual(sut.todoList[self.mockSection.first!]?.count, self.displayTodoListMockData[self.mockSection.first!]?.count)
   }
   
-  func test_새로고침할때메서드가불리는지() {
+  func test_새로고침할때fetchTodoList메서드가불리는지() {
     // Given
     let spy = MainBusinessLogicSpy()
     sut.interactor = spy
@@ -141,7 +144,7 @@ class MainViewControllerTests: XCTestCase
     XCTAssertTrue(spy.fetchTodoListCalled)
   }
   
-  func test_새로고침할때resenter로부터데이터를제대로받는지() {
+  func test_새로고침할때presenter로부터데이터를제대로받는지() {
     // Given
     let viewModel = MainScene.FetchTodoList.ViewModel(page: 1, displayedTodoList: displayTodoListMockData, sections: mockSection)
     
@@ -149,9 +152,88 @@ class MainViewControllerTests: XCTestCase
     loadView()
     sut.displayTodoList(viewModel: viewModel)
     
-    //     Then
+    // Then
     XCTAssertEqual(sut.sections.count, self.mockSection.count)
     XCTAssertEqual(sut.todoList.count, self.displayTodoListMockData.count)
     XCTAssertEqual(sut.todoList[self.mockSection.first!]?.count, self.displayTodoListMockData[self.mockSection.first!]?.count)
+  }
+  
+  func test_삭제버튼을눌렀을때deleteTodo메서드가호출되는지() {
+    // Given
+    let spy = MainBusinessLogicSpy()
+    sut.interactor = spy
+    
+    // When
+    loadView()
+    sut.deleteTodo(id: 1)
+    // Then
+    XCTAssertTrue(spy.deleteTodoCalled)
+  }
+  
+  func test_삭제를하고presenter로부터데이터를제대로받는지() {
+    // Given
+    let mockIndex = IndexPath(row: 0, section: 0)
+    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: mockIndex, page: 1)
+    sut.sections = mockSection
+    sut.todoList = displayTodoListMockData
+
+    // When
+    loadView()
+    sut.sections = mockSection
+    sut.todoList = displayTodoListMockData
+    sut.displayedDeleteTodo(viewModel: viewModel)
+
+    print(displayTodoListMockData)
+    // Then
+    let section = mockSection[mockIndex.section]
+    displayTodoListMockData[section]?.remove(at: mockIndex.row)
+    print(displayTodoListMockData)
+    
+    XCTAssertEqual(sut.todoList, displayTodoListMockData)
+  }
+  
+  func test_변경버튼을눌렀을떄modifyTodo메서드가호출되는지() {
+    // Given
+    let spy = MainBusinessLogicSpy()
+    sut.interactor = spy
+    
+    // When
+    loadView()
+    sut.modifyTodo(id: 1, title: "", isDone: false)
+    // Then
+    XCTAssertTrue(spy.modifyTodoCalled)
+  }
+  
+  func test_수정를하고presenter로부터데이터를제대로받는지() {
+    // Given
+    let mockIndex = IndexPath(row: 1, section: 0)
+    typealias DisplayedTodo = MainScene.ModifyTodo.ViewModel.DisplayedTodo
+
+    let mockDisplayedTodo = DisplayedTodo(
+      id: mockModifyedTodoEntity.id!,
+      title: mockModifyedTodoEntity.title!,
+      isDone: mockModifyedTodoEntity.isDone!,
+      updatedTime: mockModifyedTodoEntity.updatedTime,
+      updatedDate: mockModifyedTodoEntity.updatedDate)
+
+    let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: mockIndex,
+                                                   disPlayTodo: mockDisplayedTodo,
+                                                   page: 1)
+    // When
+    loadView()
+    sut.sections = mockSection
+    sut.todoList = displayTodoListMockData
+    sut.displayedModifyTodo(viewModel: viewModel)
+
+    // Then
+    displayTodoListMockData[mockSection[mockIndex.section]]?[mockIndex.row] = MainViewController.Displayedtodo(
+      id: viewModel.disPlayTodo?.id ?? 0,
+      title: viewModel.disPlayTodo?.title ?? "",
+      isDone: viewModel.disPlayTodo?.isDone ?? false,
+      updatedTime: viewModel.disPlayTodo?.updatedTime ?? "",
+      updatedDate: viewModel.disPlayTodo?.updatedDate ?? ""
+    )
+
+    XCTAssertEqual(sut.todoList, displayTodoListMockData)
   }
 }

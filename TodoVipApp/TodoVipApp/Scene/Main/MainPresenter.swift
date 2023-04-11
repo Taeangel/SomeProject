@@ -64,7 +64,7 @@ class MainPresenter: MainPresentationLogic
     }
     
     let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: indexPath, page: response.page, error: response.error as? NetworkError)
-    viewController?.displayDeleteTodo(viewModel: viewModel)
+    viewController?.displayedDeleteTodo(viewModel: viewModel)
   }
   
   func presentCheckBoxTap(response: MainScene.ModifyTodo.Response) {
@@ -80,6 +80,6 @@ class MainPresenter: MainPresentationLogic
     
     let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: response.indexPath, disPlayTodo: displayTodo, page: response.page, error: response.error as? NetworkError)
     
-    viewController?.modifyTodo(viewModel: viewModel)
+    viewController?.displayedModifyTodo(viewModel: viewModel)
   }
 }

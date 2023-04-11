@@ -17,7 +17,7 @@ protocol MainBusinessLogic
   func fetchTodoList(request: MainScene.FetchTodoList.Request)
   func deleteTodo(request: MainScene.DeleteTodo.Request)
   func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request)
-  func checkTodo(request: MainScene.ModifyTodo.Request)
+  func modifyTodo(request: MainScene.ModifyTodo.Request)
 }
 
 protocol MainDataStore
@@ -36,17 +36,17 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   // MARK: - NotificationCenter
   
   init() {
-    NotificationCenter.default.addObserver(self, selector: #selector(addTodo), name: NSNotification.Name("addTodo"), object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(modifyTodo), name: NSNotification.Name("modifyTodo"), object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(addNotiTodo), name: NSNotification.Name("addTodo"), object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(modifyNotiTodo), name: NSNotification.Name("modifyTodo"), object: nil)
   }
   
   // MARK: 뷰에서 인터렉터한테 시키는 메서드
   
-  @objc func addTodo() {
+  @objc func addNotiTodo() {
     print("addtodo")
   }
    
-  @objc func modifyTodo(_ notification: Notification) {
+  @objc func modifyNotiTodo(_ notification: Notification) {
     guard let todoEntity = notification.object as? TodoEntity else {
       return
     }
@@ -141,7 +141,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     }
   }
   
-  func checkTodo(request: MainScene.ModifyTodo.Request) {
+  func modifyTodo(request: MainScene.ModifyTodo.Request) {
     worker = MainWorker()
     Task {
       do {
