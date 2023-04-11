@@ -49,7 +49,6 @@ class MainInteractorTests: XCTestCase
     
     func presentTodoList(response: TodoListProtocol) {
       presentTodoListCalled = true
-      print("아니씨발?")
     }
     
     func presentDeleteTodo(response: MainScene.DeleteTodo.Response) {
@@ -77,31 +76,31 @@ class MainInteractorTests: XCTestCase
     XCTAssertTrue(spy.presentTodoListCalled)
   }
   
-//  func test_presentDeleteTodo호출되는지()
-//  {
-//    // Given
-//    let spy = MainPresentationLogicSpy()
-//    sut.presenter = spy
-//    let request = MainScene.DeleteTodo.Request(id: 1)
-//
-//    // When
-//    sut.deleteTodo(request: request)
-//
-//    // Then
-//    XCTAssertTrue(spy.presentDeleteTodoCalled)
-//  }
+  func test_presentDeleteTodo호출되는지()
+  {
+    // Given
+    let spy = MainPresentationLogicSpy()
+    sut.presenter = spy
+    let request = MainScene.DeleteTodo.Request(id: 1)
+
+    // When
+    sut.deleteTodo(request: request)
+
+    // Then
+    XCTAssertTrue(spy.presentDeleteTodoCalled)
+  }
   
-//  func test_presentModifyTodo호출되는지()
-//  {
-//    // Given
-//    let spy = MainPresentationLogicSpy()
-//    sut.presenter = spy
-//    let request = MainScene.FetchTodoList.Request()
-//
-//    // When
-//    sut.fetchTodoList(request: request)
-//
-//    // Then
-//    XCTAssertTrue(spy.presentModifyTodoCalled)
-//  }
+  func test_presentModifyTodo호출되는지()
+  {
+    // Given
+    let spy = MainPresentationLogicSpy()
+    sut.presenter = spy
+    let request = MainScene.ModifyTodo.Request(id: 0, title: "", isDone: false)
+
+    // When
+    sut.modifyTodo(request: request)
+
+    // Then
+    XCTAssertTrue(spy.presentModifyTodoCalled)
+  }
 }
