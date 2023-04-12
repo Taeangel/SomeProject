@@ -176,20 +176,23 @@ class MainViewControllerTests: XCTestCase
     let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: mockIndex, page: 1)
     sut.sections = mockSection
     sut.todoList = displayTodoListMockData
-
-    // When
-    loadView()
     sut.sections = mockSection
     sut.todoList = displayTodoListMockData
-    sut.displayedDeleteTodo(viewModel: viewModel)
-
-    print(displayTodoListMockData)
-    // Then
-    let section = mockSection[mockIndex.section]
-    displayTodoListMockData[section]?.remove(at: mockIndex.row)
-    print(displayTodoListMockData)
     
-    XCTAssertEqual(sut.todoList, displayTodoListMockData)
+    // When
+    loadView()
+    sut.displayedDeleteTodo(viewModel: viewModel)
+    sut.myTableView.reloadData()
+
+    // Then
+    
+    let cells = sut.myTableView.visibleCells as! [MyTableViewCell]
+    
+    let deletedCell = cells.filter { myTableViewCell in
+      myTableViewCell.contentLabel.text == "첫번째"
+    }
+    
+    XCTAssertEqual(deletedCell.isEmpty, true)
   }
   
   func test_변경버튼을눌렀을떄modifyTodo메서드가호출되는지() {
@@ -219,21 +222,19 @@ class MainViewControllerTests: XCTestCase
     let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: mockIndex,
                                                    disPlayTodo: mockDisplayedTodo,
                                                    page: 1)
-    // When
-    loadView()
     sut.sections = mockSection
     sut.todoList = displayTodoListMockData
+    
+    // When
+    loadView()
+    sut.myTableView.reloadData()
     sut.displayedModifyTodo(viewModel: viewModel)
 
     // Then
-    displayTodoListMockData[mockSection[mockIndex.section]]?[mockIndex.row] = MainViewController.Displayedtodo(
-      id: viewModel.disPlayTodo?.id ?? 0,
-      title: viewModel.disPlayTodo?.title ?? "",
-      isDone: viewModel.disPlayTodo?.isDone ?? false,
-      updatedTime: viewModel.disPlayTodo?.updatedTime ?? "",
-      updatedDate: viewModel.disPlayTodo?.updatedDate ?? ""
-    )
-
-    XCTAssertEqual(sut.todoList, displayTodoListMockData)
+  
+    let testCell = sut.myTableView.visibleCells[mockIndex.row] as! MyTableViewCell
+    
+    XCTAssertEqual(testCell.contentLabel.text, viewModel.disPlayTodo?.title, "화면에 리로드 된 쎌의 contentLabel의 타이틀이랑 수정된 displayTodo의 타이틀이 같다")
+    
   }
 }

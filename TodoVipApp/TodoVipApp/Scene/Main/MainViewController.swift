@@ -232,6 +232,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       DispatchQueue.main.async {
         self.myTableView.deleteRows(at: [indexPath], with: .automatic)
       }
+      
       return
     }
     
