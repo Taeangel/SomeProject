@@ -8,11 +8,11 @@
 import Foundation
 
 protocol TodoUsecasealbe {
-  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]?
+  func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListEntity?
   func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity
   func deleteTodo(id: Int) async throws -> TodoEntity
   func postTodo(todo: TodoPostDTO) async throws -> TodoEntity
-  func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> [TodoEntity]?
+  func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> TodoListEntity?
 }
 
 final class TodoUsecase {
@@ -30,9 +30,11 @@ extension TodoUsecase: TodoUsecasealbe {
     return TodoEntity(datunm: todoDataDTO)
   }
   
-  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]? {
+  func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListEntity? {
     let todoListDTO = try await todoRepository.fetchtodoList(page: page, perPage: perPage)
-    return todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } }
+    return TodoListEntity(
+      todoEntity: todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } },
+      meta: todoListDTO.meta)
   }
   
   func deleteTodo(id: Int) async throws -> TodoEntity {
@@ -45,9 +47,11 @@ extension TodoUsecase: TodoUsecasealbe {
     return TodoEntity(datunm: todoDataDTO)
   }
   
-  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> [TodoEntity]? {
-    let todoListDTO = try await todoRepository.fetchSearchTodoList(page: page, perPage: perPage, query: query)
-    return todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } }
+  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListEntity? {
+    let todoListDTO = try await todoRepository.fetchtodoList(page: page, perPage: perPage)
+    return TodoListEntity(
+      todoEntity: todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } },
+      meta: todoListDTO.meta)
   }
   
   func fetchTodo(id: Int) async throws -> TodoEntity {

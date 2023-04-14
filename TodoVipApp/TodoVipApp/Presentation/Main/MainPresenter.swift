@@ -17,10 +17,13 @@ protocol MainPresentationLogic
   func presentTodoList(response: TodoListProtocol)
   func presentDeleteTodo(response: MainScene.DeleteTodo.Response)
   func presentModifyTodo(response: MainScene.ModifyTodo.Response)
+  func presesntAddTodo(response: MainScene.AddTodo.Response)
 }
 
 class MainPresenter: MainPresentationLogic
 {
+  
+  
   weak var viewController: MainDisplayLogic?
   
   // MARK: Do something
@@ -51,10 +54,15 @@ class MainPresenter: MainPresentationLogic
       }
       displayTodoList.updateValue(todoAday!, forKey: $0)
     }
-
+        
+    let viewModel = MainScene.FetchTodoList.ViewModel(
+      error: response.error as? NetworkError,
+      isFetch: response.isFetch,
+      page: response.page + 1,
+      displayedTodoList: displayTodoList,
+      sections: sections
+    )
     
-    let nowPage = response.page
-    let viewModel = MainScene.FetchTodoList.ViewModel(error: response.error as? NetworkError, page: nowPage + 1, displayedTodoList: displayTodoList, sections: sections)
     viewController?.displayTodoList(viewModel: viewModel)
   }
   
@@ -78,8 +86,40 @@ class MainPresenter: MainPresentationLogic
       updatedDate: response.todoEntity?.updatedDate ?? ""
     )
     
-    let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: response.indexPath, disPlayTodo: displayTodo, page: response.page, error: response.error as? NetworkError)
+    let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: response.indexPath, disPlayTodo: displayTodo, error: response.error as? NetworkError)
     
     viewController?.displayedModifyTodo(viewModel: viewModel)
+  }
+  
+  func presesntAddTodo(response: MainScene.AddTodo.Response) {
+    typealias DisplayedTodoList = MainScene.FetchTodoList.ViewModel.DisplayedTodo
+    
+    var displayTodoList: [String: [DisplayedTodoList]] = [:]
+    
+    guard let responseTodoList = response.todoList else { return }
+    
+    var sections: [String] = []
+    responseTodoList.keys.sorted().forEach { sections.append($0) }
+    sections.reverse()
+    
+    sections.forEach {
+      let todoDate = responseTodoList[$0]
+      let todoAday = todoDate?.map{
+        return DisplayedTodoList(
+          id: $0.id ?? 0,
+          title: $0.title ?? "",
+          isDone: $0.isDone ?? false,
+          updatedTime: $0.updatedTime,
+          updatedDate: $0.updatedDate
+        )
+      }
+      displayTodoList.updateValue(todoAday!, forKey: $0)
+    }
+        
+    let viewModel = MainScene.FetchTodoList.ViewModel(displayedTodoList: displayTodoList, sections: sections)
+      
+    
+    viewController?.displayAddTodo(viewModle: viewModel)
+
   }
 }

@@ -20,7 +20,7 @@ class MainWorker: TodoWorkerUsecase
     self.apiManager = TodoApiManager(session: reauestable)
   }
   
-  func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]? {
+  func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListEntity? {
     try await todoUsecase.fetchTodoList(page: page, perPage: perPage)
   }
   
@@ -28,7 +28,7 @@ class MainWorker: TodoWorkerUsecase
     try await todoUsecase.deleteTodo(id: id)
   }
   
-  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> [TodoEntity]? {
+  func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListEntity? {
     try await todoUsecase.fetchSearchTodoList(page: page, perPage: perPage, query: query)
   }
   

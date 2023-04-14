@@ -17,7 +17,6 @@
 		864073F529DC698200264436 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F429DC698200264436 /* UIImage.swift */; };
 		864788A729E5712C00466D6E /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 864788A629E5712C00466D6E /* CombineCocoa */; };
 		864788AA29E5775800466D6E /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 864788A929E5775800466D6E /* CombineCocoa */; };
-		864788AF29E9610E00466D6E /* CombineDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 864788AE29E9610E00466D6E /* CombineDataSources */; };
 		8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654277F29CDA5CE006E23A0 /* AppDelegate.swift */; };
 		8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654278129CDA5CE006E23A0 /* SceneDelegate.swift */; };
 		8654278729CDA5CE006E23A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8654278529CDA5CE006E23A0 /* Main.storyboard */; };
@@ -140,7 +139,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				864788A729E5712C00466D6E /* CombineCocoa in Frameworks */,
-				864788AF29E9610E00466D6E /* CombineDataSources in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +410,6 @@
 			name = TodoVipApp;
 			packageProductDependencies = (
 				864788A629E5712C00466D6E /* CombineCocoa */,
-				864788AE29E9610E00466D6E /* CombineDataSources */,
 			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
@@ -448,7 +445,6 @@
 			mainGroup = 8654277329CDA5CE006E23A0;
 			packageReferences = (
 				864788A529E5712C00466D6E /* XCRemoteSwiftPackageReference "CombineCocoa" */,
-				864788AD29E9610E00466D6E /* XCRemoteSwiftPackageReference "CombineDataSources" */,
 			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
@@ -816,14 +812,6 @@
 				minimumVersion = 0.4.1;
 			};
 		};
-		864788AD29E9610E00466D6E /* XCRemoteSwiftPackageReference "CombineDataSources" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/CombineCommunity/CombineDataSources";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.5;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -836,11 +824,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 864788A529E5712C00466D6E /* XCRemoteSwiftPackageReference "CombineCocoa" */;
 			productName = CombineCocoa;
-		};
-		864788AE29E9610E00466D6E /* CombineDataSources */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 864788AD29E9610E00466D6E /* XCRemoteSwiftPackageReference "CombineDataSources" */;
-			productName = CombineDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

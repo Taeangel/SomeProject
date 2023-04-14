@@ -14,6 +14,29 @@ import UIKit
 
 enum MainScene
 {
+  enum AddTodo {
+    struct Request {
+      
+    }
+    
+    struct Response {
+      var todoList: [String : [TodoEntity]]?
+    }
+    
+    struct ViewModel {
+      
+      struct DisplayedTodo: Hashable {
+        let id: Int
+        var title: String
+        var isDone: Bool
+        var updatedTime: String
+        var updatedDate: String
+      }
+      
+      var displayedTodoList: [String: [DisplayedTodo]]
+      var sections: [String]
+    }
+  }
   
   // MARK: - CheckBoxModify
   enum ModifyTodo
@@ -30,12 +53,10 @@ enum MainScene
       var indexPath: IndexPath?
       var todoEntity: TodoEntity?
       var error: Error?
-      var page: Int
     }
     
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
-      
       struct DisplayedTodo: Hashable {
         let id: Int
         let title: String
@@ -46,7 +67,6 @@ enum MainScene
 
       var indexPath: IndexPath?
       var disPlayTodo: DisplayedTodo?
-      let page: Int
       var error: NetworkError?
     }
   }
@@ -60,27 +80,29 @@ enum MainScene
       var quary: String
       var page: Int = 1
       var perPage: Int = 10
+      var isFetch: Bool?
     }
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
+      var isFetch: Bool?
       var error: Error?
       var todoList: [String: [TodoEntity]]?
       var page: Int
     }
-    struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
-    {
-      struct DisplayedTodo: Hashable {
-        var id: Int
-        var title: String
-        var isDone: Bool
-        var createdTime: String
-        var createdDate: String
-      }
-      
-      var error: NetworkError?
-      var page: Int
-      var displayedTodoList: [DisplayedTodo]
-    }
+//    struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
+//    {
+//      struct DisplayedTodo: Hashable {
+//        var id: Int
+//        var title: String
+//        var isDone: Bool
+//        var createdTime: String
+//        var createdDate: String
+//      }
+//
+//      var error: NetworkError?
+//      var page: Int
+//      var displayedTodoList: [DisplayedTodo]
+//    }
   }
   
   // MARK: - DeleteTodo
@@ -115,12 +137,15 @@ enum MainScene
       var page: Int = 1
       var perPage: Int = 10
     }
+    
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
       var error: Error?
       var todoList: [String: [TodoEntity]]?
       var page: Int
+      var isFetch: Bool?
     }
+    
     struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
     {
       struct DisplayedTodo: Hashable {
@@ -132,23 +157,25 @@ enum MainScene
       }
       
       var error: NetworkError?
-      var page: Int
+      var isFetch: Bool?
+      var page: Int?
       var displayedTodoList: [String: [DisplayedTodo]]
       var sections: [String]
     }
   }
   
-  struct ViewModel // 업데이트Page
-  {
-    var page: Int
-    var error: NetworkError?
-  }
+//  struct ViewModel // 업데이트Page
+//  {
+//    var page: Int
+//    var error: NetworkError?
+//  }
 }
 
 protocol TodoListProtocol {
   var todoList: [String: [TodoEntity]]? { get set }
   var error: Error? { get set }
   var page: Int { get set }
+  var isFetch: Bool? { get set }
 }
 
 //protocol UpdateResponsePage {

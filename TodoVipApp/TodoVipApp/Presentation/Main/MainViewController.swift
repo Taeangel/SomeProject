@@ -17,6 +17,7 @@ import CombineCocoa
 protocol MainDisplayLogic: AnyObject
 {
   func displayTodoList(viewModel: MainScene.FetchTodoList.ViewModel)
+  func displayAddTodo(viewModle: MainScene.FetchTodoList.ViewModel)
   func displayedDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel)
   func displayedModifyTodo(viewModel: MainScene.ModifyTodo.ViewModel)
 }
@@ -36,12 +37,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   var page = 1
   var cancellables = Set<AnyCancellable>()
   @Published var todoList: [String: [Displayedtodo]] = [:]
+  
+  @Published var todoListtt = [ TodoEntity(id: 1, title: "", isDone: false, updateAt: "") ]
   @Published private var searchText = ""
   @Published private var isloadig: Bool = false
   @Published private var fetchingMore = true
-  
-  lazy var isTableViewBottomPublisher = myTableView.reachedBottomPublisher()
-  
+    
   //바텀 인디케이터
   lazy var bottomIndicator: UIActivityIndicatorView = {
     var indicator = UIActivityIndicatorView(style: .medium)
@@ -137,27 +138,30 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   private func addSubscription() {
     
     searchBar.textPublisher()
-      .sink { [weak self] in self?.searchTodos($0)}
+      .sink { [weak self] in
+        guard let self = self else { return }
+        self.page = 1
+        self.searchTodos($0)
+      }
       .store(in: &cancellables)
     
     self.myTableView.tableFooterView = bottomIndicator
     
-    isTableViewBottomPublisher
-      .timeout(50, scheduler: DispatchQueue.main)
+    myTableView.reachedBottomPublisher()
       .sink { [weak self] in
-      guard let self = self else { return }
-
-      if self.fetchingMore {
-        self.fetchTodoList()
+        guard let self = self else { return }
+        print("asd")
+        if self.fetchingMore {
+          self.fetchTodoList()
+        }
       }
-    }
       .store(in: &cancellables)
     
     myTableView.willDisplayHeaderViewPublisher.sink { headerView, sesction in
-      let header = headerView as? UITableViewHeaderFooterView
-      header?.textLabel?.textColor = .black
-    }
-    .store(in: &cancellables)
+        let header = headerView as? UITableViewHeaderFooterView
+        header?.textLabel?.textColor = .black
+      }
+      .store(in: &cancellables)
     
     myTableView.didSelectRowPublisher
       .sink { [weak self] indexPath in
@@ -215,14 +219,13 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     
     guard let error = viewModel.error else {
       // 에러 없음
-      self.page = viewModel.page
+      self.page = viewModel.page ?? 1
       self.todoList = viewModel.displayedTodoList
       self.sections = viewModel.sections
       
-      DispatchQueue.main.async {
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .microseconds(100)) {
         self.myTableView.reloadData()
-        
-        self.fetchingMore = true
+        self.fetchingMore = viewModel.isFetch ?? true
       }
       return
     }
@@ -232,6 +235,16 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
+  
+  func displayAddTodo(viewModle: MainScene.FetchTodoList.ViewModel) {
+    
+    self.todoList = viewModle.displayedTodoList
+    self.sections = viewModle.sections
+    DispatchQueue.main.async {
+      self.myTableView.reloadData()
+    }
+  }
+  
   
   func displayedDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {
@@ -259,8 +272,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   func displayedModifyTodo(viewModel: MainScene.ModifyTodo.ViewModel) {
     guard let error = viewModel.error else {
-      self.page = viewModel.page
-
+      
       guard let indexPath = viewModel.indexPath,
             let sectionIndex = viewModel.indexPath?.section,
             let rowIndex = viewModel.indexPath?.row else {
@@ -274,7 +286,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
         updatedTime: viewModel.disPlayTodo?.updatedTime ?? "",
         updatedDate: viewModel.disPlayTodo?.updatedDate ?? ""
       )
-
+      
       DispatchQueue.main.async {
         self.myTableView.reloadRows(at: [indexPath], with: .automatic)
       }
@@ -316,7 +328,7 @@ extension MainViewController: UITableViewDataSource
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return sections[section]
   }
-
+  
   func numberOfSections(in tableView: UITableView) -> Int {
     return sections.count
   }
@@ -333,11 +345,11 @@ extension MainViewController: UITableViewDataSource
     guard let cell = myTableView.dequeueReusableCell(withIdentifier: "MyTableViewCell", for: indexPath) as? MyTableViewCell else {
       return UITableViewCell()
     }
-
+    
     let date = sections[indexPath.section]
     guard let todos = todoList[date] else { return cell }
     cell.configureCell(todo: todos[indexPath.row])
-
+    
     cell.onEditAction = { [weak self] clickedTodo in
       let idDone = !clickedTodo.isDone
       self?.modifyTodo(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
@@ -345,4 +357,3 @@ extension MainViewController: UITableViewDataSource
     return cell
   }
 }
-

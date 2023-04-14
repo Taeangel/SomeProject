@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct TodoEntity {
+struct TodoListEntity {
+  var todoEntity: [TodoEntity]?
+  var meta: Meta?
+}
+
+struct TodoEntity: Hashable {
   var id: Int?
   var title: String?
   var isDone: Bool?

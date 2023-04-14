@@ -44,8 +44,19 @@ class MainInteractor: MainBusinessLogic, MainDataStore
   
   // MARK: 뷰에서 인터렉터한테 시키는 메서드
   
-  @objc func addNotiTodo() {
-    print("addtodo")
+  @objc func addNotiTodo(_ notification: Notification) {
+    guard let todoEntity = notification.object as? TodoEntity else {
+      return
+    }
+    
+    if sections.filter ({ $0 == todoEntity.updatedDate }).isEmpty {
+      self.todoList.updateValue([todoEntity], forKey: todoEntity.updatedDate)
+    } else {
+      self.todoList[todoEntity.updatedDate]?.insert(todoEntity, at: 0)
+    }
+  
+    let response = MainScene.AddTodo.Response(todoList: self.todoList)
+    presenter?.presesntAddTodo(response: response)
   }
    
   @objc func modifyNotiTodo(_ notification: Notification) {
@@ -64,9 +75,8 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
     self.todoList[sections[sectionIndex]]?[rowIndex] = todoEntity
     
-    let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: 1)
+    let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity)
     presenter?.presentModifyTodo(response: response)
-    
   }
   
   func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
@@ -78,7 +88,9 @@ class MainInteractor: MainBusinessLogic, MainDataStore
           return
         }
         
-        let groupedTodoList = Dictionary(grouping: todoList) { $0.updatedDate }
+        guard let meta = todoList.meta else { return }
+                
+        let groupedTodoList = Dictionary(grouping: todoList.todoEntity ?? []) { $0.updatedDate }
         
         if request.page == 1 {
           self.todoList = groupedTodoList
@@ -87,11 +99,12 @@ class MainInteractor: MainBusinessLogic, MainDataStore
             todo
           }
         }
+
         
         self.todoList.keys.sorted().forEach { sections.append($0) }
         sections.reverse()
         
-        let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: request.page)
+        let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: meta.currentPage ?? 1, isFetch: meta.isfetch)
         presenter?.presentTodoList(response: response)
       } catch {
         let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
@@ -108,10 +121,12 @@ class MainInteractor: MainBusinessLogic, MainDataStore
           return
         }
         
-        let groupedTodoList = Dictionary(grouping: todoList) { $0.updatedDate }
+        guard let meta = todoList.meta else { return }
+        
+        let groupedTodoList = Dictionary(grouping: todoList.todoEntity ?? []) { $0.updatedDate }
         self.todoList = groupedTodoList
         
-        let response = MainScene.FetchSearchTodoList.Response(todoList: self.todoList, page: request.page)
+        let response = MainScene.FetchSearchTodoList.Response(isFetch: meta.isfetch, todoList: self.todoList, page: todoList.meta?.currentPage ?? 1)
         presenter?.presentTodoList(response: response)
       } catch {
         let response = MainScene.FetchSearchTodoList.Response(error: error, page: request.page)
@@ -168,10 +183,10 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
         self.todoList[sections[sectionIndex]]?[rowIndex].isDone = request.isDone
         
-        let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity, page: request.page)
+        let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity)
         presenter?.presentModifyTodo(response: response)
       } catch {
-        let response = MainScene.ModifyTodo.Response(error: error, page: request.page)
+        let response = MainScene.ModifyTodo.Response(error: error)
         presenter?.presentModifyTodo(response: response)
       }
     }

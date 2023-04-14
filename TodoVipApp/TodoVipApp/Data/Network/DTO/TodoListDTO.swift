@@ -40,5 +40,16 @@ struct Meta: Codable {
     case perPage = "per_page"
     case to, total
   }
+  
+  var isfetch: Bool {
+    var isfetch: Bool = true
+  
+    if self.lastPage == self.currentPage {
+      isfetch = false
+    }
+    
+    return isfetch
+  }
+  
 }
 

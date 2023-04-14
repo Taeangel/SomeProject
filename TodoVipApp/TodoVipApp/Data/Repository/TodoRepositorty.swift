@@ -16,7 +16,6 @@ final class TodoRepository {
 }
 
 extension TodoRepository: TodoRepositoriable {
-
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
     try await todoStorageable.fetchSearchTodoList(page: page, perPage: perPage, query: query)
   }
