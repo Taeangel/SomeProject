@@ -173,7 +173,7 @@ class MainViewControllerTests: XCTestCase
   func test_삭제를하고presenter로부터데이터를제대로받는지() {
     // Given
     let mockIndex = IndexPath(row: 0, section: 0)
-    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: mockIndex, page: 1)
+    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: mockIndex)
     sut.sections = mockSection
     sut.todoList = displayTodoListMockData
 
@@ -183,8 +183,8 @@ class MainViewControllerTests: XCTestCase
     sut.displayedDeleteTodo(viewModel: viewModel)
 
     // Then
-    let section = mockSection[mockIndex.section]
-    displayTodoListMockData[section]?.remove(at: mockIndex.row)
+//    let section = mockSection[mockIndex.section]
+//    displayTodoListMockData[section]?.remove(at: mockIndex.row)
     
     XCTAssertEqual(sut.myTableView.visibleCells.count, 3) // TableView로 테스트하려면 에러가 발생함 데이터는 정확히 들어오는 것같은데 
   }
@@ -214,8 +214,7 @@ class MainViewControllerTests: XCTestCase
       updatedDate: mockModifyedTodoEntity.updatedDate)
 
     let viewModel = MainScene.ModifyTodo.ViewModel(indexPath: mockIndex,
-                                                   disPlayTodo: mockDisplayedTodo,
-                                                   page: 1)
+                                                   disPlayTodo: mockDisplayedTodo)
     sut.sections = mockSection
     sut.todoList = displayTodoListMockData
     

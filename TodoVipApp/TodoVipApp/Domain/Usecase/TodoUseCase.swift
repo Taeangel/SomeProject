@@ -48,7 +48,7 @@ extension TodoUsecase: TodoUsecasealbe {
   }
   
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListEntity? {
-    let todoListDTO = try await todoRepository.fetchtodoList(page: page, perPage: perPage)
+    let todoListDTO = try await todoRepository.fetchSearchTodoList(page: page, perPage: perPage, query: query)
     return TodoListEntity(
       todoEntity: todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } },
       meta: todoListDTO.meta)

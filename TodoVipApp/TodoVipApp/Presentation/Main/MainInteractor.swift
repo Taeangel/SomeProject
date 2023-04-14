@@ -99,8 +99,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
             todo
           }
         }
-
-        
         self.todoList.keys.sorted().forEach { sections.append($0) }
         sections.reverse()
         

@@ -46,7 +46,8 @@ class MainInteractorTests: XCTestCase
     var presentTodoListCalled = false
     var presentDeleteTodoCalled = false
     var presentModifyTodoCalled = false
-    
+    var presentAddTodoCalled = false
+
     func presentTodoList(response: TodoListProtocol) {
       presentTodoListCalled = true
     }
@@ -57,7 +58,10 @@ class MainInteractorTests: XCTestCase
     
     func presentModifyTodo(response: MainScene.ModifyTodo.Response) {
       presentModifyTodoCalled = true
-      
+    }
+    
+    func presesntAddTodo(response: TodoVipApp.MainScene.AddTodo.Response) {
+      presentAddTodoCalled = true
     }
   }
   

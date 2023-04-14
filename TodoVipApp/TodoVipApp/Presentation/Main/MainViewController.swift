@@ -137,7 +137,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   private func addSubscription() {
     
+    self.myTableView.tableFooterView = bottomIndicator
+    
     searchBar.textPublisher()
+      .delay(for: 1, scheduler: DispatchQueue.main)
       .sink { [weak self] in
         guard let self = self else { return }
         self.page = 1
@@ -145,14 +148,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       }
       .store(in: &cancellables)
     
-    self.myTableView.tableFooterView = bottomIndicator
-    
-    myTableView.reachedBottomPublisher()
-      .sink { [weak self] in
+    myTableView.reachedBottomPublisher().combineLatest(searchBar.textPublisher)
+      .delay(for: 0.5, scheduler: DispatchQueue.main)
+      .sink {[weak self] in
         guard let self = self else { return }
-        print("asd")
         if self.fetchingMore {
-          self.fetchTodoList()
+          self.searchTodos($1 ?? "")
         }
       }
       .store(in: &cancellables)
@@ -177,18 +178,10 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   private func searchTodos(_ todo: String) {
     if todo == "" {
-      let request = MainScene.FetchTodoList.Request()
-      interactor?.fetchTodoList(request: request)
-      
+      fetchTodoList()
     } else {
-      let request = MainScene.FetchSearchTodoList.Request(quary: todo)
-      interactor?.fetchSearchTodoList(request: request)
+      searchTodoList(quary: todo)
     }
-  }
-  
-  @objc func didDismissDetailNotification(_ notification: Notification) {
-    let fetchRequest = MainScene.FetchTodoList.Request()
-    self.interactor?.fetchTodoList(request: fetchRequest)
   }
   
   func fetchTodoList() {
@@ -196,6 +189,12 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     
     let request = MainScene.FetchTodoList.Request(page: page)
     interactor?.fetchTodoList(request: request)
+  }
+  
+  func searchTodoList(quary: String) {
+    self.fetchingMore = false
+    let request = MainScene.FetchSearchTodoList.Request(quary: quary, page: page)
+    interactor?.fetchSearchTodoList(request: request)
   }
   
   func deleteTodo(id: Int) {
@@ -223,16 +222,16 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.todoList = viewModel.displayedTodoList
       self.sections = viewModel.sections
       
-      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .microseconds(100)) {
-        self.myTableView.reloadData()
-        self.fetchingMore = viewModel.isFetch ?? true
+      DispatchQueue.main.async { [weak self] in
+        self?.myTableView.reloadData()
+        self?.fetchingMore = viewModel.isFetch ?? true
       }
       return
     }
     // 에러 있음
     
-    DispatchQueue.main.async {
-      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
+    DispatchQueue.main.async { [weak self] in
+      self?.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
   
@@ -240,8 +239,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     
     self.todoList = viewModle.displayedTodoList
     self.sections = viewModle.sections
-    DispatchQueue.main.async {
-      self.myTableView.reloadData()
+    
+    DispatchQueue.main.async { [weak self] in
+      self?.myTableView.reloadData()
     }
   }
   
@@ -258,14 +258,14 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       let section = sections[sectionIndex]
       self.todoList[section]?.remove(at: rowIndex)
       
-      DispatchQueue.main.async {
-        self.myTableView.deleteRows(at: [indexPath], with: .automatic)
+      DispatchQueue.main.async { [weak self] in
+        self?.myTableView.deleteRows(at: [indexPath], with: .automatic)
       }
       return
     }
     
-    DispatchQueue.main.async {
-      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
+    DispatchQueue.main.async { [weak self] in
+      self?.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
   
@@ -286,14 +286,14 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
         updatedDate: viewModel.disPlayTodo?.updatedDate ?? ""
       )
       
-      DispatchQueue.main.async {
-        self.myTableView.reloadRows(at: [indexPath], with: .automatic)
+      DispatchQueue.main.async { [weak self] in
+        self?.myTableView.reloadRows(at: [indexPath], with: .automatic)
       }
       return
     }
     
-    DispatchQueue.main.async {
-      self.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
+    DispatchQueue.main.async { [weak self] in
+      self?.showErrorAlertWithConfirmButton(error.errorDescription ?? "")
     }
   }
 }
@@ -308,17 +308,17 @@ extension MainViewController: UITableViewDelegate
     refreshControl.endRefreshing()
   }
   
-  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    
-    let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, _) in
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    return .delete
+  }
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      let data = self.sections[indexPath.section]
+      guard let todos = self.todoList[data] else { return }
       
-      guard let data = self?.sections[indexPath.section] else { return }
-      guard let todos = self?.todoList[data] else { return }
-      
-      self?.deleteTodo(id: todos[indexPath.row].id)
+      self.deleteTodo(id: todos[indexPath.row].id)
     }
-    
-    return UISwipeActionsConfiguration(actions: [delete])
   }
 }
 
