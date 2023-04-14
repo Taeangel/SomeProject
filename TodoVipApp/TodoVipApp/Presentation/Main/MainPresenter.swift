@@ -71,7 +71,7 @@ class MainPresenter: MainPresentationLogic
       return
     }
     
-    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: indexPath, page: response.page, error: response.error as? NetworkError)
+    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: indexPath, error: response.error as? NetworkError)
     viewController?.displayedDeleteTodo(viewModel: viewModel)
   }
   

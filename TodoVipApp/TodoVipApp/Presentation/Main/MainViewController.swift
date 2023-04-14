@@ -248,7 +248,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   
   func displayedDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {
-      self.page = viewModel.page
       
       guard let indexPath = viewModel.indexPath,
             let sectionIndex = viewModel.indexPath?.section,

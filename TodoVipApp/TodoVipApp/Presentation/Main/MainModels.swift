@@ -16,7 +16,6 @@ enum MainScene
 {
   enum AddTodo {
     struct Request {
-      
     }
     
     struct Response {
@@ -43,7 +42,6 @@ enum MainScene
   {
     struct Request  // 뷰가 인터렉터한테 요청하는 데이터
     {
-      var page: Int = 1
       var id: Int
       var title: String
       var isDone: Bool
@@ -89,20 +87,6 @@ enum MainScene
       var todoList: [String: [TodoEntity]]?
       var page: Int
     }
-//    struct ViewModel // 프리젠터가 뷰에 전달하는 데이터
-//    {
-//      struct DisplayedTodo: Hashable {
-//        var id: Int
-//        var title: String
-//        var isDone: Bool
-//        var createdTime: String
-//        var createdDate: String
-//      }
-//
-//      var error: NetworkError?
-//      var page: Int
-//      var displayedTodoList: [DisplayedTodo]
-//    }
   }
   
   // MARK: - DeleteTodo
@@ -111,19 +95,16 @@ enum MainScene
   {
     struct Request // 인터렉터로 보낼데이터
     {
-      var page: Int = 1
       var id: Int
     }
     struct Response //프리젠터로 보낼 데이터
     {
       var indexPath: IndexPath?
       var error: Error?
-      var page: Int
     }
     struct ViewModel // 뷰로 보낼 데이터
     {
       var indexPath: IndexPath?
-      var page: Int
       var error: NetworkError?
     }
   }
@@ -163,12 +144,6 @@ enum MainScene
       var sections: [String]
     }
   }
-  
-//  struct ViewModel // 업데이트Page
-//  {
-//    var page: Int
-//    var error: NetworkError?
-//  }
 }
 
 protocol TodoListProtocol {
@@ -177,12 +152,3 @@ protocol TodoListProtocol {
   var page: Int { get set }
   var isFetch: Bool? { get set }
 }
-
-//protocol UpdateResponsePage {
-// 
-//}
-//
-//protocol UpdateViewModelPage {
-//  var page: Int { get set }
-//  var error: NetworkError? { get set }
-//}

@@ -154,10 +154,10 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         
         self.todoList[sections[sectionIndex]]?.remove(at: rowIndex)
         
-        let response = MainScene.DeleteTodo.Response(indexPath: indexPath, page: request.page)
+        let response = MainScene.DeleteTodo.Response(indexPath: indexPath)
         presenter?.presentDeleteTodo(response: response)
       } catch {
-        let response = MainScene.DeleteTodo.Response(error: error, page: request.page)
+        let response = MainScene.DeleteTodo.Response(error: error)
         presenter?.presentDeleteTodo(response: response)
       }
     }
