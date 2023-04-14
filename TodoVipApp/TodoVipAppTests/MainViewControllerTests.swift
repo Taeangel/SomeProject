@@ -179,8 +179,10 @@ class MainViewControllerTests: XCTestCase
 
     // When
     loadView()
-    sut.myTableView.reloadData()
+//    sut.myTableView.reloadData()
     sut.displayedDeleteTodo(viewModel: viewModel)
+    sut.myTableView.reloadData()
+
 
     // Then
 //    let section = mockSection[mockIndex.section]
