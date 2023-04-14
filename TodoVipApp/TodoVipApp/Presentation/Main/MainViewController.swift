@@ -33,23 +33,23 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   typealias Displayedtodo = MainScene.FetchTodoList.ViewModel.DisplayedTodo
   let refreshControl: UIRefreshControl = UIRefreshControl()
   var sections: [String] = []
-  var todoList: [String: [Displayedtodo]] = [:]
   var page = 1
   var cancellables = Set<AnyCancellable>()
+  @Published var todoList: [String: [Displayedtodo]] = [:]
   @Published private var searchText = ""
   @Published private var isloadig: Bool = false
   @Published private var fetchingMore = true
   
-  lazy var isTableBottom: AnyPublisher<Bool, Never> = myTableView
-    .contentOffsetPublisher
-    .map { offset -> Bool in
-      let height = self.myTableView.frame.size.height
-      let contentTOffset = offset.y
-      let distanceFromBottom = self.myTableView.contentSize.height - contentTOffset
-      return distanceFromBottom - 200 < height
-    }
-    .eraseToAnyPublisher()
+  lazy var isTableViewBottomPublisher = myTableView.reachedBottomPublisher()
   
+  //바텀 인디케이터
+  lazy var bottomIndicator: UIActivityIndicatorView = {
+    var indicator = UIActivityIndicatorView(style: .medium)
+    indicator.color = UIColor.systemGray3
+    indicator.startAnimating()
+    indicator.frame = CGRect(x: 0, y: 0, width: myTableView.bounds.width, height: 50)
+    return  indicator
+  }()
   
   // MARK: Object lifecycle
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -89,13 +89,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.searchBar.addleftimage(image: UIImage.theme.magnifyingglass?.withTintColor(.gray) ?? UIImage())
     
     addButton.setImage(UIImage.theme.largePlusButton, for: .normal)
-    
-//    NotificationCenter.default.addObserver(
-//      self,
-//      selector: #selector(self.didDismissDetailNotification(_:)),
-//      name: NSNotification.Name("ModalDismissNC"),
-//      object: nil
-//    )
   }
   
   private func configureTableView()
@@ -142,14 +135,38 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   // MARK: - addSubscriptionn
   
   private func addSubscription() {
+    
     searchBar.textPublisher()
       .sink { [weak self] in self?.searchTodos($0)}
       .store(in: &cancellables)
     
-//        Publishers.CombineLatest(isTableBottom, $fetchingMore)
-//          .map { $0 == true && $1 == true }
-//          .sink { [weak self] in if $0 { self?.fetchTodoList() } }
-//          .store(in: &cancellables)
+    self.myTableView.tableFooterView = bottomIndicator
+    
+    isTableViewBottomPublisher
+      .timeout(50, scheduler: DispatchQueue.main)
+      .sink { [weak self] in
+      guard let self = self else { return }
+
+      if self.fetchingMore {
+        self.fetchTodoList()
+      }
+    }
+      .store(in: &cancellables)
+    
+    myTableView.willDisplayHeaderViewPublisher.sink { headerView, sesction in
+      let header = headerView as? UITableViewHeaderFooterView
+      header?.textLabel?.textColor = .black
+    }
+    .store(in: &cancellables)
+    
+    myTableView.didSelectRowPublisher
+      .sink { [weak self] indexPath in
+        guard let self = self else { return }
+        let date = self.sections[indexPath.section]
+        guard let todos = self.todoList[date] else { return  }
+        self.router?.routeToDetail(todoId: todos[indexPath.row].id)
+      }
+      .store(in: &cancellables)
   }
   
   // MARK: 인터랙터에게 보내는 메서드
@@ -201,11 +218,11 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.page = viewModel.page
       self.todoList = viewModel.displayedTodoList
       self.sections = viewModel.sections
-       
-      self.fetchingMore = true
       
       DispatchQueue.main.async {
         self.myTableView.reloadData()
+        
+        self.fetchingMore = true
       }
       return
     }
@@ -232,7 +249,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       DispatchQueue.main.async {
         self.myTableView.deleteRows(at: [indexPath], with: .automatic)
       }
-      
       return
     }
     
@@ -293,30 +309,14 @@ extension MainViewController: UITableViewDelegate
     
     return UISwipeActionsConfiguration(actions: [delete])
   }
-  
-  func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
-  {
-    let header = view as! UITableViewHeaderFooterView
-    header.textLabel?.textColor = .black
-//    header.textLabel?.font = UIFont.boldSystemFont(ofSize: 30)
-  }
 }
 
 extension MainViewController: UITableViewDataSource
 {
-  
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let date = sections[indexPath.section]
-    guard let todos = todoList[date] else { return  }
-    
-    router?.routeToDetail(todoId: todos[indexPath.row].id)
-  }
-  
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    
     return sections[section]
   }
-  
+
   func numberOfSections(in tableView: UITableView) -> Int {
     return sections.count
   }
@@ -333,16 +333,15 @@ extension MainViewController: UITableViewDataSource
     guard let cell = myTableView.dequeueReusableCell(withIdentifier: "MyTableViewCell", for: indexPath) as? MyTableViewCell else {
       return UITableViewCell()
     }
-    
+
     let date = sections[indexPath.section]
     guard let todos = todoList[date] else { return cell }
     cell.configureCell(todo: todos[indexPath.row])
-    
+
     cell.onEditAction = { [weak self] clickedTodo in
       let idDone = !clickedTodo.isDone
       self?.modifyTodo(id: clickedTodo.id, title: clickedTodo.title, isDone: idDone)
     }
-    
     return cell
   }
 }

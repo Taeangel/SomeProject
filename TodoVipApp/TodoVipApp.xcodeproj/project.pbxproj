@@ -17,6 +17,7 @@
 		864073F529DC698200264436 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864073F429DC698200264436 /* UIImage.swift */; };
 		864788A729E5712C00466D6E /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 864788A629E5712C00466D6E /* CombineCocoa */; };
 		864788AA29E5775800466D6E /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 864788A929E5775800466D6E /* CombineCocoa */; };
+		864788AF29E9610E00466D6E /* CombineDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 864788AE29E9610E00466D6E /* CombineDataSources */; };
 		8654278029CDA5CE006E23A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654277F29CDA5CE006E23A0 /* AppDelegate.swift */; };
 		8654278229CDA5CE006E23A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654278129CDA5CE006E23A0 /* SceneDelegate.swift */; };
 		8654278729CDA5CE006E23A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8654278529CDA5CE006E23A0 /* Main.storyboard */; };
@@ -44,7 +45,7 @@
 		865F55B929D0A23000908B3E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55B829D0A23000908B3E /* HTTPMethod.swift */; };
 		865F55C629D0A3B600908B3E /* TodoApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55C529D0A3B600908B3E /* TodoApiManager.swift */; };
 		865F55C829D0A40600908B3E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55C729D0A40600908B3E /* NetworkError.swift */; };
-		865F55F329D3192E00908B3E /* TodoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F229D3192E00908B3E /* TodoStorage.swift */; };
+		865F55F329D3192E00908B3E /* TodoAPIStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F229D3192E00908B3E /* TodoAPIStorage.swift */; };
 		865F55F629D31A0600908B3E /* TodoListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F529D31A0600908B3E /* TodoListDTO.swift */; };
 		865F55F829D31EB900908B3E /* TodoRepositorty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F729D31EB900908B3E /* TodoRepositorty.swift */; };
 		865F55FA29D31F0F00908B3E /* TodoRepositorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F55F929D31F0F00908B3E /* TodoRepositorable.swift */; };
@@ -109,7 +110,7 @@
 		865F55B829D0A23000908B3E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		865F55C529D0A3B600908B3E /* TodoApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoApiManager.swift; sourceTree = "<group>"; };
 		865F55C729D0A40600908B3E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		865F55F229D3192E00908B3E /* TodoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStorage.swift; sourceTree = "<group>"; };
+		865F55F229D3192E00908B3E /* TodoAPIStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAPIStorage.swift; sourceTree = "<group>"; };
 		865F55F529D31A0600908B3E /* TodoListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListDTO.swift; sourceTree = "<group>"; };
 		865F55F729D31EB900908B3E /* TodoRepositorty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepositorty.swift; sourceTree = "<group>"; };
 		865F55F929D31F0F00908B3E /* TodoRepositorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRepositorable.swift; sourceTree = "<group>"; };
@@ -139,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				864788A729E5712C00466D6E /* CombineCocoa in Frameworks */,
+				864788AF29E9610E00466D6E /* CombineDataSources in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,7 +199,7 @@
 				8654278129CDA5CE006E23A0 /* SceneDelegate.swift */,
 				8655A4E929DC193B00412868 /* Utils */,
 				865F560129D5E02700908B3E /* Extension */,
-				8654279329CDA6C1006E23A0 /* Scene */,
+				8654279329CDA6C1006E23A0 /* Presentation */,
 				8654278829CDA5CE006E23A0 /* Assets.xcassets */,
 				8654278529CDA5CE006E23A0 /* Main.storyboard */,
 				865F55C929D0AA9B00908B3E /* Domain */,
@@ -209,7 +211,7 @@
 			path = TodoVipApp;
 			sourceTree = "<group>";
 		};
-		8654279329CDA6C1006E23A0 /* Scene */ = {
+		8654279329CDA6C1006E23A0 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				861A6E5D29E42DA20016B873 /* APIWoker */,
@@ -217,7 +219,7 @@
 				865F560429D995AA00908B3E /* Modify */,
 				8654279429CDA6D3006E23A0 /* Main */,
 			);
-			path = Scene;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		8654279429CDA6D3006E23A0 /* Main */ = {
@@ -289,7 +291,7 @@
 		865F55C329D0A3A200908B3E /* Storages */ = {
 			isa = PBXGroup;
 			children = (
-				865F55F229D3192E00908B3E /* TodoStorage.swift */,
+				865F55F229D3192E00908B3E /* TodoAPIStorage.swift */,
 			);
 			path = Storages;
 			sourceTree = "<group>";
@@ -410,6 +412,7 @@
 			name = TodoVipApp;
 			packageProductDependencies = (
 				864788A629E5712C00466D6E /* CombineCocoa */,
+				864788AE29E9610E00466D6E /* CombineDataSources */,
 			);
 			productName = TodoVipApp;
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
@@ -445,6 +448,7 @@
 			mainGroup = 8654277329CDA5CE006E23A0;
 			packageReferences = (
 				864788A529E5712C00466D6E /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				864788AD29E9610E00466D6E /* XCRemoteSwiftPackageReference "CombineDataSources" */,
 			);
 			productRefGroup = 8654277D29CDA5CE006E23A0 /* Products */;
 			projectDirPath = "";
@@ -514,7 +518,7 @@
 				865F55FA29D31F0F00908B3E /* TodoRepositorable.swift in Sources */,
 				865F560D29D995BB00908B3E /* DetailRouter.swift in Sources */,
 				865F560329D5E04100908B3E /* Array.swift in Sources */,
-				865F55F329D3192E00908B3E /* TodoStorage.swift in Sources */,
+				865F55F329D3192E00908B3E /* TodoAPIStorage.swift in Sources */,
 				865F560F29D995BB00908B3E /* DetailViewController.swift in Sources */,
 				865F55FE29D31FCC00908B3E /* TodoEntity.swift in Sources */,
 				8654279B29CDA6FA006E23A0 /* MainPresenter.swift in Sources */,
@@ -812,6 +816,14 @@
 				minimumVersion = 0.4.1;
 			};
 		};
+		864788AD29E9610E00466D6E /* XCRemoteSwiftPackageReference "CombineDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -824,6 +836,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 864788A529E5712C00466D6E /* XCRemoteSwiftPackageReference "CombineCocoa" */;
 			productName = CombineCocoa;
+		};
+		864788AE29E9610E00466D6E /* CombineDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 864788AD29E9610E00466D6E /* XCRemoteSwiftPackageReference "CombineDataSources" */;
+			productName = CombineDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

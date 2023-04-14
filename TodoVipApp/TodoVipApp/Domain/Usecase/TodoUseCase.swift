@@ -32,7 +32,6 @@ extension TodoUsecase: TodoUsecasealbe {
   
   func fetchTodoList(page: Int, perPage: Int) async throws -> [TodoEntity]? {
     let todoListDTO = try await todoRepository.fetchtodoList(page: page, perPage: perPage)
-    
     return todoListDTO.data.map { $0.map { TodoEntity(datunm: $0) } }
   }
   
@@ -55,5 +54,4 @@ extension TodoUsecase: TodoUsecasealbe {
     let todoDataDTO = try await todoRepository.fetchTodo(id: id)
     return TodoEntity(datunm: todoDataDTO)
   }
-  
 }

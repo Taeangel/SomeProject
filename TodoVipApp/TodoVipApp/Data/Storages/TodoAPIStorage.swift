@@ -16,7 +16,7 @@ protocol TodoStorageable: AnyObject {
   func fetchTodo(id: Int) async throws -> TodoDataDTO
 }
 
-final class TodoStorage {
+final class TodoAPIStorage {
   private let todoApiManager: TodoApiManager
   
   init(todoApiManager: TodoApiManager) {
@@ -24,7 +24,7 @@ final class TodoStorage {
   }
 }
 
-extension TodoStorage: TodoStorageable {
+extension TodoAPIStorage: TodoStorageable {
 
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListDTO {
     let data = try await todoApiManager.requestData(.getTodos(page: page, perPage: perPage))

@@ -14,8 +14,8 @@ protocol ApiManagerProtocol {
 protocol TodoWorkerUsecase: ApiManagerProtocol {}
 
 extension TodoWorkerUsecase {
-  var todoStorage: TodoStorage {
-    return TodoStorage(todoApiManager: apiManager)
+  var todoStorage: TodoAPIStorage {
+    return TodoAPIStorage(todoApiManager: apiManager)
   }
   
   var todoRepository: TodoRepository {
