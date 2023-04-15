@@ -17,7 +17,7 @@ class MyTableViewCell: UITableViewCell {
   var todo: Todo?
   
   var onEditAction: ((_ todo: Todo) -> Void)?
-
+  
   override func awakeFromNib() {
     super.awakeFromNib()
     // Initialization code
@@ -57,13 +57,38 @@ class MyTableViewCell: UITableViewCell {
     } else {
       self.dateLabel.text = "\(todo.updatedTime) AM"
     }
-      
+    
     if todo.isDone == false {
       doneButton.setImage(UIImage(systemName: "square"), for: .normal)
+      contentLabel.attributedText = contentLabel.text?.removeAttribute
     } else {
       doneButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
       contentLabel.textColor = .gray
       dateLabel.textColor = .gray
+      contentLabel.attributedText = contentLabel.text?.strikeString
     }
+  }
+}
+
+extension String {
+  var strikeString: NSAttributedString {
+    let attributeString = NSMutableAttributedString(string: self)
+    
+    attributeString.addAttribute(
+      .strikethroughStyle,
+      value: NSUnderlineStyle.single.rawValue,
+      range: NSMakeRange(0, attributeString.length))
+    
+    return attributeString
+  }
+  
+  var removeAttribute: NSAttributedString {
+    let attributeString = NSMutableAttributedString(string: self)
+    
+    attributeString.removeAttribute(
+      .strikethroughStyle,
+      range: NSMakeRange(0, attributeString.length))
+    
+    return attributeString
   }
 }

@@ -37,12 +37,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   var page = 1
   var cancellables = Set<AnyCancellable>()
   @Published var todoList: [String: [Displayedtodo]] = [:]
-  
-  @Published var todoListtt = [ TodoEntity(id: 1, title: "", isDone: false, updateAt: "") ]
-  @Published private var searchText = ""
-  @Published private var isloadig: Bool = false
+  @Published private var isloading: Bool = false
   @Published private var fetchingMore = true
-    
+
   //바텀 인디케이터
   lazy var bottomIndicator: UIActivityIndicatorView = {
     var indicator = UIActivityIndicatorView(style: .medium)
@@ -136,11 +133,15 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   // MARK: - addSubscriptionn
   
   private func addSubscription() {
-    
-    self.myTableView.tableFooterView = bottomIndicator
+        
+    $isloading.sink { [weak self] in
+      guard let self = self else { return }
+      self.myTableView.tableFooterView = $0 ? self.bottomIndicator : nil
+    }
+    .store(in: &cancellables)
     
     searchBar.textPublisher()
-      .delay(for: 0.5, scheduler: DispatchQueue.main)
+      .delay(for: 1, scheduler: DispatchQueue.main)
       .sink { [weak self] in
         guard let self = self else { return }
         self.page = 1
@@ -185,6 +186,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   func fetchTodoList() {
+    self.isloading = true
     self.fetchingMore = false
     
     let request = MainScene.FetchTodoList.Request(page: page)
@@ -192,6 +194,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   }
   
   func searchTodoList(quary: String) {
+    self.isloading = true
     self.fetchingMore = false
     let request = MainScene.FetchSearchTodoList.Request(quary: quary, page: page)
     interactor?.fetchSearchTodoList(request: request)
@@ -225,6 +228,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       DispatchQueue.main.async { [weak self] in
         self?.myTableView.reloadData()
         self?.fetchingMore = viewModel.isFetch ?? true
+        self?.isloading = false
       }
       return
     }
@@ -260,7 +264,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       
       DispatchQueue.main.async { [weak self] in
         self?.myTableView.deleteRows(at: [indexPath], with: .automatic)
-
       }
       return
     }
@@ -304,8 +307,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
 extension MainViewController: UITableViewDelegate
 {
   @objc func refreshFunction() {
-    let request = MainScene.FetchTodoList.Request()
-    interactor?.fetchTodoList(request: request)
+    self.page = 1
+    searchTodos(self.searchBar.text ?? "")
+    
     refreshControl.endRefreshing()
   }
   
