@@ -74,6 +74,10 @@ extension TodoAPIStorage: TodoStorageable {
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListDTO {
     let data = try await todoApiManager.requestData(.getSearchTodos(page: page, query: query, perPage: perPage))
     
+    if data.count == 0 {
+      throw NetworkError.noContent
+    }
+    
     do {
       return try JSONDecoder().decode(TodoListDTO.self, from: data)
     } catch {

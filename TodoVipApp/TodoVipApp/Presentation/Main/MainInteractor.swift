@@ -23,12 +23,13 @@ protocol MainBusinessLogic
 protocol MainDataStore
 {
   var sections: [String] { get set }
-  var todoList: [String: [TodoEntity]] { get set }
+  var storedTodoList: [TodoEntity] { get set }
 }
 
 class MainInteractor: MainBusinessLogic, MainDataStore
 {
   var sections: [String] = []
+  var storedTodoList: [TodoEntity] = []
   var todoList: [String: [TodoEntity]] = [:]
   var presenter: MainPresentationLogic?
   var worker: MainWorker?
@@ -79,7 +80,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     presenter?.presentModifyTodo(response: response)
   }
   
-  func fetchTodoList(request: MainScene.FetchTodoList.Request)  {
+  func fetchTodoList(request: MainScene.FetchTodoList.Request) {
     worker = MainWorker(reauestable: session)
     
     Task{
@@ -89,16 +90,15 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         }
         
         guard let meta = todoList.meta else { return }
-                
-        let groupedTodoList = Dictionary(grouping: todoList.todoEntity ?? []) { $0.updatedDate }
         
         if request.page == 1 {
-          self.todoList = groupedTodoList
+          self.storedTodoList = todoList.todoEntity ?? []
+          self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
         } else {
-          self.todoList.merge(groupedTodoList) { todo, _ in
-            todo
-          }
+          self.storedTodoList += todoList.todoEntity ?? []
+          self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
         }
+        
         self.todoList.keys.sorted().forEach { sections.append($0) }
         sections.reverse()
         
@@ -121,12 +121,21 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         
         guard let meta = todoList.meta else { return }
         
-        let groupedTodoList = Dictionary(grouping: todoList.todoEntity ?? []) { $0.updatedDate }
-        self.todoList = groupedTodoList
+        if request.page == 1 {
+          self.storedTodoList = todoList.todoEntity ?? []
+          self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
+        } else {
+          self.storedTodoList += todoList.todoEntity ?? []
+          self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
+        }
+        
+        self.todoList.keys.sorted().forEach { sections.append($0) }
+        sections.reverse()
         
         let response = MainScene.FetchSearchTodoList.Response(isFetch: meta.isfetch, todoList: self.todoList, page: todoList.meta?.currentPage ?? 1)
         presenter?.presentTodoList(response: response)
       } catch {
+        
         let response = MainScene.FetchSearchTodoList.Response(error: error, page: request.page)
         presenter?.presentTodoList(response: response)
       }

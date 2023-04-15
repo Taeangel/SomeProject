@@ -140,7 +140,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.myTableView.tableFooterView = bottomIndicator
     
     searchBar.textPublisher()
-      .delay(for: 1, scheduler: DispatchQueue.main)
+      .delay(for: 0.5, scheduler: DispatchQueue.main)
       .sink { [weak self] in
         guard let self = self else { return }
         self.page = 1

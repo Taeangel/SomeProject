@@ -32,6 +32,8 @@ extension NetworkError: LocalizedError {
       return "디코딩에러입니다!!"
     case .unrappingError:
       return "옵셔널 바인딩에실패하였습니다!"
+    case .noContent:
+      return "검색데이터가 없습니다!"
     default:
       return ":"
     }

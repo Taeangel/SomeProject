@@ -35,14 +35,14 @@ class MainPresenter: MainPresentationLogic
     
     var displayTodoList: [String: [DisplayedTodoList]] = [:]
     
-    guard let responseTodoList = response.todoList else { return }
+  let responseTodoList = response.todoList
     
     var sections: [String] = []
-    responseTodoList.keys.sorted().forEach { sections.append($0) }
+    responseTodoList?.keys.sorted().forEach { sections.append($0) }
     sections.reverse()
     
     sections.forEach {
-      let todoDate = responseTodoList[$0]
+      let todoDate = responseTodoList?[$0]
       let todoAday = todoDate?.map{
         return DisplayedTodoList(
           id: $0.id ?? 0,

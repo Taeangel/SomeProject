@@ -157,7 +157,7 @@ enum TodoRequestManager {
     if let bodyData {
       request.httpBody = bodyData
     }
-    
+    print(request)
     return request
   }
 }
