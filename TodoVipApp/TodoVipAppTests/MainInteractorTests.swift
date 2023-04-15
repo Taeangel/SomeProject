@@ -108,3 +108,9 @@ class MainInteractorTests: XCTestCase
     XCTAssertTrue(spy.presentModifyTodoCalled)
   }
 }
+
+struct MockURLSession: Requestable  {
+  func request(_ request: TodoRequestManager) async throws -> Data {
+    throw NetworkError.testError
+  }
+}

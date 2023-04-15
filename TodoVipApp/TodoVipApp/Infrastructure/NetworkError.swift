@@ -15,6 +15,7 @@ enum NetworkError: Error {
   case badStatus(code: Int)
   case fastRequest
   case unrappingError
+  case testError
 }
 
 extension NetworkError: LocalizedError {
@@ -35,7 +36,7 @@ extension NetworkError: LocalizedError {
     case .noContent:
       return "검색데이터가 없습니다!"
     default:
-      return ":"
+      return ""
     }
   }
 }

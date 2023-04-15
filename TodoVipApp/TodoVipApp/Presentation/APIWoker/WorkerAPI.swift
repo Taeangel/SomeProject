@@ -27,8 +27,4 @@ extension TodoWorkerUsecase {
   }
 }
 
-struct MockURLSession: Requestable  {
-  func request(_ request: TodoRequestManager) async throws -> Data {
-    return Data()
-  }
-}
+

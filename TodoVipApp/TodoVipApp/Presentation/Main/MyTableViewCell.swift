@@ -35,6 +35,7 @@ class MyTableViewCell: UITableViewCell {
     self.dateLabel.text = ""
     contentLabel.textColor = .black
     dateLabel.textColor = .black
+    contentLabel.attributedText = contentLabel.text?.removeAttribute
   }
   
   @IBAction func checkBoxDidTap(_ sender: Any) {

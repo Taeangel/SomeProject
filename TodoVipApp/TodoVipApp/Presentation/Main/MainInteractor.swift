@@ -103,9 +103,11 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         sections.reverse()
         
         let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: meta.currentPage ?? 1, isFetch: meta.isfetch)
+        
         presenter?.presentTodoList(response: response)
       } catch {
         let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
+        
         presenter?.presentTodoList(response: response)
       }
     }
