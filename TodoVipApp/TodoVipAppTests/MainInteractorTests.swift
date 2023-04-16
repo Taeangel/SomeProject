@@ -33,6 +33,11 @@ class MainInteractorTests: XCTestCase
   }
   
   // MARK: Test setup
+  struct MockURLSession: Requestable  {
+    func request(_ request: TodoRequestManager) async throws -> Data {
+      throw NetworkError.testError
+    }
+  }
   
   func setupMainInteractor()
   {
@@ -109,8 +114,4 @@ class MainInteractorTests: XCTestCase
   }
 }
 
-struct MockURLSession: Requestable  {
-  func request(_ request: TodoRequestManager) async throws -> Data {
-    throw NetworkError.testError
-  }
-}
+

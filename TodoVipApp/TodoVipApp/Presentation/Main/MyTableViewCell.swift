@@ -31,11 +31,11 @@ class MyTableViewCell: UITableViewCell {
   
   override func prepareForReuse() {
     self.doneButton.setImage(UIImage(systemName: "square"), for: .normal)
-    self.contentLabel.text = ""
-    self.dateLabel.text = ""
+    self.contentLabel.attributedText = contentLabel.text?.removeAttribute
+    self.contentLabel.text = nil
+    self.dateLabel.text = nil
     contentLabel.textColor = .black
     dateLabel.textColor = .black
-    contentLabel.attributedText = contentLabel.text?.removeAttribute
   }
   
   @IBAction func checkBoxDidTap(_ sender: Any) {

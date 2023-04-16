@@ -85,20 +85,20 @@ class MainViewControllerTests: XCTestCase
   // MARK: Test doubles
   
   class MainBusinessLogicSpy: MainBusinessLogic {
+
+    
     var fetchTodoListCalled = false
     var deleteTodoCalled = false
-    var fetchSearchTodoListCalled = false
+
     var modifyTodoCalled = false
     
-    func fetchTodoList(request: MainScene.FetchTodoList.Request) {
+    func fetchTodoList(request: FetchListRequestProtocol) {
       fetchTodoListCalled = true
     }
     func deleteTodo(request: MainScene.DeleteTodo.Request) {
       deleteTodoCalled = true
     }
-    func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) {
-      fetchSearchTodoListCalled = true
-    }
+  
     func modifyTodo(request: MainScene.ModifyTodo.Request) {
       modifyTodoCalled = true
     }
