@@ -197,7 +197,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     self.isloading = true
     self.fetchingMore = false
     let request = MainScene.FetchSearchTodoList.Request(quary: quary, page: page)
-    interactor?.fetchSearchTodoList(request: request)
+    interactor?.fetchTodoList(request: request)
   }
   
   func deleteTodo(id: Int) {
@@ -248,7 +248,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self?.myTableView.reloadData()
     }
   }
-  
   
   func displayedDeleteTodo(viewModel: MainScene.DeleteTodo.ViewModel) {
     guard let error = viewModel.error else {

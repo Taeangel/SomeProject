@@ -14,9 +14,8 @@ import UIKit
 
 protocol MainBusinessLogic
 {
-  func fetchTodoList(request: MainScene.FetchTodoList.Request)
+  func fetchTodoList(request: FetchListRequestProtocol)
   func deleteTodo(request: MainScene.DeleteTodo.Request)
-  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request)
   func modifyTodo(request: MainScene.ModifyTodo.Request)
 }
 
@@ -55,11 +54,11 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     } else {
       self.todoList[todoEntity.updatedDate]?.insert(todoEntity, at: 0)
     }
-  
+    
     let response = MainScene.AddTodo.Response(todoList: self.todoList)
     presenter?.presesntAddTodo(response: response)
   }
-   
+  
   @objc func modifyNotiTodo(_ notification: Notification) {
     guard let todoEntity = notification.object as? TodoEntity else {
       return
@@ -80,77 +79,51 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     presenter?.presentModifyTodo(response: response)
   }
   
-  func fetchTodoList(request: MainScene.FetchTodoList.Request) {
+  func fetchTodoList(request: FetchListRequestProtocol) {
     worker = MainWorker(reauestable: session)
-    
     Task{
       do {
-        guard let todoList = try await self.worker?.fetchTodoList(page: request.page, perPage: request.perPage) else {
-          return
-        }
+        // 데이터를 불러오기
+        var todoList: TodoListEntity?
         
-        guard let meta = todoList.meta else { return }
+        todoList = try await extractedFunc(request: request)
+        
+        guard let meta = todoList?.meta else { return }
+        
+        // 데이터를 저장하기
         
         if request.page == 1 {
-          self.storedTodoList = todoList.todoEntity ?? []
+          self.storedTodoList = todoList?.todoEntity ?? []
           self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
         } else {
-          self.storedTodoList += todoList.todoEntity ?? []
+          self.storedTodoList += todoList?.todoEntity ?? []
           self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
         }
-        
+
         self.todoList.keys.sorted().forEach { sections.append($0) }
         sections.reverse()
         
+        // 데이터를 보내주기
         let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: meta.currentPage ?? 1, isFetch: meta.isfetch)
-        
         presenter?.presentTodoList(response: response)
       } catch {
+        // 데이터를. 보내주기
         let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
-        
         presenter?.presentTodoList(response: response)
       }
     }
   }
   
-  func fetchSearchTodoList(request: MainScene.FetchSearchTodoList.Request) {
-    worker = MainWorker(reauestable: session)
-    Task {
-      do {
-        guard let todoList = try await self.worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary) else {
-          return
-        }
-        
-        guard let meta = todoList.meta else { return }
-        
-        if request.page == 1 {
-          self.storedTodoList = todoList.todoEntity ?? []
-          self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
-        } else {
-          self.storedTodoList += todoList.todoEntity ?? []
-          self.todoList = Dictionary(grouping: self.storedTodoList ) { $0.updatedDate }
-        }
-        
-        self.todoList.keys.sorted().forEach { sections.append($0) }
-        sections.reverse()
-        
-        let response = MainScene.FetchSearchTodoList.Response(isFetch: meta.isfetch, todoList: self.todoList, page: todoList.meta?.currentPage ?? 1)
-        presenter?.presentTodoList(response: response)
-      } catch {
-        
-        let response = MainScene.FetchSearchTodoList.Response(error: error, page: request.page)
-        presenter?.presentTodoList(response: response)
-      }
-    }
-  }
   
   func deleteTodo(request: MainScene.DeleteTodo.Request)  {
     worker = MainWorker(reauestable: session)
     Task {
       do {
-        
+        // 데이터를 불러오기
         let todoEntity = try await self.worker?.deleteTodo(id: request.id)
         
+        
+        // 데이터를 저장하기
         let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity?.id  } }.first
         
         let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
@@ -163,6 +136,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         
         self.todoList[sections[sectionIndex]]?.remove(at: rowIndex)
         
+        //데이터를 보내주기
         let response = MainScene.DeleteTodo.Response(indexPath: indexPath)
         presenter?.presentDeleteTodo(response: response)
       } catch {
@@ -198,6 +172,17 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let response = MainScene.ModifyTodo.Response(error: error)
         presenter?.presentModifyTodo(response: response)
       }
+    }
+  }
+  
+  fileprivate func extractedFunc(request: FetchListRequestProtocol) async throws -> TodoListEntity? {
+    switch request {
+    case is MainScene.FetchTodoList.Request:
+      return try await self.worker?.fetchTodoList(page: request.page, perPage: request.perPage)
+    case is MainScene.FetchSearchTodoList.Request:
+      return try await self.worker?.fetchSearchTodoList(page: request.page, perPage: request.perPage, query: request.quary ?? "")
+    default:
+      return nil
     }
   }
 }

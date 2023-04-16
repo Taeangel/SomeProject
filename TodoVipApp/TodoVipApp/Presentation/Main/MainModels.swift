@@ -73,12 +73,11 @@ enum MainScene
 
   enum FetchSearchTodoList
   {
-    struct Request // 뷰가 인터렉터한테 요청하는 데이터
+    struct Request: FetchListRequestProtocol // 뷰가 인터렉터한테 요청하는 데이터
     {
-      var quary: String
+      var quary: String?
       var page: Int = 1
       var perPage: Int = 10
-      var isFetch: Bool?
     }
     struct Response: TodoListProtocol //워커에서 들어온 데이터 - 날것의 데이터
     {
@@ -113,8 +112,9 @@ enum MainScene
   
   enum FetchTodoList
   {
-    struct Request // 뷰가 인터렉터한테 요청하는 데이터
+    struct Request: FetchListRequestProtocol // 뷰가 인터렉터한테 요청하는 데이터
     {
+      var quary: String?
       var page: Int = 1
       var perPage: Int = 10
     }
@@ -151,4 +151,10 @@ protocol TodoListProtocol {
   var error: Error? { get set }
   var page: Int { get set }
   var isFetch: Bool? { get set }
+}
+
+protocol FetchListRequestProtocol {
+  var quary: String? { get set }
+  var page: Int { get set }
+  var perPage: Int { get set }
 }
