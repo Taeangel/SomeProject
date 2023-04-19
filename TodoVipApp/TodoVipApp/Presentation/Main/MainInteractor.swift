@@ -122,6 +122,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
               let rowIndex = rows?.firstIndex(where: { $0.id == storedTodoEntity?.id }) else {
           return
         }
+        
         let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
         
         self.todoList[sections[sectionIndex]]?.remove(at: rowIndex)
