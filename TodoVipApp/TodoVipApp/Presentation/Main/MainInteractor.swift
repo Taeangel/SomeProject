@@ -83,14 +83,9 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker(reauestable: session)
     Task{
       do {
-        // 데이터를 불러오기
         var todoList: TodoListEntity?
-        
-        todoList = try await extractedFunc(request: request)
-        
+        todoList = try await typeCheckRequestAPI(request: request)
         guard let meta = todoList?.meta else { return }
-        
-        // 데이터를 저장하기
         
         if request.page == 1 {
           self.storedTodoList = todoList?.todoEntity ?? []
@@ -103,12 +98,12 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         self.todoList.keys.sorted().forEach { sections.append($0) }
         sections.reverse()
         
-        // 데이터를 보내주기
         let response = MainScene.FetchTodoList.Response(todoList: self.todoList, page: meta.currentPage ?? 1, isFetch: meta.isfetch)
+        
         presenter?.presentTodoList(response: response)
       } catch {
-        // 데이터를. 보내주기
         let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
+        
         presenter?.presentTodoList(response: response)
       }
     }
@@ -119,13 +114,8 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker(reauestable: session)
     Task {
       do {
-        // 데이터를 불러오기
         let todoEntity = try await self.worker?.deleteTodo(id: request.id)
-        
-        
-        // 데이터를 저장하기
         let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity?.id  } }.first
-        
         let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
         
         guard let sectionIndex = self.sections.firstIndex(of: storedTodoEntity?.updatedDate ?? ""),
@@ -136,7 +126,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         
         self.todoList[sections[sectionIndex]]?.remove(at: rowIndex)
         
-        //데이터를 보내주기
         let response = MainScene.DeleteTodo.Response(indexPath: indexPath)
         presenter?.presentDeleteTodo(response: response)
       } catch {
@@ -175,7 +164,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     }
   }
   
-  fileprivate func extractedFunc(request: FetchListRequestProtocol) async throws -> TodoListEntity? {
+  fileprivate func typeCheckRequestAPI(request: FetchListRequestProtocol) async throws -> TodoListEntity? {
     switch request {
     case is MainScene.FetchTodoList.Request:
       return try await self.worker?.fetchTodoList(page: request.page, perPage: request.perPage)

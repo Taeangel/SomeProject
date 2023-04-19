@@ -188,7 +188,6 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
   func fetchTodoList() {
     self.isloading = true
     self.fetchingMore = false
-    
     let request = MainScene.FetchTodoList.Request(page: page)
     interactor?.fetchTodoList(request: request)
   }
@@ -262,7 +261,9 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
       self.todoList[section]?.remove(at: rowIndex)
       
       DispatchQueue.main.async { [weak self] in
+        
         self?.myTableView.deleteRows(at: [indexPath], with: .automatic)
+        
       }
       return
     }

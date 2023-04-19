@@ -77,19 +77,6 @@ extension MainRouter {
   func passDataToDatail(source: MainDataStore, destination: inout DetailDataStore, todoId: Int)
   {
     destination.todoId = todoId
-//    guard let indexPathsForSelectedRows = viewController?.myTableView.indexPathsForSelectedRows else  { return }
-//    let sectionAndRow = indexPathsForSelectedRows.flatMap { $0 }
-//    guard let section = sectionAndRow.first, let row = sectionAndRow.last else { return }
-//
-//    if section == 0 {
-//      destination.todo = source.todoList[row]
-//    } else {
-//      var startIndex = 0
-//
-//      for i in 0...section - 1 {
-//        startIndex += source.sectionInfo[i]
-//      }
-//      destination.todo = source.todoList[startIndex + row]
-//    }
+
   }
 }

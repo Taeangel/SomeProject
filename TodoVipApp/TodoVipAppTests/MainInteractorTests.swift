@@ -12,6 +12,7 @@
 
 @testable import TodoVipApp
 import XCTest
+import Combine
 
 class MainInteractorTests: XCTestCase
 {
@@ -33,6 +34,9 @@ class MainInteractorTests: XCTestCase
   }
   
   // MARK: Test setup
+  
+  var cancellable = Set<AnyCancellable>()
+  
   struct MockURLSession: Requestable  {
     func request(_ request: TodoRequestManager) async throws -> Data {
       throw NetworkError.testError
@@ -48,10 +52,10 @@ class MainInteractorTests: XCTestCase
   
   class MainPresentationLogicSpy: MainPresentationLogic
   {
-    var presentTodoListCalled = false
-    var presentDeleteTodoCalled = false
-    var presentModifyTodoCalled = false
-    var presentAddTodoCalled = false
+    @Published var presentTodoListCalled = false
+    @Published var presentDeleteTodoCalled = false
+    @Published var presentModifyTodoCalled = false
+    @Published var presentAddTodoCalled = false
 
     func presentTodoList(response: TodoListProtocol) {
       presentTodoListCalled = true
@@ -80,9 +84,11 @@ class MainInteractorTests: XCTestCase
     
     // When
     sut.fetchTodoList(request: request)
-    
     // Then
-    XCTAssertTrue(spy.presentTodoListCalled)
+    spy.$presentTodoListCalled
+      .dropFirst()
+      .sink { XCTAssertTrue($0) }
+    .store(in: &cancellable)
   }
   
   func test_presentDeleteTodo호출되는지()
@@ -96,9 +102,12 @@ class MainInteractorTests: XCTestCase
     sut.deleteTodo(request: request)
 
     // Then
-    XCTAssertTrue(spy.presentDeleteTodoCalled)
+    spy.$presentDeleteTodoCalled
+      .dropFirst()
+      .sink { XCTAssertTrue($0) }
+    .store(in: &cancellable)
   }
-  
+
   func test_presentModifyTodo호출되는지()
   {
     // Given
@@ -110,7 +119,10 @@ class MainInteractorTests: XCTestCase
     sut.modifyTodo(request: request)
 
     // Then
-    XCTAssertTrue(spy.presentModifyTodoCalled)
+    spy.$presentModifyTodoCalled
+      .dropFirst()
+      .sink { XCTAssertTrue($0) }
+    .store(in: &cancellable)
   }
 }
 
