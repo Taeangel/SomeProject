@@ -43,27 +43,83 @@ class MainPresenterTests: XCTestCase
   
   class MainDisplayLogicSpy: MainDisplayLogic
   {
-    var displaySomethingCalled = false
+    var displayTodoListCalled = false
+    var displayAddTodoCalled = false
+    var displayedDeleteTodoCalled = false
+    var displayedModifyTodoCalled = false
+
+    func displayTodoList(viewModel: TodoVipApp.MainScene.FetchTodoList.ViewModel) {
+      displayTodoListCalled = true
+    }
     
-    func displaySomething(viewModel: Main.Something.ViewModel)
-    {
-      displaySomethingCalled = true
+    func displayAddTodo(viewModle: TodoVipApp.MainScene.FetchTodoList.ViewModel) {
+      displayAddTodoCalled = true
+    }
+    
+    func displayedDeleteTodo(viewModel: TodoVipApp.MainScene.DeleteTodo.ViewModel) {
+      displayedDeleteTodoCalled = true
+    }
+    
+    func displayedModifyTodo(viewModel: TodoVipApp.MainScene.ModifyTodo.ViewModel) {
+      displayedModifyTodoCalled = true
     }
   }
   
   // MARK: Tests
   
-  func testPresentSomething()
+  func testPresentDisplayTodoList()
   {
     // Given
     let spy = MainDisplayLogicSpy()
     sut.viewController = spy
-    let response = Main.Something.Response()
+    let response = MainScene.FetchTodoList.Response(page: 0)
     
     // When
-    sut.presentSomething(response: response)
+    sut.presentTodoList(response: response)
     
     // Then
-    XCTAssertTrue(spy.displaySomethingCalled, "presentSomething(response:) should ask the view controller to display the result")
+    XCTAssertTrue(spy.displayTodoListCalled)
+  }
+  
+  func testDisplayAddTodoTodoList()
+  {
+    // Given
+    let spy = MainDisplayLogicSpy()
+    sut.viewController = spy
+    let response = MainScene.AddTodo.Response()
+    
+    // When
+    sut.presesntAddTodo(response: response)
+    
+    // Then
+    XCTAssertTrue(spy.displayAddTodoCalled)
+  }
+  
+  func testDisplayedDeleteTodoTodoList()
+  {
+    // Given
+    let spy = MainDisplayLogicSpy()
+    sut.viewController = spy
+    let response = MainScene.DeleteTodo.Response()
+    
+    // When
+    sut.presentDeleteTodo(response: response)
+    
+    // Then
+    XCTAssertTrue(spy.displayedDeleteTodoCalled)
+  }
+  
+  func testDisplayedModifyTodoTodoList()
+  {
+    // Given
+    let spy = MainDisplayLogicSpy()
+    sut.viewController = spy
+    let response = MainScene.ModifyTodo.Response()
+    
+    // When
+    sut.presentModifyTodo(response: response)
+    
+    // Then
+    XCTAssertTrue(spy.displayedModifyTodoCalled)
   }
 }

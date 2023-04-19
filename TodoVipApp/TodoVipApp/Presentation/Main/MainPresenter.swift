@@ -67,11 +67,7 @@ class MainPresenter: MainPresentationLogic
   }
   
   func presentDeleteTodo(response: MainScene.DeleteTodo.Response) {
-    guard let indexPath = response.indexPath else {
-      return
-    }
-    
-    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: indexPath, error: response.error as? NetworkError)
+    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: response.indexPath, error: response.error as? NetworkError)
     viewController?.displayedDeleteTodo(viewModel: viewModel)
   }
   
@@ -95,15 +91,13 @@ class MainPresenter: MainPresentationLogic
     typealias DisplayedTodoList = MainScene.FetchTodoList.ViewModel.DisplayedTodo
     
     var displayTodoList: [String: [DisplayedTodoList]] = [:]
-    
-    guard let responseTodoList = response.todoList else { return }
-    
+        
     var sections: [String] = []
-    responseTodoList.keys.sorted().forEach { sections.append($0) }
+    response.todoList?.keys.sorted().forEach { sections.append($0) }
     sections.reverse()
     
     sections.forEach {
-      let todoDate = responseTodoList[$0]
+      let todoDate = response.todoList?[$0]
       let todoAday = todoDate?.map{
         return DisplayedTodoList(
           id: $0.id ?? 0,
@@ -117,9 +111,6 @@ class MainPresenter: MainPresentationLogic
     }
         
     let viewModel = MainScene.FetchTodoList.ViewModel(displayedTodoList: displayTodoList, sections: sections)
-      
-    
     viewController?.displayAddTodo(viewModle: viewModel)
-
   }
 }

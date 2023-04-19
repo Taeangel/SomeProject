@@ -10,6 +10,12 @@ import Foundation
 struct TodoListEntity {
   var todoEntity: [TodoEntity]?
   var meta: Meta?
+  let message: String?
+}
+
+struct TodoEntotyData {
+  var todoEntity: TodoEntity?
+  var message: String?
 }
 
 struct TodoEntity: Hashable {
