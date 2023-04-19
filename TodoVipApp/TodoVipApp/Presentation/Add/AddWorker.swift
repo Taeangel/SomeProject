@@ -19,7 +19,7 @@ class AddWorker: TodoWorkerUsecase {
     self.apiManager = apiManager
   }
   
-  func postTodo(todo: TodoPostDTO) async throws -> TodoEntity {
+  func postTodo(todo: TodoPostDTO) async throws -> TodoEntityData {
     try await todoUsecase.postTodo(todo:todo)
   }
 }

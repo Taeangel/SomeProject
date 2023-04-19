@@ -114,8 +114,8 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     worker = MainWorker(reauestable: session)
     Task {
       do {
-        let todoEntity = try await self.worker?.deleteTodo(id: request.id)
-        let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity?.id  } }.first
+        let todoEntityData = try await self.worker?.deleteTodo(id: request.id)
+        let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntityData?.todoEntity?.id  } }.first
         let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
         
         guard let sectionIndex = self.sections.firstIndex(of: storedTodoEntity?.updatedDate ?? ""),
@@ -140,8 +140,8 @@ class MainInteractor: MainBusinessLogic, MainDataStore
     Task {
       do {
         
-        let todoEntity = try await self.worker?.checkisDone(id: request.id, title: request.title, isDone: request.isDone)
-        let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntity?.id  } }.first
+        let todoEntityData = try await self.worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
+        let storedTodoEntity = self.todoList.flatMap { $1.filter { $0.id == todoEntityData?.todoEntity?.id } }.first
         let rows = self.todoList[storedTodoEntity?.updatedDate ?? ""]
         
         guard let sectionIndex = self.sections.firstIndex(of: storedTodoEntity?.updatedDate ?? "") else {
@@ -155,7 +155,7 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
         self.todoList[sections[sectionIndex]]?[rowIndex].isDone = request.isDone
         
-        let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntity)
+        let response = MainScene.ModifyTodo.Response(indexPath: indexPath, todoEntity: todoEntityData?.todoEntity)
         presenter?.presentModifyTodo(response: response)
       } catch {
         let response = MainScene.ModifyTodo.Response(error: error)

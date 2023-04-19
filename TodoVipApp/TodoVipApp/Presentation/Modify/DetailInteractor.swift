@@ -37,8 +37,8 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
     worker = DetailWorker()
     Task {
       do {
-        let todoEntity = try await worker?.todoUsecase.fetchTodo(id: todoId ?? 0)
-        let response = Detail.PresentTodo.Response(todo: todoEntity)
+        let todoEntityData = try await worker?.fetchtodo(id: todoId ?? 0)
+        let response = Detail.PresentTodo.Response(todo: todoEntityData?.todoEntity)
         presenter?.presentTodo(response: response)
       } catch {
         let response = Detail.PresentTodo.Response(error: error)
@@ -51,10 +51,10 @@ class DetailInteractor: DetailBusinessLogic, DetailDataStore
     worker = DetailWorker()
     Task {
       do  {
-        let todoEntity = try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
-        NotificationCenter.default.post(name: NSNotification.Name("modifyTodo"), object: todoEntity)
+        let todoEntityData = try await worker?.modifyTodo(id: request.id, title: request.title, isDone: request.isDone)
+        NotificationCenter.default.post(name: NSNotification.Name("modifyTodo"), object: todoEntityData?.todoEntity)
         
-        let response = Detail.ModifyTodo.Response(title: todoEntity?.title, isDone: todoEntity?.isDone)
+        let response = Detail.ModifyTodo.Response(title: todoEntityData?.todoEntity?.title, isDone: todoEntityData?.todoEntity?.isDone)
         presenter?.presentModifyResult(response: response)
       } catch {
         let response = Detail.ModifyTodo.Response(error: error)

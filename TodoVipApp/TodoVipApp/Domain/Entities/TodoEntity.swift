@@ -13,7 +13,7 @@ struct TodoListEntity {
   let message: String?
 }
 
-struct TodoEntotyData {
+struct TodoEntityData {
   var todoEntity: TodoEntity?
   var message: String?
 }

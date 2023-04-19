@@ -20,12 +20,12 @@ class DetailWorker: TodoWorkerUsecase
     self.apiManager = apiManager
   }
   
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntityData
   {
     try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
   }
   
-  func fetchtodo(id: Int) async throws -> TodoEntity {
+  func fetchtodo(id: Int) async throws -> TodoEntityData {
     try await todoUsecase.fetchTodo(id: id)
   }
 }

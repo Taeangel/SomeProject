@@ -24,7 +24,7 @@ class MainWorker: TodoWorkerUsecase
     try await todoUsecase.fetchTodoList(page: page, perPage: perPage)
   }
   
-  func deleteTodo(id: Int) async throws -> TodoEntity {
+  func deleteTodo(id: Int) async throws -> TodoEntityData {
     try await todoUsecase.deleteTodo(id: id)
   }
   
@@ -32,7 +32,7 @@ class MainWorker: TodoWorkerUsecase
     try await todoUsecase.fetchSearchTodoList(page: page, perPage: perPage, query: query)
   }
   
-  func checkisDone(id: Int, title: String, isDone: Bool) async throws -> TodoEntity {
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntityData {
    try await todoUsecase.modifyTodo(id: id, title: title, isDone: isDone)
   }
 }

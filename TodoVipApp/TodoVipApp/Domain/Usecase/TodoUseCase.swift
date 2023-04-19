@@ -9,10 +9,11 @@ import Foundation
 
 protocol TodoUsecasealbe {
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListEntity?
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity
-  func deleteTodo(id: Int) async throws -> TodoEntity
-  func postTodo(todo: TodoPostDTO) async throws -> TodoEntity
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntityData
+  func deleteTodo(id: Int) async throws -> TodoEntityData
+  func postTodo(todo: TodoPostDTO) async throws -> TodoEntityData
   func fetchSearchTodoList(page: Int, perPage: Int ,query: String) async throws -> TodoListEntity?
+  func fetchTodo(id: Int) async throws -> TodoEntityData
 }
 
 final class TodoUsecase {
@@ -25,9 +26,9 @@ final class TodoUsecase {
 
 extension TodoUsecase: TodoUsecasealbe {
 
-  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntity {
+  func modifyTodo(id: Int, title: String, isDone: Bool) async throws -> TodoEntityData {
     let todoDataDTO = try await todoRepository.modifyTodo(id: id, title: title, isDone: isDone)
-    return TodoEntity(datunm: todoDataDTO)
+    return TodoEntityData(todoEntity: TodoEntity(datunm: todoDataDTO), message: todoDataDTO.message)
   }
   
   func fetchTodoList(page: Int, perPage: Int) async throws -> TodoListEntity? {
@@ -37,14 +38,14 @@ extension TodoUsecase: TodoUsecasealbe {
       meta: todoListDTO.meta, message: todoListDTO.message)
   }
   
-  func deleteTodo(id: Int) async throws -> TodoEntity {
+  func deleteTodo(id: Int) async throws -> TodoEntityData {
     let todoDataDTO = try await todoRepository.deleteTodo(id: id)
-    return TodoEntity(datunm: todoDataDTO)
+    return TodoEntityData(todoEntity: TodoEntity(datunm: todoDataDTO), message: todoDataDTO.message)
   }
   
-  func postTodo(todo: TodoPostDTO) async throws -> TodoEntity {
+  func postTodo(todo: TodoPostDTO) async throws -> TodoEntityData {
     let todoDataDTO = try await todoRepository.postTodo(todo: todo)
-    return TodoEntity(datunm: todoDataDTO)
+    return TodoEntityData(todoEntity: TodoEntity(datunm: todoDataDTO), message: todoDataDTO.message)
   }
   
   func fetchSearchTodoList(page: Int, perPage: Int, query: String) async throws -> TodoListEntity? {
@@ -54,8 +55,8 @@ extension TodoUsecase: TodoUsecasealbe {
       meta: todoListDTO.meta, message: todoListDTO.message)
   }
   
-  func fetchTodo(id: Int) async throws -> TodoEntity {
+  func fetchTodo(id: Int) async throws -> TodoEntityData {
     let todoDataDTO = try await todoRepository.fetchTodo(id: id)
-    return TodoEntity(datunm: todoDataDTO)
+    return TodoEntityData(todoEntity: TodoEntity(datunm: todoDataDTO), message: todoDataDTO.message)
   }
 }
