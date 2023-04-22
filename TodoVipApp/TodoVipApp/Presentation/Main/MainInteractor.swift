@@ -103,7 +103,6 @@ class MainInteractor: MainBusinessLogic, MainDataStore
         presenter?.presentTodoList(response: response)
       } catch {
         let response = MainScene.FetchTodoList.Response(error: error as? NetworkError, page: request.page)
-        
         presenter?.presentTodoList(response: response)
       }
     }

@@ -170,25 +170,6 @@ class MainViewControllerTests: XCTestCase
     XCTAssertTrue(spy.deleteTodoCalled)
   }
   
-  func test_삭제를하고presenter로부터데이터를제대로받는지() {
-    // Given
-    let mockIndex = IndexPath(row: 0, section: 0)
-    let viewModel = MainScene.DeleteTodo.ViewModel(indexPath: mockIndex)
-    sut.sections = mockSection
-    sut.todoList = displayTodoListMockData
-    
-    // When
-    loadView()
-//    sut.myTableView.reloadData()
-    sut.displayedDeleteTodo(viewModel: viewModel)
-    sut.myTableView.reloadData()
-    
-    // Then
-//    let section = mockSection[mockIndex.section]
-//    displayTodoListMockData[section]?.remove(at: mockIndex.row)
-//    XCTAssertEqual(sut.myTableView.visibleCells.count, 3)
-  }
-  
   func test_변경버튼을눌렀을떄modifyTodo메서드가호출되는지() {
     // Given
     let spy = MainBusinessLogicSpy()

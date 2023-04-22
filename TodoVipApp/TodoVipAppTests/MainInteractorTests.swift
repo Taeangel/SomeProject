@@ -85,9 +85,14 @@ class MainInteractorTests: XCTestCase
     // When
     sut.fetchTodoList(request: request)
     // Then
+    
     spy.$presentTodoListCalled
       .dropFirst()
-      .sink { XCTAssertTrue($0) }
+      .sink {
+        
+        XCTAssertTrue($0)
+        
+      }
     .store(in: &cancellable)
   }
   
