@@ -141,7 +141,7 @@ class MainViewController: UIViewController, MainDisplayLogic, Alertable
     .store(in: &cancellables)
     
     searchBar.textPublisher()
-      .delay(for: 1, scheduler: DispatchQueue.main)
+      .debounce(for: 3, scheduler: DispatchQueue.main)
       .sink { [weak self] in
         guard let self = self else { return }
         self.page = 1
