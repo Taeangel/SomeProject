@@ -58,15 +58,6 @@
 		865F560F29D995BB00908B3E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560929D995BB00908B3E /* DetailViewController.swift */; };
 		865F561029D995BB00908B3E /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560A29D995BB00908B3E /* DetailInteractor.swift */; };
 		86D0376C29DC8CF400BE9996 /* TodoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0376B29DC8CF400BE9996 /* TodoDTO.swift */; };
-		86E56E2E2A07C69200BACFCB /* AddViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2A2A07C69200BACFCB /* AddViewControllerTests.swift */; };
-		86E56E2F2A07C69200BACFCB /* AddInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2B2A07C69200BACFCB /* AddInteractorTests.swift */; };
-		86E56E302A07C69200BACFCB /* AddWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2C2A07C69200BACFCB /* AddWorkerTests.swift */; };
-		86E56E312A07C69200BACFCB /* AddPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2D2A07C69200BACFCB /* AddPresenterTests.swift */; };
-		86E56E3A2A07C6C200BACFCB /* TodoVipAppModifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E392A07C6C200BACFCB /* TodoVipAppModifyTests.swift */; };
-		86E56E442A07C6D700BACFCB /* ModifyViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E402A07C6D700BACFCB /* ModifyViewControllerTests.swift */; };
-		86E56E452A07C6D700BACFCB /* ModifyInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E412A07C6D700BACFCB /* ModifyInteractorTests.swift */; };
-		86E56E462A07C6D700BACFCB /* ModifyWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E422A07C6D700BACFCB /* ModifyWorkerTests.swift */; };
-		86E56E472A07C6D700BACFCB /* ModifyPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E432A07C6D700BACFCB /* ModifyPresenterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,16 +138,7 @@
 		865F560A29D995BB00908B3E /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
 		86D0376B29DC8CF400BE9996 /* TodoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDTO.swift; sourceTree = "<group>"; };
 		86E56E192A07C64000BACFCB /* TodoVipAppAddTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppAddTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		86E56E2A2A07C69200BACFCB /* AddViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewControllerTests.swift; sourceTree = "<group>"; };
-		86E56E2B2A07C69200BACFCB /* AddInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInteractorTests.swift; sourceTree = "<group>"; };
-		86E56E2C2A07C69200BACFCB /* AddWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkerTests.swift; sourceTree = "<group>"; };
-		86E56E2D2A07C69200BACFCB /* AddPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPresenterTests.swift; sourceTree = "<group>"; };
 		86E56E372A07C6C200BACFCB /* TodoVipAppModifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppModifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		86E56E392A07C6C200BACFCB /* TodoVipAppModifyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoVipAppModifyTests.swift; sourceTree = "<group>"; };
-		86E56E402A07C6D700BACFCB /* ModifyViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyViewControllerTests.swift; sourceTree = "<group>"; };
-		86E56E412A07C6D700BACFCB /* ModifyInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyInteractorTests.swift; sourceTree = "<group>"; };
-		86E56E422A07C6D700BACFCB /* ModifyWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyWorkerTests.swift; sourceTree = "<group>"; };
-		86E56E432A07C6D700BACFCB /* ModifyPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyPresenterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,8 +206,6 @@
 			children = (
 				8654277E29CDA5CE006E23A0 /* TodoVipApp */,
 				861A6EA029E5516F0016B873 /* TodoVipAppTests */,
-				86E56E1A2A07C64000BACFCB /* TodoVipAppAddTests */,
-				86E56E382A07C6C200BACFCB /* TodoVipAppModifyTests */,
 				8654277D29CDA5CE006E23A0 /* Products */,
 				864788A829E5775800466D6E /* Frameworks */,
 			);
@@ -421,29 +401,6 @@
 				865F560729D995BB00908B3E /* DetailRouter.swift */,
 			);
 			path = Modify;
-			sourceTree = "<group>";
-		};
-		86E56E1A2A07C64000BACFCB /* TodoVipAppAddTests */ = {
-			isa = PBXGroup;
-			children = (
-				86E56E2A2A07C69200BACFCB /* AddViewControllerTests.swift */,
-				86E56E2B2A07C69200BACFCB /* AddInteractorTests.swift */,
-				86E56E2C2A07C69200BACFCB /* AddWorkerTests.swift */,
-				86E56E2D2A07C69200BACFCB /* AddPresenterTests.swift */,
-			);
-			path = TodoVipAppAddTests;
-			sourceTree = "<group>";
-		};
-		86E56E382A07C6C200BACFCB /* TodoVipAppModifyTests */ = {
-			isa = PBXGroup;
-			children = (
-				86E56E392A07C6C200BACFCB /* TodoVipAppModifyTests.swift */,
-				86E56E402A07C6D700BACFCB /* ModifyViewControllerTests.swift */,
-				86E56E412A07C6D700BACFCB /* ModifyInteractorTests.swift */,
-				86E56E422A07C6D700BACFCB /* ModifyWorkerTests.swift */,
-				86E56E432A07C6D700BACFCB /* ModifyPresenterTests.swift */,
-			);
-			path = TodoVipAppModifyTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -676,10 +633,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86E56E2F2A07C69200BACFCB /* AddInteractorTests.swift in Sources */,
-				86E56E2E2A07C69200BACFCB /* AddViewControllerTests.swift in Sources */,
-				86E56E312A07C69200BACFCB /* AddPresenterTests.swift in Sources */,
-				86E56E302A07C69200BACFCB /* AddWorkerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,11 +640,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86E56E472A07C6D700BACFCB /* ModifyPresenterTests.swift in Sources */,
-				86E56E452A07C6D700BACFCB /* ModifyInteractorTests.swift in Sources */,
-				86E56E442A07C6D700BACFCB /* ModifyViewControllerTests.swift in Sources */,
-				86E56E3A2A07C6C200BACFCB /* TodoVipAppModifyTests.swift in Sources */,
-				86E56E462A07C6D700BACFCB /* ModifyWorkerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
