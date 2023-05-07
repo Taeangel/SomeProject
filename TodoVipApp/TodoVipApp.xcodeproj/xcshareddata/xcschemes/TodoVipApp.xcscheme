@@ -50,6 +50,28 @@
                ReferencedContainer = "container:TodoVipApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "86E56E182A07C64000BACFCB"
+               BuildableName = "TodoVipAppAddTests.xctest"
+               BlueprintName = "TodoVipAppAddTests"
+               ReferencedContainer = "container:TodoVipApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "86E56E362A07C6C200BACFCB"
+               BuildableName = "TodoVipAppModifyTests.xctest"
+               BlueprintName = "TodoVipAppModifyTests"
+               ReferencedContainer = "container:TodoVipApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

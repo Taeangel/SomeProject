@@ -58,10 +58,33 @@
 		865F560F29D995BB00908B3E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560929D995BB00908B3E /* DetailViewController.swift */; };
 		865F561029D995BB00908B3E /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F560A29D995BB00908B3E /* DetailInteractor.swift */; };
 		86D0376C29DC8CF400BE9996 /* TodoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0376B29DC8CF400BE9996 /* TodoDTO.swift */; };
+		86E56E2E2A07C69200BACFCB /* AddViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2A2A07C69200BACFCB /* AddViewControllerTests.swift */; };
+		86E56E2F2A07C69200BACFCB /* AddInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2B2A07C69200BACFCB /* AddInteractorTests.swift */; };
+		86E56E302A07C69200BACFCB /* AddWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2C2A07C69200BACFCB /* AddWorkerTests.swift */; };
+		86E56E312A07C69200BACFCB /* AddPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E2D2A07C69200BACFCB /* AddPresenterTests.swift */; };
+		86E56E3A2A07C6C200BACFCB /* TodoVipAppModifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E392A07C6C200BACFCB /* TodoVipAppModifyTests.swift */; };
+		86E56E442A07C6D700BACFCB /* ModifyViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E402A07C6D700BACFCB /* ModifyViewControllerTests.swift */; };
+		86E56E452A07C6D700BACFCB /* ModifyInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E412A07C6D700BACFCB /* ModifyInteractorTests.swift */; };
+		86E56E462A07C6D700BACFCB /* ModifyWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E422A07C6D700BACFCB /* ModifyWorkerTests.swift */; };
+		86E56E472A07C6D700BACFCB /* ModifyPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E56E432A07C6D700BACFCB /* ModifyPresenterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		861A6EA329E5516F0016B873 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8654277429CDA5CE006E23A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8654277B29CDA5CE006E23A0;
+			remoteInfo = TodoVipApp;
+		};
+		86E56E1D2A07C64000BACFCB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8654277429CDA5CE006E23A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8654277B29CDA5CE006E23A0;
+			remoteInfo = TodoVipApp;
+		};
+		86E56E3B2A07C6C200BACFCB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8654277429CDA5CE006E23A0 /* Project object */;
 			proxyType = 1;
@@ -123,6 +146,17 @@
 		865F560929D995BB00908B3E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		865F560A29D995BB00908B3E /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
 		86D0376B29DC8CF400BE9996 /* TodoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDTO.swift; sourceTree = "<group>"; };
+		86E56E192A07C64000BACFCB /* TodoVipAppAddTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppAddTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		86E56E2A2A07C69200BACFCB /* AddViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewControllerTests.swift; sourceTree = "<group>"; };
+		86E56E2B2A07C69200BACFCB /* AddInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInteractorTests.swift; sourceTree = "<group>"; };
+		86E56E2C2A07C69200BACFCB /* AddWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkerTests.swift; sourceTree = "<group>"; };
+		86E56E2D2A07C69200BACFCB /* AddPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPresenterTests.swift; sourceTree = "<group>"; };
+		86E56E372A07C6C200BACFCB /* TodoVipAppModifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoVipAppModifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		86E56E392A07C6C200BACFCB /* TodoVipAppModifyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoVipAppModifyTests.swift; sourceTree = "<group>"; };
+		86E56E402A07C6D700BACFCB /* ModifyViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyViewControllerTests.swift; sourceTree = "<group>"; };
+		86E56E412A07C6D700BACFCB /* ModifyInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyInteractorTests.swift; sourceTree = "<group>"; };
+		86E56E422A07C6D700BACFCB /* ModifyWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyWorkerTests.swift; sourceTree = "<group>"; };
+		86E56E432A07C6D700BACFCB /* ModifyPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyPresenterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +173,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				864788A729E5712C00466D6E /* CombineCocoa in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86E56E162A07C64000BACFCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86E56E342A07C6C200BACFCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +224,8 @@
 			children = (
 				8654277E29CDA5CE006E23A0 /* TodoVipApp */,
 				861A6EA029E5516F0016B873 /* TodoVipAppTests */,
+				86E56E1A2A07C64000BACFCB /* TodoVipAppAddTests */,
+				86E56E382A07C6C200BACFCB /* TodoVipAppModifyTests */,
 				8654277D29CDA5CE006E23A0 /* Products */,
 				864788A829E5775800466D6E /* Frameworks */,
 			);
@@ -186,6 +236,8 @@
 			children = (
 				8654277C29CDA5CE006E23A0 /* TodoVipApp.app */,
 				861A6E9F29E5516F0016B873 /* TodoVipAppTests.xctest */,
+				86E56E192A07C64000BACFCB /* TodoVipAppAddTests.xctest */,
+				86E56E372A07C6C200BACFCB /* TodoVipAppModifyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -371,6 +423,29 @@
 			path = Modify;
 			sourceTree = "<group>";
 		};
+		86E56E1A2A07C64000BACFCB /* TodoVipAppAddTests */ = {
+			isa = PBXGroup;
+			children = (
+				86E56E2A2A07C69200BACFCB /* AddViewControllerTests.swift */,
+				86E56E2B2A07C69200BACFCB /* AddInteractorTests.swift */,
+				86E56E2C2A07C69200BACFCB /* AddWorkerTests.swift */,
+				86E56E2D2A07C69200BACFCB /* AddPresenterTests.swift */,
+			);
+			path = TodoVipAppAddTests;
+			sourceTree = "<group>";
+		};
+		86E56E382A07C6C200BACFCB /* TodoVipAppModifyTests */ = {
+			isa = PBXGroup;
+			children = (
+				86E56E392A07C6C200BACFCB /* TodoVipAppModifyTests.swift */,
+				86E56E402A07C6D700BACFCB /* ModifyViewControllerTests.swift */,
+				86E56E412A07C6D700BACFCB /* ModifyInteractorTests.swift */,
+				86E56E422A07C6D700BACFCB /* ModifyWorkerTests.swift */,
+				86E56E432A07C6D700BACFCB /* ModifyPresenterTests.swift */,
+			);
+			path = TodoVipAppModifyTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -415,6 +490,42 @@
 			productReference = 8654277C29CDA5CE006E23A0 /* TodoVipApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		86E56E182A07C64000BACFCB /* TodoVipAppAddTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86E56E212A07C64000BACFCB /* Build configuration list for PBXNativeTarget "TodoVipAppAddTests" */;
+			buildPhases = (
+				86E56E152A07C64000BACFCB /* Sources */,
+				86E56E162A07C64000BACFCB /* Frameworks */,
+				86E56E172A07C64000BACFCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				86E56E1E2A07C64000BACFCB /* PBXTargetDependency */,
+			);
+			name = TodoVipAppAddTests;
+			productName = TodoVipAppAddTests;
+			productReference = 86E56E192A07C64000BACFCB /* TodoVipAppAddTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		86E56E362A07C6C200BACFCB /* TodoVipAppModifyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86E56E3D2A07C6C200BACFCB /* Build configuration list for PBXNativeTarget "TodoVipAppModifyTests" */;
+			buildPhases = (
+				86E56E332A07C6C200BACFCB /* Sources */,
+				86E56E342A07C6C200BACFCB /* Frameworks */,
+				86E56E352A07C6C200BACFCB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				86E56E3C2A07C6C200BACFCB /* PBXTargetDependency */,
+			);
+			name = TodoVipAppModifyTests;
+			productName = TodoVipAppModifyTests;
+			productReference = 86E56E372A07C6C200BACFCB /* TodoVipAppModifyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -431,6 +542,14 @@
 					};
 					8654277B29CDA5CE006E23A0 = {
 						CreatedOnToolsVersion = 14.2;
+					};
+					86E56E182A07C64000BACFCB = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 8654277B29CDA5CE006E23A0;
+					};
+					86E56E362A07C6C200BACFCB = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 8654277B29CDA5CE006E23A0;
 					};
 				};
 			};
@@ -452,6 +571,8 @@
 			targets = (
 				8654277B29CDA5CE006E23A0 /* TodoVipApp */,
 				861A6E9E29E5516F0016B873 /* TodoVipAppTests */,
+				86E56E182A07C64000BACFCB /* TodoVipAppAddTests */,
+				86E56E362A07C6C200BACFCB /* TodoVipAppModifyTests */,
 			);
 		};
 /* End PBXProject section */
@@ -472,6 +593,20 @@
 				865F559229D07A7F00908B3E /* MyTableViewCell.xib in Resources */,
 				8654278929CDA5CE006E23A0 /* Assets.xcassets in Resources */,
 				8654278729CDA5CE006E23A0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86E56E172A07C64000BACFCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86E56E352A07C6C200BACFCB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,6 +672,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		86E56E152A07C64000BACFCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				86E56E2F2A07C69200BACFCB /* AddInteractorTests.swift in Sources */,
+				86E56E2E2A07C69200BACFCB /* AddViewControllerTests.swift in Sources */,
+				86E56E312A07C69200BACFCB /* AddPresenterTests.swift in Sources */,
+				86E56E302A07C69200BACFCB /* AddWorkerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86E56E332A07C6C200BACFCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				86E56E472A07C6D700BACFCB /* ModifyPresenterTests.swift in Sources */,
+				86E56E452A07C6D700BACFCB /* ModifyInteractorTests.swift in Sources */,
+				86E56E442A07C6D700BACFCB /* ModifyViewControllerTests.swift in Sources */,
+				86E56E3A2A07C6C200BACFCB /* TodoVipAppModifyTests.swift in Sources */,
+				86E56E462A07C6D700BACFCB /* ModifyWorkerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -544,6 +702,16 @@
 			isa = PBXTargetDependency;
 			target = 8654277B29CDA5CE006E23A0 /* TodoVipApp */;
 			targetProxy = 861A6EA329E5516F0016B873 /* PBXContainerItemProxy */;
+		};
+		86E56E1E2A07C64000BACFCB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8654277B29CDA5CE006E23A0 /* TodoVipApp */;
+			targetProxy = 86E56E1D2A07C64000BACFCB /* PBXContainerItemProxy */;
+		};
+		86E56E3C2A07C6C200BACFCB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8654277B29CDA5CE006E23A0 /* TodoVipApp */;
+			targetProxy = 86E56E3B2A07C6C200BACFCB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -771,6 +939,74 @@
 			};
 			name = Release;
 		};
+		86E56E1F2A07C64000BACFCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Taeangel.TodoVipAppAddTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoVipApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoVipApp";
+			};
+			name = Debug;
+		};
+		86E56E202A07C64000BACFCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Taeangel.TodoVipAppAddTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoVipApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoVipApp";
+			};
+			name = Release;
+		};
+		86E56E3E2A07C6C200BACFCB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Taeangel.TodoVipAppModifyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoVipApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoVipApp";
+			};
+			name = Debug;
+		};
+		86E56E3F2A07C6C200BACFCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Taeangel.TodoVipAppModifyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoVipApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoVipApp";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -797,6 +1033,24 @@
 			buildConfigurations = (
 				8654279129CDA5CE006E23A0 /* Debug */,
 				8654279229CDA5CE006E23A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		86E56E212A07C64000BACFCB /* Build configuration list for PBXNativeTarget "TodoVipAppAddTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86E56E1F2A07C64000BACFCB /* Debug */,
+				86E56E202A07C64000BACFCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		86E56E3D2A07C6C200BACFCB /* Build configuration list for PBXNativeTarget "TodoVipAppModifyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86E56E3E2A07C6C200BACFCB /* Debug */,
+				86E56E3F2A07C6C200BACFCB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
